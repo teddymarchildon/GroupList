@@ -16,6 +16,10 @@ class List {
         self.items = list
     }
     
+    convenience init () {
+        self.init(list: [])
+    }
+    
     func addItem(item: String) {
         items.append(item)
     }

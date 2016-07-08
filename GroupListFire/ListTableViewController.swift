@@ -14,18 +14,15 @@ class ListTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        
         return 1
     }
 
@@ -33,7 +30,7 @@ class ListTableViewController: UITableViewController {
         if let list = list {
             return list.items.count
         } else {
-            return 0
+            return 1
         }
     }
 
