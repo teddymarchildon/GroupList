@@ -138,6 +138,7 @@
 				TargetAttributes = {
 					B12558441D2C9D760068434B = {
 						CreatedOnToolsVersion = 7.3;
+						DevelopmentTeam = 55PJ732NTM;
 					};
 				};
 			};
@@ -339,6 +340,7 @@
 			baseConfigurationReference = 25BC43EEBB0234C06F8141B4 /* Pods-GroupListFire.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = GroupListFire/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = tedmarchildon.GroupListFire;
@@ -351,6 +353,7 @@
 			baseConfigurationReference = 5CA0C93E0B6DCDB014D3DFAF /* Pods-GroupListFire.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = GroupListFire/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = tedmarchildon.GroupListFire;

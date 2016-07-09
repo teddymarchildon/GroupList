@@ -21,17 +21,33 @@ class GroupTableViewController: UITableViewController {
         self.clearsSelectionOnViewWillAppear = false
     }
     
+    override func viewDidAppear(animated: Bool) {
+        let ref = myRef?.child("groups")
+        ref?.observeEventType(.Value, withBlock: { snapshot in
+            var newGroups: [Group] = []
+            for item in snapshot.children {
+                if let item = item as? FIRDataSnapshot {
+                    let group = Group(snapshot: item)
+                    newGroups.append(group)
+                }
+            }
+            self.userGroups = newGroups
+            self.tableView.reloadData()
+            }, withCancelBlock: { error in
+                print(error.description)
+        })
+    }
+    
     @IBAction func addGroup(sender: AnyObject) {
+        let ref = self.myRef?.child("groups")
         let alert = UIAlertController(title: "New Group", message: nil, preferredStyle: .Alert)
         let saveAction = UIAlertAction(title: "Save", style: .Default) { (action: UIAlertAction!) -> Void in
             let nameField = alert.textFields![0]
             let topicField = alert.textFields![1]
             let group = Group(withName: nameField.text!, andTopic: topicField.text!, andList: List())
-            self.userGroups.append(group)
-            let ref = self.myRef?.child("group").child(self.user!.uid)
-            if let ref = ref {
-                ref.setValue(["group": group.toAnyObject()])
-                ref.setValue(["createdBy": self.user!.uid])
+            let newRef = ref?.child("\(nameField.text!)-\(topicField.text!)")
+            if let newRef = newRef {
+                newRef.setValue(group.toAnyObject(self.user!))
             }
         }
         
@@ -82,7 +98,9 @@ class GroupTableViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+            let group = userGroups[indexPath.row]
+            group.ref?.removeValue()
+            tableView.reloadData()
         } else if editingStyle == .Insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }
@@ -91,17 +109,14 @@ class GroupTableViewController: UITableViewController {
     /*
      // Override to support rearranging the table view.
      override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
-
+     
      }
      */
     
-    /*
-     // Override to support conditional rearranging of the table view.
-     override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-     // Return false if you do not want the item to be re-orderable.
-     return true
-     }
-     */
+    // Override to support conditional rearranging of the table view.
+    //    override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+    //        return true
+    //    }
     
     // MARK: - Navigation
     
