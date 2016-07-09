@@ -23,19 +23,20 @@ class Group {
         self.ref = nil
     }
     
-    init(snapshot: FIRDataSnapshot) {
+    init(snapshot: FIRDataSnapshot, andList list: List) {
         let fullName = snapshot.key.componentsSeparatedByString("-")
         let groupName = fullName[0]
         let topicName = fullName[1]
         self.name = groupName
         self.topic = topicName
-        self.list = List()
+        self.list = list
         self.ref = snapshot.ref
     }
     
     func toAnyObject(user: FIRUser) -> [String: AnyObject] {
         return ["name": name,
                 "topic": topic,
+                "list": list.items,
                 "createdByUser": user.uid]
     }
 }

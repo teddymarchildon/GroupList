@@ -27,8 +27,15 @@ class GroupTableViewController: UITableViewController {
             var newGroups: [Group] = []
             for item in snapshot.children {
                 if let item = item as? FIRDataSnapshot {
-                    let group = Group(snapshot: item)
-                    newGroups.append(group)
+                    let dict = item.value as! [String: AnyObject]
+                    let list = dict["list"] as? [String]
+                    if let list = list {
+                        let group = Group(snapshot: item, andList: List(list: list))
+                        newGroups.append(group)
+                    } else {
+                        let group = Group(snapshot: item, andList: List())
+                        newGroups.append(group)
+                    }
                 }
             }
             self.userGroups = newGroups
@@ -124,9 +131,9 @@ class GroupTableViewController: UITableViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "listSegue" {
             if let indexPath = self.tableView.indexPathForSelectedRow {
-                if let listController = segue.destinationViewController as? ListTableViewController {
-                    listController.list = userGroups[indexPath.row].list
-                }
+                let listController = segue.destinationViewController as! ListTableViewController
+                listController.currGroup = userGroups[indexPath.row]
+                listController.title = "\(userGroups[indexPath.row].name)  List"
             }
         }
     }

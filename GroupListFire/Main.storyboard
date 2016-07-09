@@ -130,6 +130,9 @@
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="R6p-W8-Qdg" kind="show" identifier="listSegue" id="ROW-oZ-FcM"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -150,41 +153,56 @@
                         </barButtonItem>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
-                    <connections>
-                        <segue destination="zdh-D6-fMS" kind="show" identifier="listSegue" id="9LY-M6-ygB"/>
-                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UQD-Kt-RZg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="926.5" y="-176.5"/>
+            <point key="canvasLocation" x="839.5" y="-176.5"/>
         </scene>
         <!--List-->
-        <scene sceneID="pg3-Qa-YST">
+        <scene sceneID="TrI-l0-b4O">
             <objects>
-                <tableViewController title="List" id="zdh-D6-fMS" customClass="ListTableViewController" customModule="GroupListFire" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="hEG-f8-zjG">
+                <tableViewController title="List" id="R6p-W8-Qdg" customClass="ListTableViewController" customModule="GroupListFire" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="1ba-sA-omB">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="listCell" id="MaR-bc-pAK">
-                                <rect key="frame" x="0.0" y="92" width="375" height="44"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="listCell" textLabel="VYW-tS-5g6" rowHeight="75" style="IBUITableViewCellStyleDefault" id="yqs-ge-w93">
+                                <rect key="frame" x="0.0" y="92" width="375" height="75"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="MaR-bc-pAK" id="nkV-Yd-jM5">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="yqs-ge-w93" id="mG4-Do-nVr">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="74.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="VYW-tS-5g6">
+                                            <rect key="frame" x="15" y="0.0" width="345" height="74.5"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
                                 </tableViewCellContentView>
                             </tableViewCell>
                         </prototypes>
                         <connections>
-                            <outlet property="dataSource" destination="zdh-D6-fMS" id="rQg-SX-VIg"/>
-                            <outlet property="delegate" destination="zdh-D6-fMS" id="y1o-ve-SAe"/>
+                            <outlet property="dataSource" destination="R6p-W8-Qdg" id="MZE-Ky-LBp"/>
+                            <outlet property="delegate" destination="R6p-W8-Qdg" id="yrw-Tj-bOx"/>
                         </connections>
                     </tableView>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" title="Title" id="Nga-hD-nbG">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="Oj9-kr-bbA">
+                            <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="addItemToList:" destination="R6p-W8-Qdg" id="rr6-dH-SGa"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="sbS-vo-yeS" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gCq-BG-gVj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1482.5" y="-176.5"/>
+            <point key="canvasLocation" x="1366.5" y="-176.5"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="2Cl-Ea-y5n">
