@@ -17,6 +17,8 @@ class ListTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.delegate = self
+        tableView.rowHeight = CGFloat(75.0)
         myRef = FIRDatabase.database().referenceFromURL("https://grouplistfire-39d22.firebaseio.com/")
         self.clearsSelectionOnViewWillAppear = false
         
@@ -28,7 +30,7 @@ class ListTableViewController: UITableViewController {
     
     override func viewDidAppear(animated: Bool) {
         let ref = self.myRef?.child("groups").child("\(currGroup!.name)-\(currGroup!.topic)").child("items")
-        ref?.observeEventType(.Value, withBlock: { snapshot in
+        ref?.queryOrderedByChild("completed").observeEventType(.Value, withBlock: { snapshot in
             var newItems: [ListItem] = []
             for item in snapshot.children {
                 if let item = item as? FIRDataSnapshot {
@@ -56,17 +58,43 @@ class ListTableViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("listCell", forIndexPath: indexPath)
+        cell.selectionStyle = .None
         let item = currGroup!.list.items[indexPath.row]
         let itemName = item.name
         let detail = item.quantity
         cell.textLabel?.text = itemName
         cell.detailTextLabel?.text = detail
-        if(item.completed) {
-            cell.textLabel?.textColor = .lightGrayColor()
-            cell.detailTextLabel?.textColor = .lightGrayColor()
-        }
+        toggleCellCheckbox(cell, isCompleted: item.completed)
         return cell
     }
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let cell = tableView.dequeueReusableCellWithIdentifier("listCell", forIndexPath: indexPath)
+        cell.selectionStyle = .None
+        let item = currGroup!.list.items[indexPath.row]
+        let toggledCompletion = !item.completed
+        toggleCellCheckbox(cell, isCompleted: toggledCompletion)
+        item.ref?.updateChildValues([
+            "completed": toggledCompletion
+        ])
+    }
+    
+    
+    func toggleCellCheckbox(cell: UITableViewCell, isCompleted: Bool) {
+        if !isCompleted {
+            cell.accessoryType = UITableViewCellAccessoryType.None
+            cell.textLabel?.textColor = UIColor.blackColor()
+            cell.detailTextLabel?.textColor = UIColor.blackColor()
+        } else {
+            cell.accessoryType = UITableViewCellAccessoryType.Checkmark
+            cell.textLabel!.textColor = UIColor.grayColor()
+            cell.detailTextLabel!.textColor = UIColor.grayColor()
+        }
+    }
+    
+//    override func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
+//        
+//    }
     
     // Override to support conditional editing of the table view.
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
