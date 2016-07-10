@@ -23,14 +23,27 @@ class Group {
         self.ref = nil
     }
     
-    init(snapshot: FIRDataSnapshot, andList list: List) {
+    init(snapshot: FIRDataSnapshot) {
         let fullName = snapshot.key.componentsSeparatedByString("-")
         let groupName = fullName[0]
         let topicName = fullName[1]
         self.name = groupName
         self.topic = topicName
-        self.list = list
         self.ref = snapshot.ref
+        var groupList: [ListItem] = []
+        let postDict = snapshot.value! as? [String: AnyObject]
+        if let items = postDict!["items"] as? [[String: AnyObject]] {
+            for elem in items {
+                let completed = elem["completed"] as! Bool
+                let name = elem["name"] as! String
+                let quantity = elem["quantity"] as! String
+                let newListItem = ListItem(withName: name, andQuantity: quantity, completed: completed, ref: snapshot.ref)
+                groupList.append(newListItem)
+            }
+            self.list = List(list: groupList)
+        } else {
+            self.list = List()
+        }
     }
     
     func toAnyObject(user: FIRUser) -> [String: AnyObject] {

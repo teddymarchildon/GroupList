@@ -17,6 +17,7 @@
 		B1C1D5AC1D2D3D2A00B30635 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B1C1D5AB1D2D3D2A00B30635 /* Main.storyboard */; };
 		B1C1D5AE1D2D3D5500B30635 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C1D5AD1D2D3D5500B30635 /* LoginViewController.swift */; };
 		B1CEDD5D1D2EC16D00A84E43 /* ListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1CEDD5C1D2EC16D00A84E43 /* ListTableViewController.swift */; };
+		B1D49FC01D31C30100DF8D8D /* ListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D49FBF1D31C30100DF8D8D /* ListItem.swift */; };
 		B1EB77FB1D2CABEA00213E83 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B1EB77FA1D2CABEA00213E83 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
@@ -35,6 +36,7 @@
 		B1C1D5AB1D2D3D2A00B30635 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		B1C1D5AD1D2D3D5500B30635 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		B1CEDD5C1D2EC16D00A84E43 /* ListTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListTableViewController.swift; sourceTree = "<group>"; };
+		B1D49FBF1D31C30100DF8D8D /* ListItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListItem.swift; sourceTree = "<group>"; };
 		B1EB77FA1D2CABEA00213E83 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -88,6 +90,7 @@
 				B188F6A91D2EA54F0030BDD3 /* GroupTableViewController.swift */,
 				B188F6AB1D2EA8B80030BDD3 /* Group.swift */,
 				B188F6AD1D2EBC760030BDD3 /* List.swift */,
+				B1D49FBF1D31C30100DF8D8D /* ListItem.swift */,
 				B12558511D2C9D760068434B /* LaunchScreen.storyboard */,
 				B12558541D2C9D760068434B /* Info.plist */,
 				B1EB77FA1D2CABEA00213E83 /* GoogleService-Info.plist */,
@@ -228,6 +231,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B1C1D5AE1D2D3D5500B30635 /* LoginViewController.swift in Sources */,
+				B1D49FC01D31C30100DF8D8D /* ListItem.swift in Sources */,
 				B12558491D2C9D760068434B /* AppDelegate.swift in Sources */,
 				B188F6AA1D2EA54F0030BDD3 /* GroupTableViewController.swift in Sources */,
 				B1CEDD5D1D2EC16D00A84E43 /* ListTableViewController.swift in Sources */,

@@ -11,7 +11,6 @@ import Firebase
 
 class ListTableViewController: UITableViewController {
     
-    var itemToRef: [String: AnyObject]?
     var myRef: FIRDatabaseReference? = nil
     let user = FIRAuth.auth()?.currentUser
     var currGroup: Group?
@@ -30,15 +29,15 @@ class ListTableViewController: UITableViewController {
     override func viewDidAppear(animated: Bool) {
         let ref = self.myRef?.child("groups").child("\(currGroup!.name)-\(currGroup!.topic)").child("items")
         ref?.observeEventType(.Value, withBlock: { snapshot in
-            var newItems: [String: AnyObject] = [:]
+            var newItems: [ListItem] = []
             for item in snapshot.children {
                 if let item = item as? FIRDataSnapshot {
-                    let itemString = item.value as! String
-                    newItems[itemString] = item.ref
+                    let postDict = item.value as! [String: AnyObject]
+                    let newListItem = ListItem(withName: postDict["name"] as! String, andQuantity: postDict["quantity"] as! String, completed: postDict["completed"] as! Bool, ref: item.ref)
+                    newItems.append(newListItem)
                 }
             }
-            self.itemToRef = newItems
-            self.currGroup!.list.items = Array(newItems.keys)
+            self.currGroup!.list.items = newItems
             self.tableView.reloadData()
             }, withCancelBlock: { error in
                 print(error.description)
@@ -57,7 +56,15 @@ class ListTableViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("listCell", forIndexPath: indexPath)
-        cell.textLabel?.text = currGroup!.list.items[indexPath.row]
+        let item = currGroup!.list.items[indexPath.row]
+        let itemName = item.name
+        let detail = item.quantity
+        cell.textLabel?.text = itemName
+        cell.detailTextLabel?.text = detail
+        if(item.completed) {
+            cell.textLabel?.textColor = .lightGrayColor()
+            cell.detailTextLabel?.textColor = .lightGrayColor()
+        }
         return cell
     }
     
@@ -69,7 +76,8 @@ class ListTableViewController: UITableViewController {
     // Override to support editing the table view.
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
-            self.itemToRef!["\(currGroup!.list.items[indexPath.row])"]?.removeValue()
+            let item = currGroup!.list.items[indexPath.row]
+            item.ref!.removeValue()
             tableView.reloadData()
         } else if editingStyle == .Insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
@@ -91,13 +99,23 @@ class ListTableViewController: UITableViewController {
      }
      */
     @IBAction func addItemToList(sender: AnyObject) {
-        let ref = self.myRef?.child("groups").child("\(currGroup!.name)-\(currGroup!.topic)").child("items")
         let alert = UIAlertController(title: "New Item", message: nil, preferredStyle: .Alert)
         let saveAction = UIAlertAction(title: "Save", style: .Default) { (action: UIAlertAction!) -> Void in
             let nameField = alert.textFields![0]
-            self.currGroup!.list.items.append(nameField.text!)
+            let detailField = alert.textFields![1]
+            let newItem = ListItem(withName: nameField.text!, andQuantity: detailField.text!)
+            self.currGroup!.list.items.append(newItem)
+            var refDict = [[String: AnyObject]]()
+            for item in self.currGroup!.list.items {
+                let newItemDict = ["name": item.name,
+                                   "quantity": item.quantity,
+                                   "completed": item.completed,
+                                   "createdBy": self.user!.uid]
+                refDict.append(newItemDict as! [String : AnyObject])
+            }
+            let ref = self.myRef?.child("groups").child("\(self.currGroup!.name)-\(self.currGroup!.topic)").child("items")
             if let ref = ref {
-                ref.setValue(self.currGroup!.list.items)
+                ref.setValue(refDict)
             }
         }
         
@@ -107,6 +125,9 @@ class ListTableViewController: UITableViewController {
         
         alert.addTextFieldWithConfigurationHandler { (textGroup) -> Void in
             textGroup.placeholder = "Item Name"
+        }
+        alert.addTextFieldWithConfigurationHandler { (quantity) -> Void in
+            quantity.placeholder = "Details"
         }
         
         alert.addAction(saveAction)

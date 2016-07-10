@@ -27,15 +27,8 @@ class GroupTableViewController: UITableViewController {
             var newGroups: [Group] = []
             for item in snapshot.children {
                 if let item = item as? FIRDataSnapshot {
-                    let dict = item.value as! [String: AnyObject]
-                    let list = dict["list"] as? [String]
-                    if let list = list {
-                        let group = Group(snapshot: item, andList: List(list: list))
-                        newGroups.append(group)
-                    } else {
-                        let group = Group(snapshot: item, andList: List())
-                        newGroups.append(group)
-                    }
+                    let group = Group(snapshot: item)
+                    newGroups.append(group)
                 }
             }
             self.userGroups = newGroups
@@ -99,7 +92,6 @@ class GroupTableViewController: UITableViewController {
     
     
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
         return true
     }
     
