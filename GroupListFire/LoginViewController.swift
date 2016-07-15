@@ -14,6 +14,7 @@ import GoogleSignIn
 
 class LoginViewController: UIViewController, FBSDKLoginButtonDelegate, GIDSignInUIDelegate {
     
+    @IBOutlet weak var infoLabel: UILabel!
     @IBOutlet weak var welcomeLabel: UILabel!
     var facebookLoginButton: FBSDKLoginButton = FBSDKLoginButton()
     @IBOutlet weak var googleSignInButton: GIDSignInButton!
@@ -29,6 +30,7 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate, GIDSignIn
         view.layer.insertSublayer(gradient, atIndex: 0)
         self.view.addSubview(view)
         self.view.addSubview(welcomeLabel)
+        self.view.addSubview(infoLabel)
         self.view.addSubview(googleSignInButton)
         self.view.addSubview(activityIndicator)
         GIDSignIn.sharedInstance().uiDelegate = self
@@ -55,10 +57,12 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate, GIDSignIn
             print(error.localizedDescription)
             self.signupErrorAlert("Oops! Something went wrong", message: "Try Again")
             self.facebookLoginButton.hidden = false
+            self.googleSignInButton.hidden = false
             activityIndicator.stopAnimating()
             return
         } else if result.isCancelled {
             self.facebookLoginButton.hidden = false
+            self.googleSignInButton.hidden = false
             activityIndicator.stopAnimating()
         } else {
             let credential = FIRFacebookAuthProvider.credentialWithAccessToken(FBSDKAccessToken.currentAccessToken().tokenString)

@@ -24,10 +24,6 @@
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="1Ur-Td-fwh">
-                                <rect key="frame" x="169" y="225" width="37" height="37"/>
-                                <color key="color" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                            </activityIndicatorView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LdV-wV-swV" customClass="GIDSignInButton">
                                 <rect key="frame" x="100" y="460" width="175" height="30"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -36,12 +32,27 @@
                                     <constraint firstAttribute="height" constant="30" id="ri3-Yw-mPe"/>
                                 </constraints>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Organize your events group by group, list by list" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k9c-lQ-6ha">
+                                <rect key="frame" x="75" y="176" width="225" height="41"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="225" id="qhU-ia-ceH"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="1Ur-Td-fwh">
+                                <rect key="frame" x="169" y="256" width="37" height="37"/>
+                                <color key="color" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="TG1-uK-HfH" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="1nW-kk-Dj1"/>
-                            <constraint firstItem="1Ur-Td-fwh" firstAttribute="top" secondItem="TG1-uK-HfH" secondAttribute="bottom" constant="121" id="63X-lR-lNa"/>
+                            <constraint firstItem="1Ur-Td-fwh" firstAttribute="top" secondItem="TG1-uK-HfH" secondAttribute="bottom" constant="152" id="63X-lR-lNa"/>
+                            <constraint firstItem="k9c-lQ-6ha" firstAttribute="top" secondItem="TG1-uK-HfH" secondAttribute="bottom" constant="72" id="Ama-mD-ThH"/>
                             <constraint firstItem="1Ur-Td-fwh" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="EwJ-EB-liH"/>
+                            <constraint firstItem="k9c-lQ-6ha" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="I6o-2q-e5Z"/>
                             <constraint firstItem="TG1-uK-HfH" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="47" id="eE2-6P-DKl"/>
                             <constraint firstItem="LdV-wV-swV" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="eii-rr-gWS"/>
                             <constraint firstItem="LdV-wV-swV" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="141.5" id="nde-vd-xCT"/>
@@ -51,6 +62,7 @@
                     <connections>
                         <outlet property="activityIndicator" destination="1Ur-Td-fwh" id="NzY-k2-7iS"/>
                         <outlet property="googleSignInButton" destination="LdV-wV-swV" id="Glc-Vx-eTB"/>
+                        <outlet property="infoLabel" destination="k9c-lQ-6ha" id="wwW-Bq-rnz"/>
                         <outlet property="welcomeLabel" destination="TG1-uK-HfH" id="RSf-lp-VNO"/>
                         <segue destination="MkT-s3-mbe" kind="show" identifier="loginSegue" id="foP-xc-E9x"/>
                     </connections>
