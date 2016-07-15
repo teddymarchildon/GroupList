@@ -14,14 +14,16 @@ class ListTableViewController: UITableViewController {
     var myRef: FIRDatabaseReference? = nil
     let user = FIRAuth.auth()?.currentUser
     var currGroup: Group?
+    var currGroupObject: AnyObject?
+    var lastClick: NSTimeInterval?
+    var lastIndexPath: NSIndexPath?
     
     override func viewDidLoad() {
-        super.viewDidLoad()
         tableView.delegate = self
         tableView.rowHeight = CGFloat(75.0)
         myRef = FIRDatabase.database().referenceFromURL("https://grouplistfire-39d22.firebaseio.com/")
         self.clearsSelectionOnViewWillAppear = false
-        
+        super.viewDidLoad()
     }
     
     override func didReceiveMemoryWarning() {
@@ -35,7 +37,7 @@ class ListTableViewController: UITableViewController {
             for item in snapshot.children {
                 if let item = item as? FIRDataSnapshot {
                     let postDict = item.value as! [String: AnyObject]
-                    let newListItem = ListItem(withName: postDict["name"] as! String, andQuantity: postDict["quantity"] as! String, completed: postDict["completed"] as! Bool, ref: item.ref)
+                    let newListItem = ListItem(withName: postDict["name"] as! String, andQuantity: postDict["quantity"] as! String, completed: postDict["completed"] as! Bool, groupRef: item.ref)
                     newItems.append(newListItem)
                 }
             }
@@ -69,14 +71,21 @@ class ListTableViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let cell = tableView.dequeueReusableCellWithIdentifier("listCell", forIndexPath: indexPath)
-        cell.selectionStyle = .None
-        let item = currGroup!.list.items[indexPath.row]
-        let toggledCompletion = !item.completed
-        toggleCellCheckbox(cell, isCompleted: toggledCompletion)
-        item.ref?.updateChildValues([
-            "completed": toggledCompletion
-        ])
+        let now: NSTimeInterval = NSDate().timeIntervalSince1970
+        if let lastClick = lastClick, lastIndexPath = lastIndexPath {
+            if (now - lastClick < 0.3) && indexPath.isEqual(lastIndexPath) {
+                let cell = tableView.dequeueReusableCellWithIdentifier("listCell", forIndexPath: indexPath)
+                cell.selectionStyle = .None
+                let item = currGroup!.list.items[indexPath.row]
+                let toggledCompletion = !item.completed
+                toggleCellCheckbox(cell, isCompleted: toggledCompletion)
+                item.groupRef?.updateChildValues([
+                    "completed": toggledCompletion
+                    ])
+            }
+        }
+        lastClick = now
+        lastIndexPath = indexPath
     }
     
     
@@ -92,10 +101,6 @@ class ListTableViewController: UITableViewController {
         }
     }
     
-//    override func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
-//        
-//    }
-    
     // Override to support conditional editing of the table view.
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         return true
@@ -105,27 +110,13 @@ class ListTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
             let item = currGroup!.list.items[indexPath.row]
-            item.ref!.removeValue()
+            item.groupRef!.removeValue()
             tableView.reloadData()
         } else if editingStyle == .Insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }
     }
     
-    /*
-     // Override to support rearranging the table view.
-     override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
-     
-     }
-     */
-    
-    /*
-     // Override to support conditional rearranging of the table view.
-     override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-     // Return false if you do not want the item to be re-orderable.
-     return true
-     }
-     */
     @IBAction func addItemToList(sender: AnyObject) {
         let alert = UIAlertController(title: "New Item", message: nil, preferredStyle: .Alert)
         let saveAction = UIAlertAction(title: "Save", style: .Default) { (action: UIAlertAction!) -> Void in
@@ -133,17 +124,12 @@ class ListTableViewController: UITableViewController {
             let detailField = alert.textFields![1]
             let newItem = ListItem(withName: nameField.text!, andQuantity: detailField.text!)
             self.currGroup!.list.items.append(newItem)
-            var refDict = [[String: AnyObject]]()
             for item in self.currGroup!.list.items {
                 let newItemDict = ["name": item.name,
                                    "quantity": item.quantity,
                                    "completed": item.completed,
-                                   "createdBy": self.user!.uid]
-                refDict.append(newItemDict as! [String : AnyObject])
-            }
-            let ref = self.myRef?.child("groups").child("\(self.currGroup!.name)-\(self.currGroup!.topic)").child("items")
-            if let ref = ref {
-                ref.setValue(refDict)
+                                   "createdBy": self.user!.displayName!]
+                self.myRef?.child("groups").child("\(self.currGroup!.name)-\(self.currGroup!.topic)").child("items").child(nameField.text!).setValue(newItemDict)
             }
         }
         
@@ -162,6 +148,45 @@ class ListTableViewController: UITableViewController {
         alert.addAction(cancelAction)
         
         presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    
+    @IBAction func addUsersToGroup(sender: AnyObject) {
+        let alert = UIAlertController(title: "Add User", message: nil, preferredStyle: .Alert)
+        let saveAction = UIAlertAction(title: "Save", style: .Default) { (action: UIAlertAction!) -> Void in
+            let nameField = alert.textFields![0]
+            self.findUserInDatabase(nameField.text!)
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .Default) { (action: UIAlertAction!) -> Void in
+            self.view.endEditing(true)
+        }
+        
+        alert.addTextFieldWithConfigurationHandler { (textGroup) -> Void in
+            textGroup.placeholder = "Username"
+        }
+        
+        alert.addAction(saveAction)
+        alert.addAction(cancelAction)
+        
+        presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    func findUserInDatabase(username: String) {
+        self.myRef?.child("users").child(username).observeSingleEventOfType(.Value, withBlock: { snapshot in
+            let testUsername = snapshot.value!["username"]
+            if let testUsername = testUsername as? String {
+                self.currGroup?.groupUsers.append(testUsername)
+                self.myRef?.child("groups").child("\(self.currGroup?.name)-\(self.currGroup?.topic)").setValue(["users": self.currGroup!.groupUsers])
+                if let value = self.myRef?.child("users").child(testUsername).valueForKey("userGroups") {
+                    value.appendString("\(self.currGroup?.name)-\(self.currGroup?.topic)")
+                } else {
+                    self.myRef?.child("users").child(testUsername).setValue(["userGroups": ["\(self.currGroup?.name)-\(self.currGroup?.topic)"]])
+                }
+            } else {
+                
+            }
+        })
     }
     
     

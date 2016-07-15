@@ -14,21 +14,21 @@ class ListItem {
     let name: String
     let quantity: String
     var completed: Bool = false
-    var ref: FIRDatabaseReference?
+    var groupRef: FIRDatabaseReference?
     var user = FIRAuth.auth()?.currentUser
     var createdBy: String {
         return (user?.uid)!
     }
     
     convenience init(withName name: String, andQuantity quantity: String) {
-        self.init(withName: name, andQuantity: quantity, completed: false, ref: nil)
+        self.init(withName: name, andQuantity: quantity, completed: false, groupRef: nil)
     }
     
-    init(withName name: String, andQuantity quantity: String, completed: Bool, ref: FIRDatabaseReference?) {
+    init(withName name: String, andQuantity quantity: String, completed: Bool, groupRef: FIRDatabaseReference?) {
         self.name = name
         self.quantity = quantity
         self.completed = completed
-        self.ref = ref
+        self.groupRef = groupRef
     }
     
     func toAnyObject() -> [String: AnyObject]{

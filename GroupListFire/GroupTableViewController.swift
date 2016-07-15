@@ -8,47 +8,67 @@
 
 import UIKit
 import Firebase
+import FBSDKLoginKit
+import FBSDKCoreKit
 
-class GroupTableViewController: UITableViewController {
+protocol FirebaseDelegation {
     
-    var myRef: FIRDatabaseReference? = nil
+    func didFetchData(data: [String])
+    
+}
+
+class GroupTableViewController: UITableViewController, FirebaseDelegation {
+    
+    var myUserRef: FIRDatabaseReference? = nil
+    var myGroupRef: FIRDatabaseReference? = nil
     var userGroups: [Group] = []
     let user = FIRAuth.auth()?.currentUser
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        myRef = FIRDatabase.database().referenceFromURL("https://grouplistfire-39d22.firebaseio.com/")
-        self.clearsSelectionOnViewWillAppear = false
+    var displayName: String {
+        return (user?.displayName!)!
     }
     
-    override func viewDidAppear(animated: Bool) {
-        let ref = myRef?.child("groups")
+    override func viewDidLoad() {
+        myUserRef = FIRDatabase.database().referenceFromURL("https://grouplistfire-39d22.firebaseio.com/").child("users").child(displayName)
+        myGroupRef = FIRDatabase.database().referenceFromURL("https://grouplistfire-39d22.firebaseio.com/").child("groups")
+        let ref = myUserRef?.child("userGroups")
         ref?.observeEventType(.Value, withBlock: { snapshot in
-            var newGroups: [Group] = []
+            var newNames: [String] = []
             for item in snapshot.children {
                 if let item = item as? FIRDataSnapshot {
-                    let group = Group(snapshot: item)
-                    newGroups.append(group)
+                    let postDict = item.value as! [String: String]
+                    newNames.append(postDict["name"]!)
                 }
             }
-            self.userGroups = newGroups
-            self.tableView.reloadData()
-            }, withCancelBlock: { error in
-                print(error.description)
+           self.didFetchData(newNames)
         })
+        super.viewDidLoad()
+    }
+    
+    func didFetchData(data: [String]) {
+        self.userGroups = []
+        for item in data {
+            self.myGroupRef?.child(item).observeSingleEventOfType(.Value, withBlock: { snapshot in
+                let newGroup = Group(snapshot: snapshot)
+                self.userGroups.append(newGroup)
+                self.tableView.reloadData()
+            })
+        }
     }
     
     @IBAction func addGroup(sender: AnyObject) {
-        let ref = self.myRef?.child("groups")
+        let groupRef = self.myGroupRef!
         let alert = UIAlertController(title: "New Group", message: nil, preferredStyle: .Alert)
         let saveAction = UIAlertAction(title: "Save", style: .Default) { (action: UIAlertAction!) -> Void in
             let nameField = alert.textFields![0]
             let topicField = alert.textFields![1]
-            let group = Group(withName: nameField.text!, andTopic: topicField.text!, andList: List())
-            let newRef = ref?.child("\(nameField.text!)-\(topicField.text!)")
-            if let newRef = newRef {
-                newRef.setValue(group.toAnyObject(self.user!))
+            let group = Group(withName: nameField.text!, andTopic: topicField.text!, andList: List(), andUser: self.user!)
+            let newGroupRef = groupRef.child("\(nameField.text!)-\(topicField.text!)")
+            newGroupRef.setValue(group.toAnyObject(self.user!))
+            var nameArray: [String] = []
+            for group in self.userGroups {
+                nameArray.append(group.name)
             }
+            self.myUserRef?.child("userGroups").child("\(nameField.text!)-\(topicField.text!)").setValue(["name": "\(nameField.text!)-\(topicField.text!)"])
         }
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .Default) { (action: UIAlertAction!) -> Void in
@@ -89,6 +109,9 @@ class GroupTableViewController: UITableViewController {
         cell.detailTextLabel?.text = userGroups[indexPath.row].topic
         return cell
     }
+    @IBAction func logOut(sender: AnyObject) {
+        self.performSegueWithIdentifier("backToLogin", sender: nil)
+    }
     
     
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
@@ -99,33 +122,21 @@ class GroupTableViewController: UITableViewController {
         if editingStyle == .Delete {
             let group = userGroups[indexPath.row]
             group.ref?.removeValue()
+            myUserRef?.child("userGroups").child("\(group.name)-\(group.topic)").removeValue()
+            self.userGroups.removeAtIndex(indexPath.row)
             tableView.reloadData()
         } else if editingStyle == .Insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }
     }
-    
-    /*
-     // Override to support rearranging the table view.
-     override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
-     
-     }
-     */
-    
-    // Override to support conditional rearranging of the table view.
-    //    override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-    //        return true
-    //    }
-    
-    // MARK: - Navigation
-    
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
+
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "listSegue" {
             if let indexPath = self.tableView.indexPathForSelectedRow {
                 let listController = segue.destinationViewController as! ListTableViewController
                 listController.currGroup = userGroups[indexPath.row]
-                listController.title = "\(userGroups[indexPath.row].name)  List"
+                listController.currGroupObject = userGroups[indexPath.row].toAnyObject(self.user!)
+                listController.title = "\(userGroups[indexPath.row].name) List"
             }
         }
     }

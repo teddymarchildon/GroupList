@@ -8,90 +8,71 @@
 
 import UIKit
 import Firebase
+import FBSDKLoginKit
+import FBSDKCoreKit
+import GoogleSignIn
 
-class LoginViewController: UIViewController {
+class LoginViewController: UIViewController, FBSDKLoginButtonDelegate, GIDSignInUIDelegate {
     
-    @IBOutlet weak var welcomeLabel: UILabel!
-    @IBOutlet weak var usernameTextField: UITextField!
-    @IBOutlet weak var passwordTextField: UITextField!
+    @IBOutlet weak var facebookLoginButton: FBSDKLoginButton!
+    @IBOutlet weak var googleSignInButton: GIDSignInButton!
     var myRef: FIRDatabaseReference? = nil
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     override func viewDidLoad() {
-        FIRApp.configure()
+        super.viewDidLoad()
+        GIDSignIn.sharedInstance().uiDelegate = self
+//        GIDSignIn.sharedInstance().signInSilently()
+        self.facebookLoginButton.delegate = self
+        self.facebookLoginButton.readPermissions = ["public_profile", "email"]
         myRef = FIRDatabase.database().referenceFromURL("https://grouplistfire-39d22.firebaseio.com/")
         FIRAuth.auth()?.addAuthStateDidChangeListener { auth, user in
             if let _ = user {
+                self.facebookLoginButton.hidden = false
                 self.performSegueWithIdentifier("loginSegue", sender: nil)
+            } else {
+                self.facebookLoginButton.hidden = false
             }
         }
-        super.viewDidLoad()
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(LoginViewController.hideKeyboard))
-        view.addGestureRecognizer(tap)
+//        self.facebookLoginButton.hidden = false
     }
     
-    func hideKeyboard () {
-        view.endEditing(true)
+    func loginButton(loginButton: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!) {
+        self.facebookLoginButton.hidden = true
+        self.activityIndicator.startAnimating()
+        if let error = error {
+            print(error.localizedDescription)
+            self.facebookLoginButton.hidden = false
+            activityIndicator.stopAnimating()
+        } else if result.isCancelled {
+            self.facebookLoginButton.hidden = false
+            activityIndicator.stopAnimating()
+        } else {
+            let credential = FIRFacebookAuthProvider.credentialWithAccessToken(FBSDKAccessToken.currentAccessToken().tokenString)
+            FIRAuth.auth()?.signInWithCredential(credential) { (user, error) in
+                if error == nil {
+                    if let user = user, displayName = user.displayName {
+                        self.myRef?.child("users").child(displayName).child("username").setValue([
+                            "username": displayName,
+                            ])
+                        self.performSegueWithIdentifier("loginSegue", sender: nil)
+                    }
+                } else {
+                    print(error?.localizedDescription)
+                    self.signupErrorAlert("Oops! Something went wrong", message: "Try Again")
+                }
+            }
+        }
+    }
+    
+    func loginButtonDidLogOut(loginButton: FBSDKLoginButton!) {
+        try! FIRAuth.auth()!.signOut()
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         
     }
-    
-    @IBAction func loginButtonPressed(sender: AnyObject) {
-        if let email = usernameTextField.text, password = passwordTextField.text {
-            FIRAuth.auth()?.signInWithEmail(email, password: password) { (user, error) in
-                if error == nil {
-                    self.performSegueWithIdentifier("loginSegue", sender: nil)
-                } else {
-                    self.signupErrorAlert("Oops! Something went wrong", message: "Try Again")
-                }
-            }
-        }
-    }
-    
-    @IBAction func signUpButtonPressed(sender: AnyObject) {
-        let alert = UIAlertController(title: "Register", message: nil, preferredStyle: .Alert)
-        let saveAction = UIAlertAction(title: "Save", style: .Default) { (action: UIAlertAction!) -> Void in
-            let emailField = alert.textFields![0]
-            let passwordField = alert.textFields![1]
-            let usernameField = alert.textFields![2]
-            FIRAuth.auth()?.createUserWithEmail(emailField.text!, password: passwordField.text!) { (user, error) in
-                if error == nil {
-                    FIRAuth.auth()?.signInWithEmail(emailField.text!, password: passwordField.text!) { (user, error) in
-                        if error == nil {
-                            self.myRef?.child("users").child(user!.uid).setValue(["username": usernameField.text!])
-                            self.performSegueWithIdentifier("loginSegue", sender: nil)
-                        }
-                    }
-                } else {
-                    self.signupErrorAlert("Oops! Something went wrong", message: "Try Again")
-                }
-            }
-        }
-        let cancelAction = UIAlertAction(title: "Cancel", style: .Default) { (action: UIAlertAction!) -> Void in
-            self.view.endEditing(true)
-        }
-        
-        alert.addTextFieldWithConfigurationHandler { (textEmail) -> Void in
-            textEmail.placeholder = "Enter your email"
-        }
-        
-        alert.addTextFieldWithConfigurationHandler { (textPassword) -> Void in
-            textPassword.secureTextEntry = true
-            textPassword.placeholder = "Enter your password"
-        }
-        
-        alert.addTextFieldWithConfigurationHandler { (username) -> Void in
-            username.placeholder = "Create a username"
-        }
-        
-        alert.addAction(saveAction)
-        alert.addAction(cancelAction)
-        
-        presentViewController(alert, animated: true, completion: nil)
-    }
-    
     
     func signupErrorAlert(title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
