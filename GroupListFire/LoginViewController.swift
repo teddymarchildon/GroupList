@@ -80,8 +80,6 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate, GIDSignIn
     
     func loginButtonDidLogOut(loginButton: FBSDKLoginButton!) {
         try! FIRAuth.auth()!.signOut()
-        print(FIRAuth.auth()?.currentUser?.displayName)
-        
     }
     
     override func didReceiveMemoryWarning() {
