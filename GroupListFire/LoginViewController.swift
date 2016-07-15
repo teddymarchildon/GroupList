@@ -8,42 +8,55 @@
 
 import UIKit
 import Firebase
-import FBSDKLoginKit
 import FBSDKCoreKit
+import FBSDKLoginKit
 import GoogleSignIn
 
 class LoginViewController: UIViewController, FBSDKLoginButtonDelegate, GIDSignInUIDelegate {
     
-    @IBOutlet weak var facebookLoginButton: FBSDKLoginButton!
+    @IBOutlet weak var welcomeLabel: UILabel!
+    var facebookLoginButton: FBSDKLoginButton = FBSDKLoginButton()
     @IBOutlet weak var googleSignInButton: GIDSignInButton!
     var myRef: FIRDatabaseReference? = nil
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let view: UIView = UIView(frame: self.view.frame)
+        let gradient: CAGradientLayer = CAGradientLayer()
+        gradient.frame = self.view.frame
+        gradient.colors = [UIColor(red: 48/255.0, green: 131/255.0, blue: 251/255.0, alpha: 1.0).CGColor, UIColor.whiteColor().CGColor]
+        view.layer.insertSublayer(gradient, atIndex: 0)
+        self.view.addSubview(view)
+        self.view.addSubview(welcomeLabel)
+        self.view.addSubview(googleSignInButton)
+        self.view.addSubview(activityIndicator)
         GIDSignIn.sharedInstance().uiDelegate = self
-//        GIDSignIn.sharedInstance().signInSilently()
         self.facebookLoginButton.delegate = self
-        self.facebookLoginButton.readPermissions = ["public_profile", "email"]
+        self.facebookLoginButton.center = CGPoint(x: self.view.center.x, y: self.view.center.y + 80)
+        self.facebookLoginButton.readPermissions = ["public_profile", "email", "user_friends"]
+        self.view.addSubview(facebookLoginButton)
         myRef = FIRDatabase.database().referenceFromURL("https://grouplistfire-39d22.firebaseio.com/")
         FIRAuth.auth()?.addAuthStateDidChangeListener { auth, user in
             if let _ = user {
-                self.facebookLoginButton.hidden = false
                 self.performSegueWithIdentifier("loginSegue", sender: nil)
             } else {
                 self.facebookLoginButton.hidden = false
             }
         }
-//        self.facebookLoginButton.hidden = false
+        self.facebookLoginButton.hidden = false
     }
     
     func loginButton(loginButton: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!) {
-        self.facebookLoginButton.hidden = true
         self.activityIndicator.startAnimating()
+        self.facebookLoginButton.hidden = true
+        self.googleSignInButton.hidden = true
         if let error = error {
             print(error.localizedDescription)
+            self.signupErrorAlert("Oops! Something went wrong", message: "Try Again")
             self.facebookLoginButton.hidden = false
             activityIndicator.stopAnimating()
+            return
         } else if result.isCancelled {
             self.facebookLoginButton.hidden = false
             activityIndicator.stopAnimating()
@@ -67,6 +80,8 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate, GIDSignIn
     
     func loginButtonDidLogOut(loginButton: FBSDKLoginButton!) {
         try! FIRAuth.auth()!.signOut()
+        print(FIRAuth.auth()?.currentUser?.displayName)
+        
     }
     
     override func didReceiveMemoryWarning() {

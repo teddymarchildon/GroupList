@@ -174,17 +174,14 @@ class ListTableViewController: UITableViewController {
     
     func findUserInDatabase(username: String) {
         self.myRef?.child("users").child(username).observeSingleEventOfType(.Value, withBlock: { snapshot in
-            let testUsername = snapshot.value!["username"]
-            if let testUsername = testUsername as? String {
-                self.currGroup?.groupUsers.append(testUsername)
-                self.myRef?.child("groups").child("\(self.currGroup?.name)-\(self.currGroup?.topic)").setValue(["users": self.currGroup!.groupUsers])
-                if let value = self.myRef?.child("users").child(testUsername).valueForKey("userGroups") {
-                    value.appendString("\(self.currGroup?.name)-\(self.currGroup?.topic)")
-                } else {
-                    self.myRef?.child("users").child(testUsername).setValue(["userGroups": ["\(self.currGroup?.name)-\(self.currGroup?.topic)"]])
-                }
+            if let _ = snapshot.value as? NSNull {
+                print("no user")
             } else {
-                
+                let postDict = snapshot.value as! [String: AnyObject]
+                let baseUsername = postDict["username"]!["username"] as? String
+                if let baseUsername = baseUsername {
+                    self.myRef?.child("users").child(baseUsername).child("userGroups").child("\(self.currGroup!.name)-\(self.currGroup!.topic)").setValue(["name": "\(self.currGroup!.name)-\(self.currGroup!.topic)"])
+                }
             }
         })
     }

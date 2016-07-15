@@ -3,7 +3,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
     </dependencies>
     <scenes>
@@ -22,20 +21,20 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome to GroupList" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TG1-uK-HfH">
                                 <rect key="frame" x="35" y="67" width="304" height="37"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="31"/>
-                                <color key="textColor" name="keyboardFocusIndicatorColor" catalog="System" colorSpace="catalog"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="1Ur-Td-fwh">
                                 <rect key="frame" x="169" y="225" width="37" height="37"/>
-                                <color key="color" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="color" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             </activityIndicatorView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LdV-wV-swV" customClass="GIDSignInButton">
-                                <rect key="frame" x="79" y="379" width="217" height="43"/>
+                                <rect key="frame" x="100" y="460" width="175" height="30"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3HB-Sf-t23" customClass="FBSDKLoginButton">
-                                <rect key="frame" x="79" y="312" width="217" height="43"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="175" id="NK3-4A-5BU"/>
+                                    <constraint firstAttribute="height" constant="30" id="ri3-Yw-mPe"/>
+                                </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
@@ -43,24 +42,16 @@
                             <constraint firstItem="TG1-uK-HfH" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="1nW-kk-Dj1"/>
                             <constraint firstItem="1Ur-Td-fwh" firstAttribute="top" secondItem="TG1-uK-HfH" secondAttribute="bottom" constant="121" id="63X-lR-lNa"/>
                             <constraint firstItem="1Ur-Td-fwh" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="EwJ-EB-liH"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="3HB-Sf-t23" secondAttribute="trailing" constant="63" id="MT2-Cq-JN0"/>
-                            <constraint firstItem="LdV-wV-swV" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="63" id="O7t-sl-t1J"/>
-                            <constraint firstItem="3HB-Sf-t23" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="QMK-av-0ae"/>
-                            <constraint firstItem="3HB-Sf-t23" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="ad0-hA-7S9"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="LdV-wV-swV" secondAttribute="bottom" constant="245" id="c3n-Wz-XbV"/>
-                            <constraint firstItem="LdV-wV-swV" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="dZZ-jd-T72"/>
-                            <constraint firstItem="LdV-wV-swV" firstAttribute="top" secondItem="3HB-Sf-t23" secondAttribute="bottom" constant="24" id="e9X-uc-UIK"/>
                             <constraint firstItem="TG1-uK-HfH" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="47" id="eE2-6P-DKl"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="LdV-wV-swV" secondAttribute="trailing" constant="63" id="iua-wE-smc"/>
-                            <constraint firstItem="3HB-Sf-t23" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="63" id="lpS-8P-s40"/>
-                            <constraint firstItem="3HB-Sf-t23" firstAttribute="top" secondItem="1Ur-Td-fwh" secondAttribute="bottom" constant="50" id="lsl-c2-Yyl"/>
+                            <constraint firstItem="LdV-wV-swV" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="eii-rr-gWS"/>
+                            <constraint firstItem="LdV-wV-swV" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="141.5" id="nde-vd-xCT"/>
                         </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="activityIndicator" destination="1Ur-Td-fwh" id="NzY-k2-7iS"/>
-                        <outlet property="facebookLoginButton" destination="3HB-Sf-t23" id="56q-Le-F78"/>
                         <outlet property="googleSignInButton" destination="LdV-wV-swV" id="Glc-Vx-eTB"/>
+                        <outlet property="welcomeLabel" destination="TG1-uK-HfH" id="RSf-lp-VNO"/>
                         <segue destination="MkT-s3-mbe" kind="show" identifier="loginSegue" id="foP-xc-E9x"/>
                     </connections>
                 </viewController>

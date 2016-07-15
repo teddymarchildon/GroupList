@@ -10,6 +10,7 @@ import UIKit
 import Firebase
 import FBSDKLoginKit
 import FBSDKCoreKit
+import FirebaseAuth
 
 protocol FirebaseDelegation {
     
@@ -109,7 +110,10 @@ class GroupTableViewController: UITableViewController, FirebaseDelegation {
         cell.detailTextLabel?.text = userGroups[indexPath.row].topic
         return cell
     }
+    
     @IBAction func logOut(sender: AnyObject) {
+        try! FIRAuth.auth()!.signOut()
+        FBSDKAccessToken.setCurrentAccessToken(nil)
         self.performSegueWithIdentifier("backToLogin", sender: nil)
     }
     
@@ -121,9 +125,9 @@ class GroupTableViewController: UITableViewController, FirebaseDelegation {
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
             let group = userGroups[indexPath.row]
+            self.userGroups.removeAtIndex(indexPath.row)
             group.ref?.removeValue()
             myUserRef?.child("userGroups").child("\(group.name)-\(group.topic)").removeValue()
-            self.userGroups.removeAtIndex(indexPath.row)
             tableView.reloadData()
         } else if editingStyle == .Insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
