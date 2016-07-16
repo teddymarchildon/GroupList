@@ -66,6 +66,7 @@ class ListTableViewController: UITableViewController {
         let detail = item.quantity
         cell.textLabel?.text = itemName
         cell.detailTextLabel?.text = detail
+        cell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
         toggleCellCheckbox(cell, isCompleted: item.completed)
         return cell
     }
@@ -86,12 +87,34 @@ class ListTableViewController: UITableViewController {
         }
         lastClick = now
         lastIndexPath = indexPath
+        let item = currGroup!.list.items[indexPath.row]
+        let alert = UIAlertController(title: item.name, message: nil, preferredStyle: .Alert)
+        let okAction = UIAlertAction(title: "Ok", style: .Default) { (action: UIAlertAction!) -> Void in
+            alert.dismissViewControllerAnimated(true, completion: nil)
+        }
+        
+        alert.addTextFieldWithConfigurationHandler { (textGroup) -> Void in
+            textGroup.text = "Created by: \(item.createdBy!)"
+            textGroup.allowsEditingTextAttributes = false
+        }
+        alert.addTextFieldWithConfigurationHandler { (textGroup) -> Void in
+            textGroup.text = "Time Frame: time"
+            textGroup.allowsEditingTextAttributes = false
+        }
+        
+        alert.addTextFieldWithConfigurationHandler { (textGroup) -> Void in
+            textGroup.text = "Assigned to: user"
+            textGroup.allowsEditingTextAttributes = false
+        }
+        
+        alert.addAction(okAction)
+        
+        presentViewController(alert, animated: true, completion: nil)
     }
-    
     
     func toggleCellCheckbox(cell: UITableViewCell, isCompleted: Bool) {
         if !isCompleted {
-            cell.accessoryType = UITableViewCellAccessoryType.None
+            cell.accessoryType = UITableViewCellAccessoryType.DetailButton
             cell.textLabel?.textColor = UIColor.blackColor()
             cell.detailTextLabel?.textColor = UIColor.blackColor()
         } else {
@@ -180,22 +203,17 @@ class ListTableViewController: UITableViewController {
                 let postDict = snapshot.value as! [String: AnyObject]
                 let baseUsername = postDict["username"]!["username"] as? String
                 if let baseUsername = baseUsername {
+                    self.currGroup?.groupUsers.append(baseUsername)
                     self.myRef?.child("users").child(baseUsername).child("userGroups").child("\(self.currGroup!.name)-\(self.currGroup!.topic)").setValue(["name": "\(self.currGroup!.name)-\(self.currGroup!.topic)"])
+                    self.myRef?.child("groups").child("\(self.currGroup!.name)-\(self.currGroup!.topic)").child("users").setValue(self.currGroup!.groupUsers)
                 }
             }
         })
     }
-
-     // MARK: - Navigation
-     
-     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "itemSegue" {
-            if let indexPath = self.tableView.indexPathForSelectedRow {
-                let listController = segue.destinationViewController as! ItemViewController
-                listController.title = "\(self.currGroup!.list.items[indexPath.row].name)"
-                listController.item = self.currGroup?.list.items[indexPath.row]
-            }
-        }
-
-     }
+    
+    // MARK: - Navigation
+    
+//    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+//        
+//    }
 }
