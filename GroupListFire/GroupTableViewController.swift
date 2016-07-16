@@ -127,13 +127,21 @@ class GroupTableViewController: UITableViewController, FirebaseDelegation {
         if editingStyle == .Delete {
             let group = userGroups[indexPath.row]
             self.userGroups.removeAtIndex(indexPath.row)
+            var i = 0
+            for user in group.groupUsers {
+                if user == self.user!.displayName! {
+                    group.groupUsers.removeAtIndex(i)
+                }
+                i += 1
+            }
             myUserRef?.child("userGroups").child("\(group.name)-\(group.topic)").removeValue()
+            myGroupRef?.child("\(group.name)-\(group.topic)").child("users").setValue(group.groupUsers)
             tableView.reloadData()
         } else if editingStyle == .Insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }
     }
-
+    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "listSegue" {
             if let indexPath = self.tableView.indexPathForSelectedRow {
