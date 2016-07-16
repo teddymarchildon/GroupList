@@ -126,7 +126,6 @@ class GroupTableViewController: UITableViewController, FirebaseDelegation {
         if editingStyle == .Delete {
             let group = userGroups[indexPath.row]
             self.userGroups.removeAtIndex(indexPath.row)
-            group.ref?.removeValue()
             myUserRef?.child("userGroups").child("\(group.name)-\(group.topic)").removeValue()
             tableView.reloadData()
         } else if editingStyle == .Insert {
@@ -140,7 +139,7 @@ class GroupTableViewController: UITableViewController, FirebaseDelegation {
                 let listController = segue.destinationViewController as! ListTableViewController
                 listController.currGroup = userGroups[indexPath.row]
                 listController.currGroupObject = userGroups[indexPath.row].toAnyObject(self.user!)
-                listController.title = "\(userGroups[indexPath.row].name) List"
+                listController.title = "\(userGroups[indexPath.row].name) list"
             }
         }
     }

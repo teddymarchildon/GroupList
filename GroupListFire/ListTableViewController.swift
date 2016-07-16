@@ -37,7 +37,7 @@ class ListTableViewController: UITableViewController {
             for item in snapshot.children {
                 if let item = item as? FIRDataSnapshot {
                     let postDict = item.value as! [String: AnyObject]
-                    let newListItem = ListItem(withName: postDict["name"] as! String, andQuantity: postDict["quantity"] as! String, completed: postDict["completed"] as! Bool, groupRef: item.ref)
+                    let newListItem = ListItem(withName: postDict["name"] as! String, andQuantity: postDict["quantity"] as! String, completed: postDict["completed"] as! Bool, groupRef: item.ref, createdBy: postDict["createdBy"] as? String)
                     newItems.append(newListItem)
                 }
             }
@@ -185,19 +185,17 @@ class ListTableViewController: UITableViewController {
             }
         })
     }
-    
-    
-    /*
-     
-     
-     
+
      // MARK: - Navigation
      
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
      override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-     // Get the new view controller using segue.destinationViewController.
-     // Pass the selected object to the new view controller.
+        if segue.identifier == "itemSegue" {
+            if let indexPath = self.tableView.indexPathForSelectedRow {
+                let listController = segue.destinationViewController as! ItemViewController
+                listController.title = "\(self.currGroup!.list.items[indexPath.row].name)"
+                listController.item = self.currGroup?.list.items[indexPath.row]
+            }
+        }
+
      }
-     */
-    
 }

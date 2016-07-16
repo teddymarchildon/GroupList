@@ -164,6 +164,9 @@
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="shm-jU-omZ" kind="show" identifier="itemSegue" id="5JG-W6-2eM"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -192,6 +195,57 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gCq-BG-gVj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1366.5" y="-176.5"/>
+        </scene>
+        <!--Item View Controller-->
+        <scene sceneID="4mv-gz-v0a">
+            <objects>
+                <viewController id="shm-jU-omZ" customClass="ItemViewController" customModule="GroupListFire" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="d9c-Cq-F2f"/>
+                        <viewControllerLayoutGuide type="bottom" id="hDH-Xb-1JB"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Hwi-8q-K2y">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wG2-GL-hXE">
+                                <rect key="frame" x="166" y="152" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yJh-Vp-pOK">
+                                <rect key="frame" x="166" y="227" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GDl-ZD-vuu">
+                                <rect key="frame" x="166" y="302" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="wG2-GL-hXE" firstAttribute="centerX" secondItem="Hwi-8q-K2y" secondAttribute="centerX" id="7NF-qc-221"/>
+                            <constraint firstItem="GDl-ZD-vuu" firstAttribute="top" secondItem="yJh-Vp-pOK" secondAttribute="bottom" constant="54" id="Jxj-fd-J4M"/>
+                            <constraint firstItem="wG2-GL-hXE" firstAttribute="top" secondItem="d9c-Cq-F2f" secondAttribute="bottom" constant="88" id="NvU-AY-TEg"/>
+                            <constraint firstItem="GDl-ZD-vuu" firstAttribute="centerX" secondItem="Hwi-8q-K2y" secondAttribute="centerX" id="Va2-3G-Vii"/>
+                            <constraint firstItem="yJh-Vp-pOK" firstAttribute="centerX" secondItem="Hwi-8q-K2y" secondAttribute="centerX" id="irU-qv-rxm"/>
+                            <constraint firstItem="yJh-Vp-pOK" firstAttribute="top" secondItem="wG2-GL-hXE" secondAttribute="bottom" constant="54" id="w3y-xe-8Ae"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="assignedToLabel" destination="GDl-ZD-vuu" id="WjX-TT-dbn"/>
+                        <outlet property="createdByLabel" destination="wG2-GL-hXE" id="Udu-oL-ex0"/>
+                        <outlet property="timeFrameLabel" destination="yJh-Vp-pOK" id="AYk-ZT-sgV"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bq9-wl-lJh" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1924.5" y="-176.5"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="2Cl-Ea-y5n">

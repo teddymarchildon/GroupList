@@ -40,7 +40,8 @@ class Group {
                 let completed = dict["completed"] as! Bool
                 let name = dict["name"] as! String
                 let quantity = dict["quantity"] as! String
-                let newListItem = ListItem(withName: name, andQuantity: quantity, completed: completed, groupRef: snapshot.ref)
+                let createdBy = dict["createdBy"] as? String
+                let newListItem = ListItem(withName: name, andQuantity: quantity, completed: completed, groupRef: snapshot.ref, createdBy: createdBy)
                 groupList.append(newListItem)
             }
             self.list = List(list: groupList)

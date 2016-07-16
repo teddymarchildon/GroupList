@@ -40,10 +40,12 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate, GIDSignIn
         self.view.addSubview(facebookLoginButton)
         myRef = FIRDatabase.database().referenceFromURL("https://grouplistfire-39d22.firebaseio.com/")
         FIRAuth.auth()?.addAuthStateDidChangeListener { auth, user in
-            if let _ = user {
+            if let displayName = user?.displayName {
+                print(displayName)
                 self.performSegueWithIdentifier("loginSegue", sender: nil)
             } else {
                 self.facebookLoginButton.hidden = false
+                self.googleSignInButton.hidden = false
             }
         }
         self.facebookLoginButton.hidden = false
