@@ -11,23 +11,16 @@ import UIKit
 class ItemTableViewCell: UITableViewCell {
 
     @IBOutlet weak var titleLabel: UILabel!
-    
     @IBOutlet weak var quantityLabel: UILabel!
-    
     @IBOutlet weak var createdByLabel: UILabel!
-    
     @IBOutlet weak var assignedToLabel: UILabel!
-    
     @IBOutlet weak var timeFrameLabel: UILabel!
-    
     @IBOutlet weak var assignToButton: UIButton!
-    
     var item: ListItem?
-    
     var group: Group?
     
     @IBAction func assignItemToUser(sender: AnyObject) {
-        print(item!.name + "from" + group!.name)
+        
     }
     override func awakeFromNib() {
         super.awakeFromNib()
