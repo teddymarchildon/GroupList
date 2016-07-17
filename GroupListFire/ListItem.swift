@@ -15,24 +15,51 @@ class ListItem {
     let quantity: String
     var completed: Bool = false
     var groupRef: FIRDatabaseReference?
-    var createdBy: String?
+    var createdBy: String
+    var assignedTo: String?
+    var timeFrame: String?
     
-    convenience init(withName name: String, andQuantity quantity: String) {
-        self.init(withName: name, andQuantity: quantity, completed: false, groupRef: nil, createdBy: nil)
+    convenience init(withName name: String, andQuantity quantity: String, createdBy: String, timeFrame: String?) {
+        self.init(withName: name, andQuantity: quantity, completed: false, groupRef: nil, createdBy: createdBy, assignedTo: nil, timeFrame: timeFrame)
     }
     
-    init(withName name: String, andQuantity quantity: String, completed: Bool, groupRef: FIRDatabaseReference?, createdBy: String?) {
+    init(withName name: String, andQuantity quantity: String, completed: Bool, groupRef: FIRDatabaseReference?, createdBy: String, assignedTo: String?, timeFrame: String?) {
         self.name = name
         self.quantity = quantity
         self.completed = completed
         self.groupRef = groupRef
         self.createdBy = createdBy
+        self.assignedTo = assignedTo
+        self.timeFrame = timeFrame
+    }
+    
+    init(snapshot: FIRDataSnapshot) {
+        let postDict = snapshot.value as! [String: AnyObject]
+        self.name = postDict["name"] as! String
+        self.quantity = postDict["quantity"] as! String
+        self.completed = postDict["completed"] as! Bool
+        self.groupRef = snapshot.ref
+        self.createdBy = postDict["createdBy"] as! String
+        if let assignedTo = postDict["assignedTo"] as? String {
+            self.assignedTo = assignedTo
+        } else { self.assignedTo = nil }
+        if let timeFrame = postDict["timeFrame"] as? String {
+            self.timeFrame = timeFrame
+        } else { self.timeFrame = nil }
     }
     
     func toAnyObject() -> [String: AnyObject]{
-        return ["name": name,
-                "quantity": quantity,
-                "completed": "\(completed)"
-                ]
+        var retDict: [String: AnyObject] = [:]
+        retDict["name"] = name
+        retDict["quantity"] = quantity
+        retDict["completed"] = completed
+        retDict["createdBy"] = createdBy
+        if let assignedTo = assignedTo {
+            retDict["assignedTo"] = assignedTo
+        }
+        if let timeFrame = timeFrame {
+            retDict["timeFrame"] = timeFrame
+        }
+        return retDict
     }
 }

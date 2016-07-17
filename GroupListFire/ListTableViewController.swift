@@ -36,8 +36,7 @@ class ListTableViewController: UITableViewController {
             var newItems: [ListItem] = []
             for item in snapshot.children {
                 if let item = item as? FIRDataSnapshot {
-                    let postDict = item.value as! [String: AnyObject]
-                    let newListItem = ListItem(withName: postDict["name"] as! String, andQuantity: postDict["quantity"] as! String, completed: postDict["completed"] as! Bool, groupRef: item.ref, createdBy: postDict["createdBy"] as? String)
+                    let newListItem = ListItem(snapshot: item)
                     newItems.append(newListItem)
                 }
             }
@@ -59,13 +58,18 @@ class ListTableViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("listCell", forIndexPath: indexPath)
+        let cell = tableView.dequeueReusableCellWithIdentifier("ItemTableViewCell", forIndexPath: indexPath) as! ItemTableViewCell
         cell.selectionStyle = .None
         let item = currGroup!.list.items[indexPath.row]
         let itemName = item.name
         let detail = item.quantity
-        cell.textLabel?.text = itemName
-        cell.detailTextLabel?.text = detail
+        cell.item = item
+        cell.group = currGroup
+        cell.titleLabel.text = itemName
+        cell.quantityLabel.text = detail
+        cell.createdByLabel.text = item.createdBy
+        cell.assignedToLabel.text = item.assignedTo
+        cell.timeFrameLabel.text = item.timeFrame
         cell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
         toggleCellCheckbox(cell, isCompleted: item.completed)
         return cell
@@ -75,7 +79,7 @@ class ListTableViewController: UITableViewController {
         let now: NSTimeInterval = NSDate().timeIntervalSince1970
         if let lastClick = lastClick, lastIndexPath = lastIndexPath {
             if (now - lastClick < 0.3) && indexPath.isEqual(lastIndexPath) {
-                let cell = tableView.dequeueReusableCellWithIdentifier("listCell", forIndexPath: indexPath)
+                let cell = tableView.dequeueReusableCellWithIdentifier("ItemTableViewCell", forIndexPath: indexPath) as! ItemTableViewCell
                 cell.selectionStyle = .None
                 let item = currGroup!.list.items[indexPath.row]
                 let toggledCompletion = !item.completed
@@ -83,49 +87,36 @@ class ListTableViewController: UITableViewController {
                 item.groupRef?.updateChildValues([
                     "completed": toggledCompletion
                     ])
+                return
             }
         }
         lastClick = now
         lastIndexPath = indexPath
-        let item = currGroup!.list.items[indexPath.row]
-        let alert = UIAlertController(title: item.name, message: nil, preferredStyle: .Alert)
-        let okAction = UIAlertAction(title: "Ok", style: .Default) { (action: UIAlertAction!) -> Void in
-            alert.dismissViewControllerAnimated(true, completion: nil)
-        }
-        
-        alert.addTextFieldWithConfigurationHandler { (textGroup) -> Void in
-            textGroup.text = "Created by: \(item.createdBy!)"
-            textGroup.allowsEditingTextAttributes = false
-        }
-        alert.addTextFieldWithConfigurationHandler { (textGroup) -> Void in
-            textGroup.text = "Time Frame: time"
-            textGroup.allowsEditingTextAttributes = false
-        }
-        
-        alert.addTextFieldWithConfigurationHandler { (textGroup) -> Void in
-            textGroup.text = "Assigned to: user"
-            textGroup.allowsEditingTextAttributes = false
-        }
-        
-        alert.addAction(okAction)
-        
-        presentViewController(alert, animated: true, completion: nil)
     }
     
-    func toggleCellCheckbox(cell: UITableViewCell, isCompleted: Bool) {
+    func toggleCellCheckbox(cell: ItemTableViewCell, isCompleted: Bool) {
         if !isCompleted {
-            cell.accessoryType = UITableViewCellAccessoryType.DetailButton
-            cell.textLabel?.textColor = UIColor.blackColor()
-            cell.detailTextLabel?.textColor = UIColor.blackColor()
+            cell.accessoryType = UITableViewCellAccessoryType.None
+            cell.titleLabel.textColor = UIColor.blackColor()
+            cell.quantityLabel.textColor = UIColor.blackColor()
+            cell.createdByLabel.textColor = .blackColor()
+            cell.assignedToLabel.textColor = .blackColor()
+            cell.timeFrameLabel.textColor = .blackColor()
+            cell.assignToButton.hidden = false
         } else {
+            cell.assignToButton.hidden = true
             cell.accessoryType = UITableViewCellAccessoryType.Checkmark
-            cell.textLabel!.textColor = UIColor.grayColor()
-            cell.detailTextLabel!.textColor = UIColor.grayColor()
+            cell.titleLabel.textColor = UIColor.grayColor()
+            cell.quantityLabel.textColor = UIColor.grayColor()
+            cell.createdByLabel.textColor = .grayColor()
+            cell.assignedToLabel.textColor = .grayColor()
+            cell.timeFrameLabel.textColor = .grayColor()
+            
         }
     }
     
-    // Override to support conditional editing of the table view.
-    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool
+    {
         return true
     }
     
@@ -143,16 +134,18 @@ class ListTableViewController: UITableViewController {
     @IBAction func addItemToList(sender: AnyObject) {
         let alert = UIAlertController(title: "New Item", message: nil, preferredStyle: .Alert)
         let saveAction = UIAlertAction(title: "Save", style: .Default) { (action: UIAlertAction!) -> Void in
-            let nameField = alert.textFields![0]
-            let detailField = alert.textFields![1]
-            let newItem = ListItem(withName: nameField.text!, andQuantity: detailField.text!)
+            let nameField = alert.textFields![0].text!
+            let detailField = alert.textFields![1].text!
+            let timeFrame = alert.textFields![2].text!
+            var newItem: ListItem
+            if timeFrame == "" {
+                newItem = ListItem(withName: nameField, andQuantity: detailField, createdBy: self.user!.displayName!, timeFrame: nil)
+            } else {
+                newItem = ListItem(withName: nameField, andQuantity: detailField, createdBy: self.user!.displayName!, timeFrame: timeFrame)
+            }
             self.currGroup!.list.items.append(newItem)
             for item in self.currGroup!.list.items {
-                let newItemDict = ["name": item.name,
-                                   "quantity": item.quantity,
-                                   "completed": item.completed,
-                                   "createdBy": self.user!.displayName!]
-                self.myRef?.child("groups").child("\(self.currGroup!.name)-\(self.currGroup!.topic)").child("items").child(nameField.text!).setValue(newItemDict)
+                self.myRef?.child("groups").child("\(self.currGroup!.name)-\(self.currGroup!.topic)").child("items").child(nameField).setValue(item.toAnyObject())
             }
         }
         
@@ -164,7 +157,10 @@ class ListTableViewController: UITableViewController {
             textGroup.placeholder = "Item Name"
         }
         alert.addTextFieldWithConfigurationHandler { (quantity) -> Void in
-            quantity.placeholder = "Details"
+            quantity.placeholder = "How much?"
+        }
+        alert.addTextFieldWithConfigurationHandler { (timeFrame) -> Void in
+            timeFrame.placeholder = "When does it need to get done?"
         }
         
         alert.addAction(saveAction)
@@ -213,7 +209,7 @@ class ListTableViewController: UITableViewController {
     
     // MARK: - Navigation
     
-//    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-//        
-//    }
+    //    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    //
+    //    }
 }
