@@ -26,8 +26,7 @@ class ItemTableViewCell: UITableViewCell {
     
     @IBAction func assignItemToUser(sender: AnyObject) {
         let pickerVC = UIImagePickerController()
-        if (delegate?.respondsToSelector(Selector("loadNewScreen"))) != nil
-        {
+        if (delegate?.respondsToSelector(Selector("loadNewScreen"))) != nil {
             delegate?.loadNewScreen(pickerVC, item: self.item!)
         }
     }
