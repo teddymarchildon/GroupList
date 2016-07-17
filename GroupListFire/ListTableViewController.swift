@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-class ListTableViewController: UITableViewController {
+class ListTableViewController: UITableViewController, ChangeFromCellDelegate {
     
     var myRef: FIRDatabaseReference? = nil
     let user = FIRAuth.auth()?.currentUser
@@ -65,6 +65,7 @@ class ListTableViewController: UITableViewController {
         let detail = item.quantity
         cell.item = item
         cell.group = currGroup
+        cell.delegate = self
         cell.titleLabel.text = itemName
         cell.quantityLabel.text = detail
         cell.createdByLabel.text = item.createdBy
@@ -92,6 +93,20 @@ class ListTableViewController: UITableViewController {
         }
         lastClick = now
         lastIndexPath = indexPath
+    }
+    
+    func loadNewScreen(controller: UIViewController, item: ListItem) {
+        let alert = UIAlertController(title: "Assign To", message: nil, preferredStyle: .ActionSheet)
+        for user in currGroup!.groupUsers {
+            let userAction = UIAlertAction(title: user, style: .Default) { (action: UIAlertAction!) -> Void in
+                item.assignedTo = user
+                self.myRef?.child("groups").child("\(self.currGroup!.name)-\(self.currGroup!.topic)").child("items").child(item.name).setValue(item.toAnyObject())
+            }
+            alert.addAction(userAction)
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
+        alert.addAction(cancelAction)
+        self.presentViewController(alert, animated: true, completion: nil)
     }
     
     func toggleCellCheckbox(cell: ItemTableViewCell, isCompleted: Bool) {

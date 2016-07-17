@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol ChangeFromCellDelegate: NSObjectProtocol {
+    func loadNewScreen(controller: UIViewController, item: ListItem)
+}
+
 class ItemTableViewCell: UITableViewCell {
 
     @IBOutlet weak var titleLabel: UILabel!
@@ -18,10 +22,16 @@ class ItemTableViewCell: UITableViewCell {
     @IBOutlet weak var assignToButton: UIButton!
     var item: ListItem?
     var group: Group?
+    weak var delegate: ChangeFromCellDelegate?
     
     @IBAction func assignItemToUser(sender: AnyObject) {
-        
+        let pickerVC = UIImagePickerController()
+        if (delegate?.respondsToSelector(Selector("loadNewScreen"))) != nil
+        {
+            delegate?.loadNewScreen(pickerVC, item: self.item!)
+        }
     }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

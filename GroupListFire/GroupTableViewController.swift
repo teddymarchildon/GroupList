@@ -72,9 +72,7 @@ class GroupTableViewController: UITableViewController, FirebaseDelegation {
             self.myUserRef?.child("userGroups").child("\(nameField.text!)-\(topicField.text!)").setValue(["name": "\(nameField.text!)-\(topicField.text!)"])
         }
         
-        let cancelAction = UIAlertAction(title: "Cancel", style: .Default) { (action: UIAlertAction!) -> Void in
-            self.view.endEditing(true)
-        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .Default, handler: nil)
         
         alert.addTextFieldWithConfigurationHandler { (textGroup) -> Void in
             textGroup.placeholder = "Group Name"
