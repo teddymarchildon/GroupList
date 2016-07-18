@@ -40,8 +40,7 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate, GIDSignIn
         self.view.addSubview(facebookLoginButton)
         myRef = FIRDatabase.database().referenceFromURL("https://grouplistfire-39d22.firebaseio.com/")
         FIRAuth.auth()?.addAuthStateDidChangeListener { auth, user in
-            if let displayName = user?.displayName {
-                print(displayName)
+            if let _ = user?.displayName {
                 self.performSegueWithIdentifier("loginSegue", sender: nil)
             } else {
                 self.facebookLoginButton.hidden = false
@@ -71,10 +70,9 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate, GIDSignIn
             FIRAuth.auth()?.signInWithCredential(credential) { (user, error) in
                 if error == nil {
                     if let user = user, displayName = user.displayName {
-                        self.myRef?.child("users").child(displayName).child("username").setValue([
-                            "username": displayName,
+                        self.myRef?.child("users").child(user.uid).child("username").setValue([
+                            "username": displayName
                             ])
-                        self.performSegueWithIdentifier("loginSegue", sender: nil)
                     }
                 } else {
                     print(error?.localizedDescription)

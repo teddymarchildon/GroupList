@@ -16,19 +16,23 @@ class Group {
     var list: List
     var ref: FIRDatabaseReference?
     var groupUsers: [String]
+    var createdBy: String
     
-    init(withName name: String, andTopic topic: String, andList list: List, andUser user: FIRUser) {
+    init(withName name: String, andTopic topic: String, andList list: List, createdBy: String, andUser user: FIRUser) {
         self.name = name
         self.topic = topic
         self.list = list
         self.ref = nil
+        self.createdBy = createdBy
         self.groupUsers = [user.displayName!]
     }
     
     init(snapshot: FIRDataSnapshot) {
         let fullName = snapshot.key.componentsSeparatedByString("-")
-        let groupName = fullName[0]
-        let topicName = fullName[1]
+        let createdBy = fullName[0]
+        let groupName = fullName[1]
+        let topicName = fullName[2]
+        self.createdBy = createdBy
         self.name = groupName
         self.topic = topicName
         self.ref = snapshot.ref
@@ -57,11 +61,11 @@ class Group {
         }
     }
     
-    func toAnyObject(user: FIRUser) -> [String: AnyObject] {
+    func toAnyObject() -> [String: AnyObject] {
         return ["name": name,
                 "topic": topic,
                 "list": list.items,
                 "users": groupUsers,
-                "createdByUser": user.displayName!]
+                "createdByUser": createdBy]
     }
 }

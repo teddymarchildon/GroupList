@@ -13,9 +13,7 @@ import FBSDKCoreKit
 import FirebaseAuth
 
 protocol FirebaseDelegation {
-    
     func didFetchData(data: [String])
-    
 }
 
 class GroupTableViewController: UITableViewController, FirebaseDelegation {
@@ -29,7 +27,8 @@ class GroupTableViewController: UITableViewController, FirebaseDelegation {
     }
     
     override func viewDidLoad() {
-        myUserRef = FIRDatabase.database().referenceFromURL("https://grouplistfire-39d22.firebaseio.com/").child("users").child(displayName)
+        self.clearsSelectionOnViewWillAppear = true
+        myUserRef = FIRDatabase.database().referenceFromURL("https://grouplistfire-39d22.firebaseio.com/").child("users").child(user!.uid)
         myGroupRef = FIRDatabase.database().referenceFromURL("https://grouplistfire-39d22.firebaseio.com/").child("groups")
         let ref = myUserRef?.child("userGroups")
         ref?.observeEventType(.Value, withBlock: { snapshot in
@@ -57,19 +56,17 @@ class GroupTableViewController: UITableViewController, FirebaseDelegation {
     }
     
     @IBAction func addGroup(sender: AnyObject) {
-        let groupRef = self.myGroupRef!
         let alert = UIAlertController(title: "New Group", message: nil, preferredStyle: .Alert)
         let saveAction = UIAlertAction(title: "Save", style: .Default) { (action: UIAlertAction!) -> Void in
             let nameField = alert.textFields![0]
             let topicField = alert.textFields![1]
-            let group = Group(withName: nameField.text!, andTopic: topicField.text!, andList: List(), andUser: self.user!)
-            let newGroupRef = groupRef.child("\(nameField.text!)-\(topicField.text!)")
-            newGroupRef.setValue(group.toAnyObject(self.user!))
+            let group = Group(withName: nameField.text!, andTopic: topicField.text!, andList: List(), createdBy: self.user!.displayName!, andUser: self.user!)
+            self.myGroupRef!.child("\(self.user!.displayName!)-\(nameField.text!)-\(topicField.text!)").setValue(group.toAnyObject())
             var nameArray: [String] = []
             for group in self.userGroups {
                 nameArray.append(group.name)
             }
-            self.myUserRef?.child("userGroups").child("\(nameField.text!)-\(topicField.text!)").setValue(["name": "\(nameField.text!)-\(topicField.text!)"])
+            self.myUserRef?.child("userGroups").child("\(group.createdBy)-\(nameField.text!)-\(topicField.text!)").setValue(["name": "\(self.user!.displayName!)-\(nameField.text!)-\(topicField.text!)"])
         }
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .Default, handler: nil)
@@ -132,8 +129,8 @@ class GroupTableViewController: UITableViewController, FirebaseDelegation {
                 }
                 i += 1
             }
-            myUserRef?.child("userGroups").child("\(group.name)-\(group.topic)").removeValue()
-            myGroupRef?.child("\(group.name)-\(group.topic)").child("users").setValue(group.groupUsers)
+            myUserRef?.child("userGroups").child("\(group.createdBy)-\(group.name)-\(group.topic)").removeValue()
+            myGroupRef?.child("\(group.createdBy)-\(group.name)-\(group.topic)").child("users").setValue(group.groupUsers)
             tableView.reloadData()
         } else if editingStyle == .Insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
@@ -145,7 +142,7 @@ class GroupTableViewController: UITableViewController, FirebaseDelegation {
             if let indexPath = self.tableView.indexPathForSelectedRow {
                 let listController = segue.destinationViewController as! ListTableViewController
                 listController.currGroup = userGroups[indexPath.row]
-                listController.currGroupObject = userGroups[indexPath.row].toAnyObject(self.user!)
+                listController.currGroupObject = userGroups[indexPath.row].toAnyObject()
                 listController.title = "\(userGroups[indexPath.row].name) list"
             }
         }

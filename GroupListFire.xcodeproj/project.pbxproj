@@ -15,14 +15,13 @@
 		B188F6AA1D2EA54F0030BDD3 /* GroupTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B188F6A91D2EA54F0030BDD3 /* GroupTableViewController.swift */; };
 		B188F6AC1D2EA8B80030BDD3 /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = B188F6AB1D2EA8B80030BDD3 /* Group.swift */; };
 		B188F6AE1D2EBC760030BDD3 /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = B188F6AD1D2EBC760030BDD3 /* List.swift */; };
+		B19186C81D3C89FF000C2D56 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B19186C71D3C89FF000C2D56 /* GoogleService-Info.plist */; };
 		B1A600FF1D3959D100B7E5A1 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1A600FE1D3959D100B7E5A1 /* FBSDKCoreKit.framework */; };
 		B1A601011D3959D800B7E5A1 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1A601001D3959D800B7E5A1 /* FBSDKLoginKit.framework */; };
-		B1A601031D3959DF00B7E5A1 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1A601021D3959DF00B7E5A1 /* FBSDKShareKit.framework */; };
 		B1C1D5AC1D2D3D2A00B30635 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B1C1D5AB1D2D3D2A00B30635 /* Main.storyboard */; };
 		B1C1D5AE1D2D3D5500B30635 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C1D5AD1D2D3D5500B30635 /* LoginViewController.swift */; };
 		B1CEDD5D1D2EC16D00A84E43 /* ListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1CEDD5C1D2EC16D00A84E43 /* ListTableViewController.swift */; };
 		B1D49FC01D31C30100DF8D8D /* ListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D49FBF1D31C30100DF8D8D /* ListItem.swift */; };
-		B1EB77FB1D2CABEA00213E83 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B1EB77FA1D2CABEA00213E83 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +37,8 @@
 		B188F6A91D2EA54F0030BDD3 /* GroupTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupTableViewController.swift; sourceTree = "<group>"; };
 		B188F6AB1D2EA8B80030BDD3 /* Group.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
 		B188F6AD1D2EBC760030BDD3 /* List.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = List.swift; sourceTree = "<group>"; };
+		B19186C41D3C892B000C2D56 /* GroupListFire-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GroupListFire-Bridging-Header.h"; sourceTree = "<group>"; };
+		B19186C71D3C89FF000C2D56 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B1A600FE1D3959D100B7E5A1 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = ../../FacebookSDK/FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		B1A601001D3959D800B7E5A1 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = ../../FacebookSDK/FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		B1A601021D3959DF00B7E5A1 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKShareKit.framework; path = ../../FacebookSDK/FBSDKShareKit.framework; sourceTree = "<group>"; };
@@ -45,7 +46,6 @@
 		B1C1D5AD1D2D3D5500B30635 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		B1CEDD5C1D2EC16D00A84E43 /* ListTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListTableViewController.swift; sourceTree = "<group>"; };
 		B1D49FBF1D31C30100DF8D8D /* ListItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListItem.swift; sourceTree = "<group>"; };
-		B1EB77FA1D2CABEA00213E83 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,7 +53,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B1A601031D3959DF00B7E5A1 /* FBSDKShareKit.framework in Frameworks */,
 				6D9404081B29E48C785DDAA0 /* Pods_GroupListFire.framework in Frameworks */,
 				B1A600FF1D3959D100B7E5A1 /* FBSDKCoreKit.framework in Frameworks */,
 				B1A601011D3959D800B7E5A1 /* FBSDKLoginKit.framework in Frameworks */,
@@ -99,7 +98,8 @@
 				B189DDE31D38918E0049AAA0 /* Storyboards */,
 				B125584F1D2C9D760068434B /* Assets.xcassets */,
 				B12558541D2C9D760068434B /* Info.plist */,
-				B1EB77FA1D2CABEA00213E83 /* GoogleService-Info.plist */,
+				B19186C71D3C89FF000C2D56 /* GoogleService-Info.plist */,
+				B19186C41D3C892B000C2D56 /* GroupListFire-Bridging-Header.h */,
 			);
 			path = GroupListFire;
 			sourceTree = "<group>";
@@ -117,9 +117,9 @@
 			isa = PBXGroup;
 			children = (
 				B188F6AB1D2EA8B80030BDD3 /* Group.swift */,
-				B17EEE941D3BE03800AF529C /* ItemTableViewCell.swift */,
 				B188F6AD1D2EBC760030BDD3 /* List.swift */,
 				B1D49FBF1D31C30100DF8D8D /* ListItem.swift */,
+				B17EEE941D3BE03800AF529C /* ItemTableViewCell.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -207,8 +207,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B19186C81D3C89FF000C2D56 /* GoogleService-Info.plist in Resources */,
 				B12558531D2C9D760068434B /* LaunchScreen.storyboard in Resources */,
-				B1EB77FB1D2CABEA00213E83 /* GoogleService-Info.plist in Resources */,
 				B12558501D2C9D760068434B /* Assets.xcassets in Resources */,
 				B1C1D5AC1D2D3D2A00B30635 /* Main.storyboard in Resources */,
 			);
@@ -384,6 +384,7 @@
 			baseConfigurationReference = 25BC43EEBB0234C06F8141B4 /* Pods-GroupListFire.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -391,9 +392,12 @@
 					"~/Documents/FacebookSDK",
 				);
 				INFOPLIST_FILE = GroupListFire/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = tedmarchildon.GroupListFire;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "GroupListFire/GroupListFire-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -402,6 +406,7 @@
 			baseConfigurationReference = 5CA0C93E0B6DCDB014D3DFAF /* Pods-GroupListFire.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -409,9 +414,11 @@
 					"~/Documents/FacebookSDK",
 				);
 				INFOPLIST_FILE = GroupListFire/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = tedmarchildon.GroupListFire;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "GroupListFire/GroupListFire-Bridging-Header.h";
 			};
 			name = Release;
 		};

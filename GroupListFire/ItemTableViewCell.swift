@@ -25,7 +25,7 @@ class ItemTableViewCell: UITableViewCell {
     weak var delegate: ChangeFromCellDelegate?
     
     @IBAction func assignItemToUser(sender: AnyObject) {
-        let pickerVC = UIImagePickerController()
+        let pickerVC = UIViewController()
         if (delegate?.respondsToSelector(Selector("loadNewScreen"))) != nil {
             delegate?.loadNewScreen(pickerVC, item: self.item!)
         }
@@ -41,5 +41,4 @@ class ItemTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-
 }

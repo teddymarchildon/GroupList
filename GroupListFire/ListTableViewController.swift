@@ -22,7 +22,7 @@ class ListTableViewController: UITableViewController, ChangeFromCellDelegate {
         tableView.delegate = self
         tableView.rowHeight = CGFloat(75.0)
         myRef = FIRDatabase.database().referenceFromURL("https://grouplistfire-39d22.firebaseio.com/")
-        self.clearsSelectionOnViewWillAppear = false
+        self.clearsSelectionOnViewWillAppear = true
         super.viewDidLoad()
     }
     
@@ -31,7 +31,7 @@ class ListTableViewController: UITableViewController, ChangeFromCellDelegate {
     }
     
     override func viewDidAppear(animated: Bool) {
-        let ref = self.myRef?.child("groups").child("\(currGroup!.name)-\(currGroup!.topic)").child("items")
+        let ref = self.myRef?.child("groups").child("\(currGroup!.createdBy)-\(currGroup!.name)-\(currGroup!.topic)").child("items")
         ref?.queryOrderedByChild("completed").observeEventType(.Value, withBlock: { snapshot in
             var newItems: [ListItem] = []
             for item in snapshot.children {
@@ -61,13 +61,11 @@ class ListTableViewController: UITableViewController, ChangeFromCellDelegate {
         let cell = tableView.dequeueReusableCellWithIdentifier("ItemTableViewCell", forIndexPath: indexPath) as! ItemTableViewCell
         cell.selectionStyle = .None
         let item = currGroup!.list.items[indexPath.row]
-        let itemName = item.name
-        let detail = item.quantity
         cell.item = item
         cell.group = currGroup
         cell.delegate = self
-        cell.titleLabel.text = itemName
-        cell.quantityLabel.text = detail
+        cell.titleLabel.text = item.name
+        cell.quantityLabel.text = item.quantity
         cell.createdByLabel.text = item.createdBy
         cell.assignedToLabel.text = item.assignedTo
         cell.timeFrameLabel.text = item.timeFrame
@@ -100,7 +98,7 @@ class ListTableViewController: UITableViewController, ChangeFromCellDelegate {
         for user in currGroup!.groupUsers {
             let userAction = UIAlertAction(title: user, style: .Default) { (action: UIAlertAction!) -> Void in
                 item.assignedTo = user
-                self.myRef?.child("groups").child("\(self.currGroup!.name)-\(self.currGroup!.topic)").child("items").child(item.name).setValue(item.toAnyObject())
+                self.myRef?.child("groups").child("\(self.currGroup!.createdBy)-\(self.currGroup!.name)-\(self.currGroup!.topic)").child("items").child(item.name).setValue(item.toAnyObject())
             }
             alert.addAction(userAction)
         }
@@ -160,7 +158,7 @@ class ListTableViewController: UITableViewController, ChangeFromCellDelegate {
             }
             self.currGroup!.list.items.append(newItem)
             for item in self.currGroup!.list.items {
-                self.myRef?.child("groups").child("\(self.currGroup!.name)-\(self.currGroup!.topic)").child("items").child(nameField).setValue(item.toAnyObject())
+                self.myRef?.child("groups").child("\(self.currGroup!.createdBy)-\(self.currGroup!.name)-\(self.currGroup!.topic)").child("items").child(nameField).setValue(item.toAnyObject())
             }
         }
         
@@ -207,18 +205,19 @@ class ListTableViewController: UITableViewController, ChangeFromCellDelegate {
     }
     
     func findUserInDatabase(username: String) {
-        self.myRef?.child("users").child(username).observeSingleEventOfType(.Value, withBlock: { snapshot in
-            if let _ = snapshot.value as? NSNull {
-                print("no user")
-            } else {
-                let postDict = snapshot.value as! [String: AnyObject]
-                let baseUsername = postDict["username"]!["username"] as? String
-                if let baseUsername = baseUsername {
-                    self.currGroup?.groupUsers.append(baseUsername)
-                    self.myRef?.child("users").child(baseUsername).child("userGroups").child("\(self.currGroup!.name)-\(self.currGroup!.topic)").setValue(["name": "\(self.currGroup!.name)-\(self.currGroup!.topic)"])
-                    self.myRef?.child("groups").child("\(self.currGroup!.name)-\(self.currGroup!.topic)").child("users").setValue(self.currGroup!.groupUsers)
-                }
-            }
+        self.myRef?.child("users").queryOrderedByChild(username).observeSingleEventOfType(.Value, withBlock: { snapshot in
+            print(snapshot)
+//            if let _ = snapshot.value as? NSNull {
+//                print("no user")
+//            } else {
+//                let postDict = snapshot.value as! [String: AnyObject]
+//                let baseUsername = postDict["username"]!["username"] as? String
+//                if let baseUsername = baseUsername {
+//                    self.currGroup?.groupUsers.append(baseUsername)
+//                    self.myRef?.child("users").child(baseUsername).child("userGroups").child("\(self.currGroup!.name)-\(self.currGroup!.topic)").setValue(["name": "\(self.currGroup!.name)-\(self.currGroup!.topic)"])
+//                    self.myRef?.child("groups").child("\(self.currGroup!.name)-\(self.currGroup!.topic)").child("users").setValue(self.currGroup!.groupUsers)
+//                }
+//            }
         })
     }
     
