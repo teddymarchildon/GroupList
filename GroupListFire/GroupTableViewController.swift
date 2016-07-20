@@ -126,7 +126,7 @@ class GroupTableViewController: UITableViewController, FirebaseDelegation {
             self.userGroups.removeAtIndex(indexPath.row)
             var i = 0
             for user in group.groupUsers {
-                if user == self.user!.displayName! {
+                if user == "\(self.user!.displayName!)-\(self.user!.uid)" {
                     group.groupUsers.removeAtIndex(i)
                 }
                 i += 1
