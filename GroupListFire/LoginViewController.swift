@@ -20,6 +20,7 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate, GIDSignIn
     @IBOutlet weak var googleSignInButton: GIDSignInButton!
     var myRef: FIRDatabaseReference? = nil
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    var newUser: User?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,9 +71,11 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate, GIDSignIn
             FIRAuth.auth()?.signInWithCredential(credential) { (user, error) in
                 if error == nil {
                     if let user = user, displayName = user.displayName {
-                        self.myRef?.child("users").child(user.uid).child("username").setValue([
-                            "username": displayName
-                            ])
+                        let newUser = User(withDisplayName: displayName, andID: user.uid, andPhotoURL: user.photoURL!)
+                        self.myRef?.child("users").child("\(displayName)-\(user.uid)").child("info").setValue(newUser.toAnyObject())
+                        
+                        self.myRef?.child("users").child("\(displayName)-\(user.uid)").child("username").setValue(displayName)
+                        
                     }
                 } else {
                     print(error?.localizedDescription)
@@ -97,5 +100,12 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate, GIDSignIn
         alert.addAction(action)
         presentViewController(alert, animated: true, completion: nil)
     }
+    
+    //    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    //        if segue.identifier == "loginSegue" {
+    //            let listController = segue.destinationViewController as! GroupTableViewController
+    //            listController.userInstance = newUser
+    //        }
+    //    }
 }
 

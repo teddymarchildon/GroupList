@@ -8,9 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		6D9404081B29E48C785DDAA0 /* Pods_GroupListFire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3ADCB4D2633E9FB219A682EC /* Pods_GroupListFire.framework */; };
+		B1092EA81D3F174100D1D598 /* UserSearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1092EA71D3F174100D1D598 /* UserSearchTableViewController.swift */; };
+		B1092EAA1D3F18B200D1D598 /* UserSearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1092EA91D3F18B200D1D598 /* UserSearchTableViewCell.swift */; };
 		B12558491D2C9D760068434B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B12558481D2C9D760068434B /* AppDelegate.swift */; };
 		B12558501D2C9D760068434B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B125584F1D2C9D760068434B /* Assets.xcassets */; };
 		B12558531D2C9D760068434B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B12558511D2C9D760068434B /* LaunchScreen.storyboard */; };
+		B17EA23A1D3DB9EC004BD637 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = B17EA2391D3DB9EC004BD637 /* User.swift */; };
 		B17EEE951D3BE03800AF529C /* ItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B17EEE941D3BE03800AF529C /* ItemTableViewCell.swift */; };
 		B188F6AA1D2EA54F0030BDD3 /* GroupTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B188F6A91D2EA54F0030BDD3 /* GroupTableViewController.swift */; };
 		B188F6AC1D2EA8B80030BDD3 /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = B188F6AB1D2EA8B80030BDD3 /* Group.swift */; };
@@ -28,11 +31,14 @@
 		25BC43EEBB0234C06F8141B4 /* Pods-GroupListFire.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GroupListFire.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GroupListFire/Pods-GroupListFire.debug.xcconfig"; sourceTree = "<group>"; };
 		3ADCB4D2633E9FB219A682EC /* Pods_GroupListFire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GroupListFire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5CA0C93E0B6DCDB014D3DFAF /* Pods-GroupListFire.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GroupListFire.release.xcconfig"; path = "Pods/Target Support Files/Pods-GroupListFire/Pods-GroupListFire.release.xcconfig"; sourceTree = "<group>"; };
+		B1092EA71D3F174100D1D598 /* UserSearchTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSearchTableViewController.swift; sourceTree = "<group>"; };
+		B1092EA91D3F18B200D1D598 /* UserSearchTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSearchTableViewCell.swift; sourceTree = "<group>"; };
 		B12558451D2C9D760068434B /* GroupListFire.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GroupListFire.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B12558481D2C9D760068434B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B125584F1D2C9D760068434B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B12558521D2C9D760068434B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B12558541D2C9D760068434B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B17EA2391D3DB9EC004BD637 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		B17EEE941D3BE03800AF529C /* ItemTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemTableViewCell.swift; sourceTree = "<group>"; };
 		B188F6A91D2EA54F0030BDD3 /* GroupTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupTableViewController.swift; sourceTree = "<group>"; };
 		B188F6AB1D2EA8B80030BDD3 /* Group.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
@@ -120,6 +126,8 @@
 				B188F6AD1D2EBC760030BDD3 /* List.swift */,
 				B1D49FBF1D31C30100DF8D8D /* ListItem.swift */,
 				B17EEE941D3BE03800AF529C /* ItemTableViewCell.swift */,
+				B1092EA91D3F18B200D1D598 /* UserSearchTableViewCell.swift */,
+				B17EA2391D3DB9EC004BD637 /* User.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -130,6 +138,7 @@
 				B1C1D5AD1D2D3D5500B30635 /* LoginViewController.swift */,
 				B188F6A91D2EA54F0030BDD3 /* GroupTableViewController.swift */,
 				B1CEDD5C1D2EC16D00A84E43 /* ListTableViewController.swift */,
+				B1092EA71D3F174100D1D598 /* UserSearchTableViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -269,11 +278,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B1092EA81D3F174100D1D598 /* UserSearchTableViewController.swift in Sources */,
 				B1C1D5AE1D2D3D5500B30635 /* LoginViewController.swift in Sources */,
 				B1D49FC01D31C30100DF8D8D /* ListItem.swift in Sources */,
+				B1092EAA1D3F18B200D1D598 /* UserSearchTableViewCell.swift in Sources */,
 				B12558491D2C9D760068434B /* AppDelegate.swift in Sources */,
 				B188F6AA1D2EA54F0030BDD3 /* GroupTableViewController.swift in Sources */,
 				B17EEE951D3BE03800AF529C /* ItemTableViewCell.swift in Sources */,
+				B17EA23A1D3DB9EC004BD637 /* User.swift in Sources */,
 				B1CEDD5D1D2EC16D00A84E43 /* ListTableViewController.swift in Sources */,
 				B188F6AE1D2EBC760030BDD3 /* List.swift in Sources */,
 				B188F6AC1D2EA8B80030BDD3 /* Group.swift in Sources */,

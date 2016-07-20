@@ -13,7 +13,7 @@ import FBSDKCoreKit
 import FirebaseAuth
 
 protocol FirebaseDelegation {
-    func didFetchData(data: [String])
+    func didFetchData<T: SequenceType>(data: T, toMatch: String?)
 }
 
 class GroupTableViewController: UITableViewController, FirebaseDelegation {
@@ -28,7 +28,7 @@ class GroupTableViewController: UITableViewController, FirebaseDelegation {
     
     override func viewDidLoad() {
         self.clearsSelectionOnViewWillAppear = true
-        myUserRef = FIRDatabase.database().referenceFromURL("https://grouplistfire-39d22.firebaseio.com/").child("users").child(user!.uid)
+        myUserRef = FIRDatabase.database().referenceFromURL("https://grouplistfire-39d22.firebaseio.com/").child("users").child("\(user!.displayName!)-\(user!.uid)")
         myGroupRef = FIRDatabase.database().referenceFromURL("https://grouplistfire-39d22.firebaseio.com/").child("groups")
         let ref = myUserRef?.child("userGroups")
         ref?.observeEventType(.Value, withBlock: { snapshot in
@@ -39,19 +39,21 @@ class GroupTableViewController: UITableViewController, FirebaseDelegation {
                     newNames.append(postDict["name"]!)
                 }
             }
-           self.didFetchData(newNames)
+            self.didFetchData(newNames, toMatch: nil)
         })
         super.viewDidLoad()
     }
     
-    func didFetchData(data: [String]) {
-        self.userGroups = []
-        for item in data {
-            self.myGroupRef?.child(item).observeSingleEventOfType(.Value, withBlock: { snapshot in
-                let newGroup = Group(snapshot: snapshot)
-                self.userGroups.append(newGroup)
-                self.tableView.reloadData()
-            })
+    func didFetchData<T: SequenceType>(data: T, toMatch: String?) {
+        if let data = data as? [String] {
+            self.userGroups = []
+            for item in data {
+                self.myGroupRef?.child(item).observeSingleEventOfType(.Value, withBlock: { snapshot in
+                    let newGroup = Group(snapshot: snapshot)
+                    self.userGroups.append(newGroup)
+                    self.tableView.reloadData()
+                })
+            }
         }
     }
     

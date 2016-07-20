@@ -34,11 +34,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
     }
     
     func application(app: UIApplication, openURL url: NSURL, options: [String: AnyObject]) -> Bool {
-
+        
         let google = GIDSignIn.sharedInstance().handleURL(url, sourceApplication: options[UIApplicationOpenURLOptionsSourceApplicationKey] as? String, annotation: options[UIApplicationOpenURLOptionsAnnotationKey])
         let facebook = FBSDKApplicationDelegate.sharedInstance().application(app, openURL: url, sourceApplication: options[UIApplicationOpenURLOptionsSourceApplicationKey] as! String, annotation: options[UIApplicationOpenURLOptionsAnnotationKey])
         return google || facebook
-
+        
     }
     
     func signIn(signIn: GIDSignIn!, didSignInForUser user: GIDGoogleUser!,
@@ -55,9 +55,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
                 print(error.localizedDescription)
             } else {
                 if let displayName = user!.displayName {
-                    self.myRef?.child("users").child(user!.uid).child("username").setValue([
-                        "username": displayName
-                        ])
+                    let newUser = User(withDisplayName: displayName, andID: user!.uid, andPhotoURL: user!.photoURL!)
+                    self.myRef?.child("users").child("\(displayName)-\(user!.uid)").child("info").setValue(newUser.toAnyObject())
+                    
+                    self.myRef?.child("users").child("\(displayName)-\(user!.uid)").child("username").setValue(displayName)
+                    
                     let loginStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
                     let initialViewControlleripad : UIViewController = loginStoryboard.instantiateViewControllerWithIdentifier("loginStoryboard") as UIViewController
                     self.window = UIWindow(frame: UIScreen.mainScreen().bounds)

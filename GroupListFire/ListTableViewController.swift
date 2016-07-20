@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-class ListTableViewController: UITableViewController, ChangeFromCellDelegate {
+class ListTableViewController: UITableViewController, ChangeFromCellDelegate, FirebaseDelegation {
     
     var myRef: FIRDatabaseReference? = nil
     let user = FIRAuth.auth()?.currentUser
@@ -17,13 +17,23 @@ class ListTableViewController: UITableViewController, ChangeFromCellDelegate {
     var currGroupObject: AnyObject?
     var lastClick: NSTimeInterval?
     var lastIndexPath: NSIndexPath?
+    var registeredUsers: [String]?
     
     override func viewDidLoad() {
+        self.currGroup!.groupUsers = []
+        super.viewDidLoad()
         tableView.delegate = self
         tableView.rowHeight = CGFloat(75.0)
         myRef = FIRDatabase.database().referenceFromURL("https://grouplistfire-39d22.firebaseio.com/")
         self.clearsSelectionOnViewWillAppear = true
-        super.viewDidLoad()
+        myRef?.child("groups").child("\(currGroup!.createdBy)-\(currGroup!.name)-\(currGroup!.topic)").child("users").observeSingleEventOfType(.Value, withBlock: { snapshot in
+            if let users = snapshot.value as? [String] {
+                for user in users {
+                    self.currGroup!.groupUsers.append(user)
+                }
+            }
+            self.tableView.reloadData()
+        })
     }
     
     override func didReceiveMemoryWarning() {
@@ -67,7 +77,7 @@ class ListTableViewController: UITableViewController, ChangeFromCellDelegate {
         cell.titleLabel.text = item.name
         cell.quantityLabel.text = item.quantity
         cell.createdByLabel.text = item.createdBy
-        cell.assignedToLabel.text = item.assignedTo
+        cell.assignedToLabel.text = item.assignedTo?.componentsSeparatedByString("-")[0]
         cell.timeFrameLabel.text = item.timeFrame
         cell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
         toggleCellCheckbox(cell, isCompleted: item.completed)
@@ -96,7 +106,8 @@ class ListTableViewController: UITableViewController, ChangeFromCellDelegate {
     func loadNewScreen(controller: UIViewController, item: ListItem) {
         let alert = UIAlertController(title: "Assign To", message: nil, preferredStyle: .ActionSheet)
         for user in currGroup!.groupUsers {
-            let userAction = UIAlertAction(title: user, style: .Default) { (action: UIAlertAction!) -> Void in
+            let username = user.componentsSeparatedByString("-")[0]
+            let userAction = UIAlertAction(title: username, style: .Default) { (action: UIAlertAction!) -> Void in
                 item.assignedTo = user
                 self.myRef?.child("groups").child("\(self.currGroup!.createdBy)-\(self.currGroup!.name)-\(self.currGroup!.topic)").child("items").child(item.name).setValue(item.toAnyObject())
             }
@@ -182,48 +193,31 @@ class ListTableViewController: UITableViewController, ChangeFromCellDelegate {
         presentViewController(alert, animated: true, completion: nil)
     }
     
-    
-    @IBAction func addUsersToGroup(sender: AnyObject) {
-        let alert = UIAlertController(title: "Add User", message: nil, preferredStyle: .Alert)
-        let saveAction = UIAlertAction(title: "Save", style: .Default) { (action: UIAlertAction!) -> Void in
-            let nameField = alert.textFields![0]
-            self.findUserInDatabase(nameField.text!)
-        }
-        
-        let cancelAction = UIAlertAction(title: "Cancel", style: .Default) { (action: UIAlertAction!) -> Void in
-            self.view.endEditing(true)
-        }
-        
-        alert.addTextFieldWithConfigurationHandler { (textGroup) -> Void in
-            textGroup.placeholder = "Username"
-        }
-        
-        alert.addAction(saveAction)
-        alert.addAction(cancelAction)
-        
-        presentViewController(alert, animated: true, completion: nil)
-    }
-    
     func findUserInDatabase(username: String) {
-        self.myRef?.child("users").queryOrderedByChild(username).observeSingleEventOfType(.Value, withBlock: { snapshot in
-            print(snapshot)
-//            if let _ = snapshot.value as? NSNull {
-//                print("no user")
-//            } else {
-//                let postDict = snapshot.value as! [String: AnyObject]
-//                let baseUsername = postDict["username"]!["username"] as? String
-//                if let baseUsername = baseUsername {
-//                    self.currGroup?.groupUsers.append(baseUsername)
-//                    self.myRef?.child("users").child(baseUsername).child("userGroups").child("\(self.currGroup!.name)-\(self.currGroup!.topic)").setValue(["name": "\(self.currGroup!.name)-\(self.currGroup!.topic)"])
-//                    self.myRef?.child("groups").child("\(self.currGroup!.name)-\(self.currGroup!.topic)").child("users").setValue(self.currGroup!.groupUsers)
-//                }
-//            }
+        self.myRef?.child("users").queryOrderedByChild("username").queryEqualToValue(username).observeEventType(.Value, withBlock: { snapshot in
+                print(snapshot)
         })
     }
     
-    // MARK: - Navigation
+    func didFetchData<T : SequenceType>(data: T, toMatch: String?) {
+        if let data = data as? [String: String], searchedUser = toMatch {
+            var registeredNameArray: [String] = []
+            let registeredNames = data.keys
+            for name in registeredNames {
+                registeredNameArray.append(name)
+            }
+            self.registeredUsers = registeredNameArray
+            if registeredNames.contains(searchedUser) {
+                self.myRef?.child("users").child("\(searchedUser)-\(data[searchedUser]!)").child("userGroups").child("\(self.currGroup!.createdBy)-\(self.currGroup!.name)-\(self.currGroup!.topic)").setValue(["name": "\(self.currGroup!.createdBy)-\(self.currGroup!.name)-\(self.currGroup!.topic)"])
+            }
+        }
+    }
     
-    //    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-    //
-    //    }
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "userSearchSegue" {
+            let listController = segue.destinationViewController as! UserSearchTableViewController
+            listController.title = "Add User to \(currGroup!.name) group"
+            listController.currGroup = self.currGroup
+        }
+    }
 }

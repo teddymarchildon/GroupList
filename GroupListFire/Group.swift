@@ -24,7 +24,7 @@ class Group {
         self.list = list
         self.ref = nil
         self.createdBy = createdBy
-        self.groupUsers = [user.displayName!]
+        self.groupUsers = ["\(user.displayName!)-\(user.uid)"]
     }
     
     init(snapshot: FIRDataSnapshot) {
