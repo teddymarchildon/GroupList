@@ -162,14 +162,16 @@ class ListTableViewController: UITableViewController, ChangeFromCellDelegate, Fi
             let detailField = alert.textFields![1].text!
             let timeFrame = alert.textFields![2].text!
             var newItem: ListItem
-            if timeFrame == "" {
-                newItem = ListItem(withName: nameField, andQuantity: detailField, createdBy: self.user!.displayName!, timeFrame: nil)
-            } else {
-                newItem = ListItem(withName: nameField, andQuantity: detailField, createdBy: self.user!.displayName!, timeFrame: timeFrame)
-            }
-            self.currGroup!.list.items.append(newItem)
-            for item in self.currGroup!.list.items {
-                self.myRef?.child("groups").child("\(self.currGroup!.createdBy)-\(self.currGroup!.name)-\(self.currGroup!.topic)").child("items").child(nameField).setValue(item.toAnyObject())
+            if !nameField.isEmpty {
+                if timeFrame == "" {
+                    newItem = ListItem(withName: nameField, andQuantity: detailField, createdBy: self.user!.displayName!, timeFrame: nil)
+                } else {
+                    newItem = ListItem(withName: nameField, andQuantity: detailField, createdBy: self.user!.displayName!, timeFrame: timeFrame)
+                }
+                self.currGroup!.list.items.append(newItem)
+                for item in self.currGroup!.list.items {
+                    self.myRef?.child("groups").child("\(self.currGroup!.createdBy)-\(self.currGroup!.name)-\(self.currGroup!.topic)").child("items").child(nameField).setValue(item.toAnyObject())
+                }
             }
         }
         
@@ -195,7 +197,7 @@ class ListTableViewController: UITableViewController, ChangeFromCellDelegate, Fi
     
     func findUserInDatabase(username: String) {
         self.myRef?.child("users").queryOrderedByChild("username").queryEqualToValue(username).observeEventType(.Value, withBlock: { snapshot in
-                print(snapshot)
+            print(snapshot)
         })
     }
     

@@ -72,10 +72,10 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate, GIDSignIn
                 if error == nil {
                     if let user = user, displayName = user.displayName {
                         let newUser = User(withDisplayName: displayName, andID: user.uid, andPhotoURL: user.photoURL!)
-                        self.myRef?.child("users").child("\(displayName)-\(user.uid)").child("info").setValue(newUser.toAnyObject())
-                        
+//                        self.myRef?.child("users").child("\(displayName)-\(user.uid)").child("info").setValue(newUser.toAnyObject())
                         self.myRef?.child("users").child("\(displayName)-\(user.uid)").child("username").setValue(displayName)
-                        
+                        self.myRef?.child("users").child("\(displayName)-\(user.uid)").child("id").setValue(newUser.ID)
+                        self.myRef?.child("users").child("\(displayName)-\(user.uid)").child("photoURL").setValue(String(newUser.photoURL))
                     }
                 } else {
                     print(error?.localizedDescription)

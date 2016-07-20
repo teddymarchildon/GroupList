@@ -37,7 +37,7 @@ class UserSearchTableViewController: UITableViewController, UISearchResultsUpdat
                     self.registeredUsers.append(key[0])
                     userID[key[0]] = key[1]
                     if let postDict = item.value as? [String: AnyObject] {
-                        let photoURL = NSURL(string: postDict["info"]!["photoURL"] as! String)
+                        let photoURL = NSURL(string: postDict["photoURL"] as! String)
                         let data = NSData(contentsOfURL: photoURL!)
                         userPhoto[key[0]] = data
                     }

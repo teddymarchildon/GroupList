@@ -44,7 +44,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
     func signIn(signIn: GIDSignIn!, didSignInForUser user: GIDGoogleUser!,
                 withError error: NSError!) {
         if let error = error {
-            print("two")
             print(error.localizedDescription)
             return
         }
@@ -56,15 +55,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
             } else {
                 if let displayName = user!.displayName {
                     let newUser = User(withDisplayName: displayName, andID: user!.uid, andPhotoURL: user!.photoURL!)
-                    self.myRef?.child("users").child("\(displayName)-\(user!.uid)").child("info").setValue(newUser.toAnyObject())
-                    
                     self.myRef?.child("users").child("\(displayName)-\(user!.uid)").child("username").setValue(displayName)
-                    
-                    let loginStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                    let initialViewControlleripad : UIViewController = loginStoryboard.instantiateViewControllerWithIdentifier("loginStoryboard") as UIViewController
-                    self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
-                    self.window?.rootViewController = initialViewControlleripad
-                    self.window?.makeKeyAndVisible()
+                    self.myRef?.child("users").child("\(displayName)-\(user!.uid)").child("id").setValue(newUser.ID)
+                    self.myRef?.child("users").child("\(displayName)-\(user!.uid)").child("photoURL").setValue(String(newUser.photoURL))
                 }
             }
         }
