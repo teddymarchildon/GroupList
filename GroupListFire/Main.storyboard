@@ -204,14 +204,14 @@
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arrow" translatesAutoresizingMaskIntoConstraints="NO" id="eRo-hT-zIM">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="SarahInverseArrow" highlightedImage="SarahArrow" translatesAutoresizingMaskIntoConstraints="NO" id="eRo-hT-zIM">
                                             <rect key="frame" x="187" y="30" width="16" height="16"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="16" id="D0A-K2-D2X"/>
                                                 <constraint firstAttribute="height" constant="16" id="xig-oJ-qVC"/>
                                             </constraints>
                                         </imageView>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="clock" translatesAutoresizingMaskIntoConstraints="NO" id="btw-G6-Tk7">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="SarahInverseClock" highlightedImage="SarahClock" translatesAutoresizingMaskIntoConstraints="NO" id="btw-G6-Tk7">
                                             <rect key="frame" x="187" y="52" width="16" height="16"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="16" id="Mac-1k-TvQ"/>
@@ -225,12 +225,14 @@
                                                 <constraint firstAttribute="height" constant="32" id="bT3-YH-S3N"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                            <state key="normal" image="arrow"/>
+                                            <state key="normal" image="SarahInverseArrow"/>
+                                            <state key="selected" image="SarahInverseArrow"/>
+                                            <state key="highlighted" image="SarahArrow"/>
                                             <connections>
                                                 <action selector="assignItemToUser:" destination="yqs-ge-w93" eventType="touchUpInside" id="h62-Nb-AVs"/>
                                             </connections>
                                         </button>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="greendot" translatesAutoresizingMaskIntoConstraints="NO" id="gcn-2l-xWS">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="SarahInverseStar" highlightedImage="SarahStar" translatesAutoresizingMaskIntoConstraints="NO" id="gcn-2l-xWS">
                                             <rect key="frame" x="187" y="6" width="16" height="16"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="16" id="1xB-Zn-X2a"/>
@@ -329,7 +331,7 @@
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ITB-IO-ZDq">
                                             <rect key="frame" x="105" y="27" width="234" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
@@ -369,8 +371,11 @@
         </scene>
     </scenes>
     <resources>
-        <image name="arrow" width="53" height="53"/>
-        <image name="clock" width="53" height="54"/>
-        <image name="greendot" width="200" height="200"/>
+        <image name="SarahArrow" width="1890" height="1890"/>
+        <image name="SarahClock" width="1890" height="1890"/>
+        <image name="SarahInverseArrow" width="1890" height="1890"/>
+        <image name="SarahInverseClock" width="1890" height="1890"/>
+        <image name="SarahInverseStar" width="1890" height="1890"/>
+        <image name="SarahStar" width="1890" height="1890"/>
     </resources>
 </document>
