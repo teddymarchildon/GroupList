@@ -25,6 +25,7 @@ class GroupTableViewController: UITableViewController, FirebaseDelegation {
     var displayName: String {
         return (user?.displayName!)!
     }
+    @IBOutlet weak var menuButton: UIBarButtonItem!
     
     override func viewDidLoad() {
         self.clearsSelectionOnViewWillAppear = true
@@ -42,6 +43,11 @@ class GroupTableViewController: UITableViewController, FirebaseDelegation {
             self.didFetchData(newNames, toMatch: nil)
         })
         super.viewDidLoad()
+        if self.revealViewController() != nil {
+            menuButton.target = self.revealViewController()
+            menuButton.action = "revealToggle:"
+            self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
+        }
     }
     
     func didFetchData<T: SequenceType>(data: T, toMatch: String?) {
@@ -109,11 +115,6 @@ class GroupTableViewController: UITableViewController, FirebaseDelegation {
         return cell
     }
     
-    @IBAction func logOut(sender: AnyObject) {
-        try! FIRAuth.auth()!.signOut()
-        FBSDKAccessToken.setCurrentAccessToken(nil)
-        self.performSegueWithIdentifier("backToLogin", sender: nil)
-    }
     
     
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
