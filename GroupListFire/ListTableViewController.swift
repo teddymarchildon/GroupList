@@ -20,8 +20,14 @@ class ListTableViewController: UITableViewController, ChangeFromCellDelegate, Fi
     var registeredUsers: [String]?
     
     override func viewDidLoad() {
-        self.currGroup!.groupUsers = []
         super.viewDidLoad()
+        let button: UIButton = UIButton()
+        button.setImage(UIImage(named: "Add User Male-100"), forState: UIControlState.Normal)
+        button.addTarget(self, action: #selector(self.addUserButtonPressed), forControlEvents: UIControlEvents.TouchUpInside)
+        button.frame = CGRectMake(0, 0, 32, 32)
+        let barButton = UIBarButtonItem(customView: button)
+        self.navigationItem.rightBarButtonItems![1] = barButton
+        self.currGroup!.groupUsers = []
         tableView.delegate = self
         tableView.rowHeight = CGFloat(75.0)
         myRef = FIRDatabase.database().referenceFromURL("https://grouplistfire-39d22.firebaseio.com/")
@@ -34,6 +40,10 @@ class ListTableViewController: UITableViewController, ChangeFromCellDelegate, Fi
             }
             self.tableView.reloadData()
         })
+    }
+    
+    func addUserButtonPressed() {
+        self.performSegueWithIdentifier("userSearchSegue", sender: nil)
     }
     
     override func didReceiveMemoryWarning() {
@@ -72,7 +82,7 @@ class ListTableViewController: UITableViewController, ChangeFromCellDelegate, Fi
         cell.selectionStyle = .None
         let item = currGroup!.list.items[indexPath.row]
         cell.item = item
-        cell.group = currGroup
+        cell.currGroup = currGroup
         cell.delegate = self
         cell.titleLabel.text = item.name
         cell.quantityLabel.text = item.quantity
@@ -104,32 +114,24 @@ class ListTableViewController: UITableViewController, ChangeFromCellDelegate, Fi
     }
     
     func loadNewScreen(controller: UIViewController, item: ListItem) {
-        let alert = UIAlertController(title: "Assign To", message: nil, preferredStyle: .ActionSheet)
-        for user in currGroup!.groupUsers {
-            let username = user.componentsSeparatedByString("-")[0]
-            let userAction = UIAlertAction(title: username, style: .Default) { (action: UIAlertAction!) -> Void in
-                item.assignedTo = user
-                self.myRef?.child("groups").child("\(self.currGroup!.createdBy)-\(self.currGroup!.name)-\(self.currGroup!.topic)").child("items").child(item.name).setValue(item.toAnyObject())
-            }
-            alert.addAction(userAction)
-        }
-        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
-        alert.addAction(cancelAction)
-        self.presentViewController(alert, animated: true, completion: nil)
+        self.presentViewController(controller, animated: true, completion: nil)
+        self.tableView.reloadData()
     }
     
     func toggleCellCheckbox(cell: ItemTableViewCell, isCompleted: Bool) {
+        cell.accessoryType = UITableViewCellAccessoryType.None
         if !isCompleted {
-            cell.accessoryType = UITableViewCellAccessoryType.None
+            cell.assignToButton.hidden = false
+            cell.editItemButton.hidden = false
             cell.titleLabel.textColor = UIColor.blackColor()
             cell.quantityLabel.textColor = UIColor.blackColor()
             cell.createdByLabel.textColor = .blackColor()
             cell.assignedToLabel.textColor = .blackColor()
             cell.timeFrameLabel.textColor = .blackColor()
-            cell.assignToButton.hidden = false
         } else {
             cell.assignToButton.hidden = true
-            cell.accessoryType = UITableViewCellAccessoryType.Checkmark
+            cell.editItemButton.adjustsImageWhenDisabled = true
+            cell.editItemButton.enabled = false
             cell.titleLabel.textColor = UIColor.grayColor()
             cell.quantityLabel.textColor = UIColor.grayColor()
             cell.createdByLabel.textColor = .grayColor()

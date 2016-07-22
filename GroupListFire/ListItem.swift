@@ -11,8 +11,8 @@ import Firebase
 
 class ListItem {
     
-    let name: String
-    let quantity: String
+    var name: String
+    var quantity: String
     var completed: Bool = false
     var groupRef: FIRDatabaseReference?
     var createdBy: String
