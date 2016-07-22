@@ -386,15 +386,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <imageView key="tableHeaderView" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Menu Button" id="R38-2q-b5J">
-                            <rect key="frame" x="0.0" y="0.0" width="375" height="109"/>
+                        <imageView key="tableHeaderView" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="TopOfSlider" id="R38-2q-b5J">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="147"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         </imageView>
                         <sections>
                             <tableViewSection id="Rjd-es-8A4">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="60" id="gJK-Dz-CsB">
-                                        <rect key="frame" x="0.0" y="109" width="375" height="60"/>
+                                        <rect key="frame" x="0.0" y="147" width="375" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gJK-Dz-CsB" id="hLE-j5-Dog">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
@@ -418,7 +418,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="60" id="KyH-2N-FeN">
-                                        <rect key="frame" x="0.0" y="169" width="375" height="60"/>
+                                        <rect key="frame" x="0.0" y="207" width="375" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KyH-2N-FeN" id="q3X-3r-00K">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
@@ -442,7 +442,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="60" id="j5h-oT-zC7">
-                                        <rect key="frame" x="0.0" y="229" width="375" height="60"/>
+                                        <rect key="frame" x="0.0" y="267" width="375" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="j5h-oT-zC7" id="S5O-XB-FE8">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
@@ -464,7 +464,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="60" id="ZC7-DX-74k">
-                                        <rect key="frame" x="0.0" y="289" width="375" height="60"/>
+                                        <rect key="frame" x="0.0" y="327" width="375" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ZC7-DX-74k" id="Trd-Xz-9yE">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
@@ -581,11 +581,11 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Menu Button" width="87" height="48"/>
         <image name="SarahArrow" width="1890" height="1890"/>
         <image name="SarahClock" width="1890" height="1890"/>
         <image name="SarahInverseArrow" width="1890" height="1890"/>
         <image name="SarahStar" width="1890" height="1890"/>
+        <image name="TopOfSlider" width="236" height="115"/>
         <image name="UpdatedArrow" width="110" height="107"/>
         <image name="UpdatedClock" width="107" height="107"/>
         <image name="UpdatedCreatedBy" width="107" height="107"/>
