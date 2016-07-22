@@ -16,6 +16,7 @@ class MyPersonalListTableViewController: UITableViewController {
     var items: [ListItem] = []
     
     @IBOutlet weak var menuButton: UIBarButtonItem!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.rowHeight = CGFloat(75.0)

@@ -116,7 +116,9 @@
                     </tableView>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="My Groups" id="WGW-Ja-b9O">
-                        <barButtonItem key="leftBarButtonItem" title="Menu" id="RZE-bx-eCe"/>
+                        <barButtonItem key="leftBarButtonItem" image="menu-icon" id="RZE-bx-eCe">
+                            <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="LG3-i3-YK5">
                             <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                             <connections>
@@ -384,11 +386,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <imageView key="tableHeaderView" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Menu Button" id="R38-2q-b5J">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="109"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        </imageView>
                         <sections>
                             <tableViewSection id="Rjd-es-8A4">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="60" id="gJK-Dz-CsB">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
+                                        <rect key="frame" x="0.0" y="109" width="375" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gJK-Dz-CsB" id="hLE-j5-Dog">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
@@ -412,7 +418,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="60" id="KyH-2N-FeN">
-                                        <rect key="frame" x="0.0" y="60" width="375" height="60"/>
+                                        <rect key="frame" x="0.0" y="169" width="375" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KyH-2N-FeN" id="q3X-3r-00K">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
@@ -436,13 +442,13 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="60" id="j5h-oT-zC7">
-                                        <rect key="frame" x="0.0" y="120" width="375" height="60"/>
+                                        <rect key="frame" x="0.0" y="229" width="375" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="j5h-oT-zC7" id="S5O-XB-FE8">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Logout" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lIN-di-csJ">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Info" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lIN-di-csJ">
                                                     <rect key="frame" x="8" y="11" width="338" height="36.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -456,6 +462,31 @@
                                                 <constraint firstAttribute="leadingMargin" secondItem="lIN-di-csJ" secondAttribute="leading" id="Xgp-Id-fQf"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="60" id="ZC7-DX-74k">
+                                        <rect key="frame" x="0.0" y="289" width="375" height="60"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ZC7-DX-74k" id="Trd-Xz-9yE">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Logout" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hwh-VD-8Q1">
+                                                    <rect key="frame" x="8" y="11" width="338" height="36.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="leadingMargin" secondItem="hwh-VD-8Q1" secondAttribute="leading" id="BmE-Oz-jOy"/>
+                                                <constraint firstItem="hwh-VD-8Q1" firstAttribute="top" secondItem="Trd-Xz-9yE" secondAttribute="topMargin" constant="3" id="CGo-so-GlZ"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="hwh-VD-8Q1" secondAttribute="trailing" constant="21" id="GUk-A6-wZ4"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="hwh-VD-8Q1" secondAttribute="bottom" constant="4" id="qCV-9X-hlb"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="BYZ-38-t0r" kind="custom" customClass="SWRevealViewControllerSeguePushController" id="CWa-Dx-e5S"/>
+                                        </connections>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
@@ -496,17 +527,19 @@
                     </tableView>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="cPl-6m-ErD">
-                        <barButtonItem key="leftBarButtonItem" title="Menu" id="0yq-I0-eF7"/>
+                        <barButtonItem key="leftBarButtonItem" image="menu-icon" id="gph-CC-OVu">
+                            <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </barButtonItem>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
-                        <outlet property="menuButton" destination="0yq-I0-eF7" id="eig-yl-job"/>
+                        <outlet property="menuButton" destination="gph-CC-OVu" id="i5C-bx-W9j"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rMh-0d-Q47" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2123.5" y="628.5"/>
+            <point key="canvasLocation" x="2096.5" y="600.5"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="2Cl-Ea-y5n">
@@ -548,6 +581,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="Menu Button" width="87" height="48"/>
         <image name="SarahArrow" width="1890" height="1890"/>
         <image name="SarahClock" width="1890" height="1890"/>
         <image name="SarahInverseArrow" width="1890" height="1890"/>
@@ -555,6 +589,7 @@
         <image name="UpdatedArrow" width="110" height="107"/>
         <image name="UpdatedClock" width="107" height="107"/>
         <image name="UpdatedCreatedBy" width="107" height="107"/>
+        <image name="menu-icon" width="33" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="M2h-IL-32N"/>

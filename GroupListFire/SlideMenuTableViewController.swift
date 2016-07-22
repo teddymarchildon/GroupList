@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class SlideMenuTableViewController: UITableViewController {
 
@@ -50,7 +51,11 @@ class SlideMenuTableViewController: UITableViewController {
         return true
     }
     */
-
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        if indexPath.row == 3 {
+            try! FIRAuth.auth()!.signOut()
+        }
+    }
     /*
     // Override to support editing the table view.
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {

@@ -2,11 +2,12 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "SarahInverseArrow.png",
+      "filename" : "menu-icon.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
+      "filename" : "menu-icon@2x.png",
       "scale" : "2x"
     },
     {
