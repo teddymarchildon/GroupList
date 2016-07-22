@@ -108,9 +108,10 @@ class GroupTableViewController: UITableViewController, FirebaseDelegation {
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("groupCell", forIndexPath: indexPath)
-        cell.textLabel?.text = userGroups[indexPath.row].name
-        cell.detailTextLabel?.text = userGroups[indexPath.row].topic
+        let cell = tableView.dequeueReusableCellWithIdentifier("groupCell", forIndexPath: indexPath) as! GroupTableViewCell
+        cell.titleLabel.text = userGroups[indexPath.row].name
+        cell.topicLabel.text = userGroups[indexPath.row].topic
+        cell.usernameLabel.text = userGroups[indexPath.row].createdBy
         cell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
         return cell
     }
