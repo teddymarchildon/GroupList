@@ -28,6 +28,7 @@ class GroupTableViewController: UITableViewController, FirebaseDelegation {
     @IBOutlet weak var menuButton: UIBarButtonItem!
     
     override func viewDidLoad() {
+        super.viewDidLoad()
         self.clearsSelectionOnViewWillAppear = true
         myUserRef = FIRDatabase.database().referenceFromURL("https://grouplistfire-39d22.firebaseio.com/").child("users").child("\(user!.displayName!)-\(user!.uid)")
         myGroupRef = FIRDatabase.database().referenceFromURL("https://grouplistfire-39d22.firebaseio.com/").child("groups")
@@ -42,14 +43,13 @@ class GroupTableViewController: UITableViewController, FirebaseDelegation {
             }
             self.didFetchData(newNames, toMatch: nil)
         })
-        super.viewDidLoad()
         if self.revealViewController() != nil {
             menuButton.target = self.revealViewController()
             menuButton.action = #selector(SWRevealViewController.revealToggle)
             self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
         }
     }
-    
+
     func didFetchData<T: SequenceType>(data: T, toMatch: String?) {
         if let data = data as? [String] {
             self.userGroups = []
@@ -134,7 +134,11 @@ class GroupTableViewController: UITableViewController, FirebaseDelegation {
                 i += 1
             }
             myUserRef?.child("userGroups").child("\(group.createdBy)-\(group.name)-\(group.topic)").removeValue()
-            myGroupRef?.child("\(group.createdBy)-\(group.name)-\(group.topic)").child("users").setValue(group.groupUsers)
+            if group.groupUsers.isEmpty {
+                myGroupRef?.child("\(group.createdBy)-\(group.name)-\(group.topic)").removeValue()
+            } else {
+                myGroupRef?.child("\(group.createdBy)-\(group.name)-\(group.topic)").child("users").setValue(group.groupUsers)
+            }
             tableView.reloadData()
         } else if editingStyle == .Insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view

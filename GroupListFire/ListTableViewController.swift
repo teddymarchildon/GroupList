@@ -158,6 +158,9 @@ class ListTableViewController: UITableViewController, ChangeFromCellDelegate, Fi
         if editingStyle == .Delete {
             let item = currGroup!.list.items[indexPath.row]
             item.groupRef!.removeValue()
+            if let assignedTo = item.assignedTo {
+                self.myRef?.child("users").child(assignedTo).child("assignedTo").child("\(item.name)-\(item.quantity)").removeValue()
+            }
             tableView.reloadData()
         } else if editingStyle == .Insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view

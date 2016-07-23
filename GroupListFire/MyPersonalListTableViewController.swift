@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-class MyPersonalListTableViewController: UITableViewController {
+class MyPersonalListTableViewController: UITableViewController, FirebaseDelegation {
     
     var myRef: FIRDatabaseReference? = nil
     let user = FIRAuth.auth()?.currentUser
@@ -21,6 +21,8 @@ class MyPersonalListTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = "Assigned To Me"
+        self.clearsSelectionOnViewWillAppear = true
         tableView.rowHeight = CGFloat(75.0)
         myRef = FIRDatabase.database().referenceFromURL("https://grouplistfire-39d22.firebaseio.com/")
         if self.revealViewController() != nil {
@@ -28,6 +30,7 @@ class MyPersonalListTableViewController: UITableViewController {
             menuButton.action = #selector(SWRevealViewController.revealToggle)
             self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
         }
+
         myRef?.child("users").child("\(user!.displayName!)-\(user!.uid)").child("assignedTo").queryOrderedByChild("completed").observeEventType(.Value, withBlock: { snapshot in
             if let postDict = snapshot.value as? [String: AnyObject] {
                 self.items = []
@@ -53,9 +56,31 @@ class MyPersonalListTableViewController: UITableViewController {
             }
             self.tableView.reloadData()
         })
-        self.title = "Assigned To Me"
-        self.clearsSelectionOnViewWillAppear = true
         
+        self.myRef?.child("users").child("userGroups").observeEventType(.Value, withBlock: { snapshot in
+            var newNames: [String] = []
+            for item in snapshot.children {
+                if let item = item as? FIRDataSnapshot {
+                    let postDict = item.value as! [String: String]
+                    newNames.append(postDict["name"]!)
+                }
+            }
+            self.didFetchData(newNames, toMatch: nil)
+        })
+        
+    }
+    
+    func didFetchData<T : SequenceType>(data: T, toMatch: String?) {
+        if let data = data as? [String] {
+            var i = 0
+            for item in self.items {
+                if !data.contains(item.group) {
+                    self.myRef?.child("users").child("\(user!.displayName!)-\(user!.uid)").child("assignedTo").child("\(item.name)-\(item.quantity)").removeValue()
+                }
+                i += 1
+            }
+        }
+        tableView.reloadData()
     }
     
     override func didReceiveMemoryWarning() {
