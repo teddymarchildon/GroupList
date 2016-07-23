@@ -57,7 +57,7 @@ class MyPersonalListTableViewController: UITableViewController, FirebaseDelegati
             self.tableView.reloadData()
         })
         
-        self.myRef?.child("users").child("userGroups").observeEventType(.Value, withBlock: { snapshot in
+        self.myRef?.child("users").child("\(user!.displayName!)-\(user!.uid)").child("userGroups").observeEventType(.Value, withBlock: { snapshot in
             var newNames: [String] = []
             for item in snapshot.children {
                 if let item = item as? FIRDataSnapshot {
@@ -71,6 +71,7 @@ class MyPersonalListTableViewController: UITableViewController, FirebaseDelegati
     }
     
     func didFetchData<T : SequenceType>(data: T, toMatch: String?) {
+        print(data)
         if let data = data as? [String] {
             var i = 0
             for item in self.items {
