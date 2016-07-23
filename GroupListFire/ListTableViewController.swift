@@ -23,9 +23,11 @@ class ListTableViewController: UITableViewController, ChangeFromCellDelegate, Fi
         super.viewDidLoad()
         let button: UIButton = UIButton()
         button.setImage(UIImage(named: "Add User Male-100"), forState: UIControlState.Normal)
+        button.tintColor = .whiteColor()
         button.addTarget(self, action: #selector(self.addUserButtonPressed), forControlEvents: UIControlEvents.TouchUpInside)
         button.frame = CGRectMake(0, 0, 32, 32)
         let barButton = UIBarButtonItem(customView: button)
+        barButton.tintColor = .whiteColor()
         self.navigationItem.rightBarButtonItems![1] = barButton
         self.currGroup!.groupUsers = []
         tableView.delegate = self
@@ -106,6 +108,11 @@ class ListTableViewController: UITableViewController, ChangeFromCellDelegate, Fi
                 item.groupRef?.updateChildValues([
                     "completed": toggledCompletion
                     ])
+                if let assignedTo = item.assignedTo {
+                    self.myRef?.child("users").child(assignedTo).child("assignedTo").child("\(item.name)-\(item.quantity)").updateChildValues([
+                            "completed": toggledCompletion
+                        ])
+                }
                 return
             }
         }
@@ -120,24 +127,24 @@ class ListTableViewController: UITableViewController, ChangeFromCellDelegate, Fi
     
     func toggleCellCheckbox(cell: ItemTableViewCell, isCompleted: Bool) {
         cell.accessoryType = UITableViewCellAccessoryType.None
+        cell.editItemButton.adjustsImageWhenDisabled = true
         if !isCompleted {
             cell.assignToButton.hidden = false
             cell.editItemButton.hidden = false
-            cell.titleLabel.textColor = UIColor.blackColor()
-            cell.quantityLabel.textColor = UIColor.blackColor()
+            cell.editItemButton.enabled = true
+            cell.titleLabel.textColor = .blackColor()
+            cell.quantityLabel.textColor = .blackColor()
             cell.createdByLabel.textColor = .blackColor()
             cell.assignedToLabel.textColor = .blackColor()
             cell.timeFrameLabel.textColor = .blackColor()
         } else {
             cell.assignToButton.hidden = true
-            cell.editItemButton.adjustsImageWhenDisabled = true
             cell.editItemButton.enabled = false
-            cell.titleLabel.textColor = UIColor.grayColor()
-            cell.quantityLabel.textColor = UIColor.grayColor()
+            cell.titleLabel.textColor = .grayColor()
+            cell.quantityLabel.textColor = .grayColor()
             cell.createdByLabel.textColor = .grayColor()
             cell.assignedToLabel.textColor = .grayColor()
             cell.timeFrameLabel.textColor = .grayColor()
-            
         }
     }
     
@@ -166,9 +173,9 @@ class ListTableViewController: UITableViewController, ChangeFromCellDelegate, Fi
             var newItem: ListItem
             if !nameField.isEmpty {
                 if timeFrame == "" {
-                    newItem = ListItem(withName: nameField, andQuantity: detailField, createdBy: self.user!.displayName!, timeFrame: nil)
+                    newItem = ListItem(withName: nameField, andQuantity: detailField, createdBy: self.user!.displayName!, timeFrame: nil, group: self.currGroup!)
                 } else {
-                    newItem = ListItem(withName: nameField, andQuantity: detailField, createdBy: self.user!.displayName!, timeFrame: timeFrame)
+                    newItem = ListItem(withName: nameField, andQuantity: detailField, createdBy: self.user!.displayName!, timeFrame: timeFrame, group: self.currGroup!)
                 }
                 self.currGroup!.list.items.append(newItem)
                 for item in self.currGroup!.list.items {

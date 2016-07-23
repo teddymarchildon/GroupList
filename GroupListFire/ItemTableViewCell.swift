@@ -29,12 +29,16 @@ class ItemTableViewCell: UITableViewCell {
     weak var delegate: ChangeFromCellDelegate?
     
     @IBAction func assignItemToUser(sender: AnyObject) {
+        if let assignedTo = item!.assignedTo {
+            self.myRef.child("users").child(assignedTo).child("assignedTo").child("\(item!.name)-\(item!.quantity)").removeValue()
+        }
         let alert = UIAlertController(title: "Assign To", message: nil, preferredStyle: .ActionSheet)
         for user in currGroup!.groupUsers {
             let username = user.componentsSeparatedByString("-")[0]
             let userAction = UIAlertAction(title: username, style: .Default) { (action: UIAlertAction!) -> Void in
                 self.item!.assignedTo = user
                 self.myRef.child("groups").child("\(self.currGroup!.createdBy)-\(self.currGroup!.name)-\(self.currGroup!.topic)").child("items").child(self.item!.name).setValue(self.item!.toAnyObject())
+                self.myRef.child("users").child(user).child("assignedTo").child("\(self.item!.name)-\(self.item!.quantity)").setValue(self.item!.toAnyObject())
             }
             alert.addAction(userAction)
         }
@@ -49,6 +53,9 @@ class ItemTableViewCell: UITableViewCell {
         let alert = UIAlertController(title: "Edit Item", message: nil, preferredStyle: .Alert)
         let saveAction = UIAlertAction(title: "Save", style: .Default) { (action: UIAlertAction!) -> Void in
             self.item?.groupRef?.removeValue()
+            if let assignedTo = self.item!.assignedTo {
+                self.myRef.child("users").child(assignedTo).child("assignedTo").child("\(self.item!.name)-\(self.item!.quantity)").removeValue()
+            }
             let nameField = alert.textFields![0].text!
             let detailField = alert.textFields![1].text!
             let timeFrame = alert.textFields![2].text!
@@ -62,6 +69,9 @@ class ItemTableViewCell: UITableViewCell {
                 self.item!.quantity = detailField
             }
             self.myRef.child("groups").child("\(self.currGroup!.createdBy)-\(self.currGroup!.name)-\(self.currGroup!.topic)").child("items").child(self.item!.name).setValue(self.item!.toAnyObject())
+            if let assignedTo = self.item!.assignedTo {
+                self.myRef.child("users").child(assignedTo).child("assignedTo").child("\(self.item!.name)-\(self.item!.quantity)").setValue(self.item!.toAnyObject())
+            }
         }
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .Default, handler: nil)

@@ -26,6 +26,7 @@
 		B19186C81D3C89FF000C2D56 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B19186C71D3C89FF000C2D56 /* GoogleService-Info.plist */; };
 		B1A600FF1D3959D100B7E5A1 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1A600FE1D3959D100B7E5A1 /* FBSDKCoreKit.framework */; };
 		B1A601011D3959D800B7E5A1 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1A601001D3959D800B7E5A1 /* FBSDKLoginKit.framework */; };
+		B1B13E1A1D42E0330014083A /* PersonalItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1B13E191D42E0330014083A /* PersonalItemTableViewCell.swift */; };
 		B1C1D5AC1D2D3D2A00B30635 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B1C1D5AB1D2D3D2A00B30635 /* Main.storyboard */; };
 		B1C1D5AE1D2D3D5500B30635 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C1D5AD1D2D3D5500B30635 /* LoginViewController.swift */; };
 		B1CEDD5D1D2EC16D00A84E43 /* ListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1CEDD5C1D2EC16D00A84E43 /* ListTableViewController.swift */; };
@@ -59,6 +60,7 @@
 		B1A600FE1D3959D100B7E5A1 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = ../../FacebookSDK/FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		B1A601001D3959D800B7E5A1 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = ../../FacebookSDK/FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		B1A601021D3959DF00B7E5A1 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKShareKit.framework; path = ../../FacebookSDK/FBSDKShareKit.framework; sourceTree = "<group>"; };
+		B1B13E191D42E0330014083A /* PersonalItemTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonalItemTableViewCell.swift; sourceTree = "<group>"; };
 		B1C1D5AB1D2D3D2A00B30635 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		B1C1D5AD1D2D3D5500B30635 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		B1CEDD5C1D2EC16D00A84E43 /* ListTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListTableViewController.swift; sourceTree = "<group>"; };
@@ -147,6 +149,7 @@
 				B188F6AD1D2EBC760030BDD3 /* List.swift */,
 				B1D49FBF1D31C30100DF8D8D /* ListItem.swift */,
 				B17EEE941D3BE03800AF529C /* ItemTableViewCell.swift */,
+				B1B13E191D42E0330014083A /* PersonalItemTableViewCell.swift */,
 				B1092EA91D3F18B200D1D598 /* UserSearchTableViewCell.swift */,
 				B17EA2391D3DB9EC004BD637 /* User.swift */,
 				B1560EE11D4259200093B167 /* GroupTableViewCell.swift */,
@@ -317,6 +320,7 @@
 				B1CEDD5D1D2EC16D00A84E43 /* ListTableViewController.swift in Sources */,
 				B188F6AE1D2EBC760030BDD3 /* List.swift in Sources */,
 				B188F6AC1D2EA8B80030BDD3 /* Group.swift in Sources */,
+				B1B13E1A1D42E0330014083A /* PersonalItemTableViewCell.swift in Sources */,
 				B13C67B21D403F3F00B7D365 /* SWRevealViewController.m in Sources */,
 				B1560EE01D4254F90093B167 /* InformationViewController.swift in Sources */,
 			);

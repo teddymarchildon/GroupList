@@ -18,12 +18,12 @@ class ListItem {
     var createdBy: String
     var assignedTo: String?
     var timeFrame: String?
+    var group: String
     
-    convenience init(withName name: String, andQuantity quantity: String, createdBy: String, timeFrame: String?) {
-        self.init(withName: name, andQuantity: quantity, completed: false, groupRef: nil, createdBy: createdBy, assignedTo: nil, timeFrame: timeFrame)
+    convenience init(withName name: String, andQuantity quantity: String, createdBy: String, timeFrame: String?, group: Group) {
+        self.init(withName: name, andQuantity: quantity, completed: false, groupRef: nil, createdBy: createdBy, assignedTo: nil, timeFrame: timeFrame, group: group)
     }
-    
-    init(withName name: String, andQuantity quantity: String, completed: Bool, groupRef: FIRDatabaseReference?, createdBy: String, assignedTo: String?, timeFrame: String?) {
+    init(withName name: String, andQuantity quantity: String, completed: Bool, groupRef: FIRDatabaseReference?, createdBy: String, assignedTo: String?, timeFrame: String?, group: String) {
         self.name = name
         self.quantity = quantity
         self.completed = completed
@@ -31,6 +31,18 @@ class ListItem {
         self.createdBy = createdBy
         self.assignedTo = assignedTo
         self.timeFrame = timeFrame
+        self.group = group
+    }
+
+    init(withName name: String, andQuantity quantity: String, completed: Bool, groupRef: FIRDatabaseReference?, createdBy: String, assignedTo: String?, timeFrame: String?, group: Group) {
+        self.name = name
+        self.quantity = quantity
+        self.completed = completed
+        self.groupRef = groupRef
+        self.createdBy = createdBy
+        self.assignedTo = assignedTo
+        self.timeFrame = timeFrame
+        self.group = "\(group.createdBy)-\(group.name)-\(group.topic)"
     }
     
     init(snapshot: FIRDataSnapshot) {
@@ -40,6 +52,7 @@ class ListItem {
         self.completed = postDict["completed"] as! Bool
         self.groupRef = snapshot.ref
         self.createdBy = postDict["createdBy"] as! String
+        self.group = postDict["group"] as! String
         if let assignedTo = postDict["assignedTo"] as? String {
             self.assignedTo = assignedTo
         } else { self.assignedTo = nil }
@@ -54,6 +67,7 @@ class ListItem {
         retDict["quantity"] = quantity
         retDict["completed"] = completed
         retDict["createdBy"] = createdBy
+        retDict["group"] = group
         if let assignedTo = assignedTo {
             retDict["assignedTo"] = assignedTo
         }

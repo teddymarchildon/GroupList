@@ -47,7 +47,8 @@ class Group {
                 let createdBy = dict["createdBy"] as! String
                 let timeFrame = dict["timeFrame"] as? String
                 let assignedTo = dict["assignedTo"] as? String
-                let newListItem = ListItem(withName: name, andQuantity: quantity, completed: completed, groupRef: snapshot.ref, createdBy: createdBy, assignedTo: assignedTo, timeFrame: timeFrame)
+                let group = dict["group"] as! String
+                let newListItem = ListItem(withName: name, andQuantity: quantity, completed: completed, groupRef: snapshot.ref, createdBy: createdBy, assignedTo: assignedTo, timeFrame: timeFrame, group: group)
                 groupList.append(newListItem)
             }
             self.list = List(list: groupList)

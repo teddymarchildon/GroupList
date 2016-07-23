@@ -14,6 +14,8 @@ class MyPersonalListTableViewController: UITableViewController {
     var myRef: FIRDatabaseReference? = nil
     let user = FIRAuth.auth()?.currentUser
     var items: [ListItem] = []
+    var lastClick: NSTimeInterval?
+    var lastIndexPath: NSIndexPath?
     
     @IBOutlet weak var menuButton: UIBarButtonItem!
     
@@ -21,12 +23,36 @@ class MyPersonalListTableViewController: UITableViewController {
         super.viewDidLoad()
         tableView.rowHeight = CGFloat(75.0)
         myRef = FIRDatabase.database().referenceFromURL("https://grouplistfire-39d22.firebaseio.com/")
-        self.clearsSelectionOnViewWillAppear = true
         if self.revealViewController() != nil {
             menuButton.target = self.revealViewController()
-            menuButton.action = "revealToggle:"
+            menuButton.action = #selector(SWRevealViewController.revealToggle)
             self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
         }
+        myRef?.child("users").child("\(user!.displayName!)-\(user!.uid)").child("assignedTo").queryOrderedByChild("completed").observeEventType(.Value, withBlock: { snapshot in
+            if let postDict = snapshot.value as? [String: AnyObject] {
+                self.items = []
+                for item in postDict.keys {
+                    let infoDict = postDict[item] as! [String: AnyObject]
+                    let name = infoDict["name"] as! String
+                    let quantity = infoDict["quantity"] as! String
+                    let createdBy = infoDict["createdBy"] as! String
+                    let completed = infoDict["completed"] as! Bool
+                    let group = infoDict["group"] as! String
+                    let timeFrame: String?
+                    let assignedTo: String?
+                    if let timeframe = infoDict["timeFrame"] {
+                        timeFrame = (timeframe as! String)
+                    } else { timeFrame = nil }
+                    if let assignedto = infoDict["assignedTo"] {
+                        assignedTo = (assignedto as! String)
+                    } else { assignedTo = nil }
+                    let groupRef = self.myRef?.child("groups").child(group).child("items").child(name)
+                    let newItem = ListItem(withName: name, andQuantity: quantity, completed: completed, groupRef: groupRef, createdBy: createdBy, assignedTo: assignedTo, timeFrame: timeFrame, group: group)
+                    self.items.append(newItem)
+                }
+            }
+            self.tableView.reloadData()
+        })
         self.title = "Assigned To Me"
         self.clearsSelectionOnViewWillAppear = true
         
@@ -45,61 +71,84 @@ class MyPersonalListTableViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+        return self.items.count
     }
     
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("userListCell", forIndexPath: indexPath) as! ItemTableViewCell
-        
+        let cell = tableView.dequeueReusableCellWithIdentifier("PersonalItemTableViewCell", forIndexPath: indexPath) as! PersonalItemTableViewCell
+        let item = self.items[indexPath.row]
+        cell.titleLabel.text = item.name
+        cell.quantityLabel.text = item.quantity
+        cell.groupLabel.text = item.group.componentsSeparatedByString("-")[1]
+        cell.createdByLabel.text = item.createdBy
+        cell.assignedToLabel.text = item.assignedTo?.componentsSeparatedByString("-")[0]
+        cell.timeFrameLabel.text = item.timeFrame
+        toggleCellCheckbox(cell, isCompleted: item.completed)
         return cell
     }
     
     
-    /*
-     // Override to support conditional editing of the table view.
-     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-     // Return false if you do not want the specified item to be editable.
-     return true
-     }
-     */
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let now: NSTimeInterval = NSDate().timeIntervalSince1970
+        if let lastClick = lastClick, lastIndexPath = lastIndexPath {
+            if (now - lastClick < 0.3) && indexPath.isEqual(lastIndexPath) {
+                let cell = tableView.dequeueReusableCellWithIdentifier("PersonalItemTableViewCell", forIndexPath: indexPath) as! PersonalItemTableViewCell
+                cell.selectionStyle = .None
+                let item = self.items[indexPath.row]
+                let toggledCompletion = !item.completed
+                toggleCellCheckbox(cell, isCompleted: toggledCompletion)
+                item.groupRef!.updateChildValues([
+                    "completed": toggledCompletion
+                    ])
+                self.myRef?.child("users").child("\(user!.displayName!)-\(user!.uid)").child("assignedTo").child("\(item.name)-\(item.quantity)").updateChildValues([
+                    "completed": toggledCompletion
+                    ])
+                return
+            }
+        }
+        lastClick = now
+        lastIndexPath = indexPath
+    }
     
-    /*
-     // Override to support editing the table view.
-     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-     if editingStyle == .Delete {
-     // Delete the row from the data source
-     tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-     } else if editingStyle == .Insert {
-     // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-     }
-     }
-     */
+    func toggleCellCheckbox(cell: PersonalItemTableViewCell, isCompleted: Bool) {
+        cell.accessoryType = UITableViewCellAccessoryType.None
+        if !isCompleted {
+            cell.checkMarkImage.hidden = true
+            cell.titleLabel.textColor = UIColor.blackColor()
+            cell.quantityLabel.textColor = UIColor.blackColor()
+            cell.createdByLabel.textColor = UIColor.blackColor()
+            cell.assignedToLabel.textColor = UIColor.blackColor()
+            cell.timeFrameLabel.textColor = UIColor.blackColor()
+        } else {
+            cell.checkMarkImage.hidden = false
+            cell.titleLabel.textColor = UIColor.grayColor()
+            cell.quantityLabel.textColor = UIColor.grayColor()
+            cell.groupLabel.textColor = UIColor.grayColor()
+            cell.createdByLabel.textColor = UIColor.grayColor()
+            cell.assignedToLabel.textColor = UIColor.grayColor()
+            cell.timeFrameLabel.textColor = UIColor.grayColor()
+            
+        }
+    }
+    // Override to support conditional editing of the table view.
+    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        // Return false if you do not want the specified item to be editable.
+        return true
+    }
     
-    /*
-     // Override to support rearranging the table view.
-     override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
-     
-     }
-     */
     
-    /*
-     // Override to support conditional rearranging of the table view.
-     override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-     // Return false if you do not want the item to be re-orderable.
-     return true
-     }
-     */
     
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-     // Get the new view controller using segue.destinationViewController.
-     // Pass the selected object to the new view controller.
-     }
-     */
+    // Override to support editing the table view.
+    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if editingStyle == .Delete {
+            // Delete the row from the data source
+            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+        } else if editingStyle == .Insert {
+            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+        }
+    }
+    
+    
     
 }
