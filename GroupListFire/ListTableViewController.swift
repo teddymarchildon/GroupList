@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-class ListTableViewController: UITableViewController, ChangeFromCellDelegate, FirebaseDelegation {
+class ListTableViewController: UITableViewController, ChangeFromCellDelegate {
     
     var myRef: FIRDatabaseReference? = nil
     let user = FIRAuth.auth()?.currentUser
@@ -17,7 +17,6 @@ class ListTableViewController: UITableViewController, ChangeFromCellDelegate, Fi
     var currGroupObject: AnyObject?
     var lastClick: NSTimeInterval?
     var lastIndexPath: NSIndexPath?
-    var registeredUsers: [String]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -189,26 +188,6 @@ class ListTableViewController: UITableViewController, ChangeFromCellDelegate, Fi
         alert.addAction(cancelAction)
         
         presentViewController(alert, animated: true, completion: nil)
-    }
-    
-    func findUserInDatabase(username: String) {
-        self.myRef?.child("users").queryOrderedByChild("username").queryEqualToValue(username).observeEventType(.Value, withBlock: { snapshot in
-            print(snapshot)
-        })
-    }
-    
-    func didFetchData<T : SequenceType>(data: T, toMatch: String?) {
-        if let data = data as? [String: String], searchedUser = toMatch {
-            var registeredNameArray: [String] = []
-            let registeredNames = data.keys
-            for name in registeredNames {
-                registeredNameArray.append(name)
-            }
-            self.registeredUsers = registeredNameArray
-            if registeredNames.contains(searchedUser) {
-                self.myRef?.child("users").child("\(searchedUser)-\(data[searchedUser]!)").child("userGroups").child("\(self.currGroup!.createdBy)-\(self.currGroup!.name)-\(self.currGroup!.topic)").setValue(["name": "\(self.currGroup!.createdBy)-\(self.currGroup!.name)-\(self.currGroup!.topic)"])
-            }
-        }
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
