@@ -10,6 +10,7 @@
 		6D9404081B29E48C785DDAA0 /* Pods_GroupListFire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3ADCB4D2633E9FB219A682EC /* Pods_GroupListFire.framework */; };
 		B1092EA81D3F174100D1D598 /* UserSearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1092EA71D3F174100D1D598 /* UserSearchTableViewController.swift */; };
 		B1092EAA1D3F18B200D1D598 /* UserSearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1092EA91D3F18B200D1D598 /* UserSearchTableViewCell.swift */; };
+		B12408621D45820500260708 /* MyCompletedListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B12408611D45820500260708 /* MyCompletedListTableViewController.swift */; };
 		B12558491D2C9D760068434B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B12558481D2C9D760068434B /* AppDelegate.swift */; };
 		B12558501D2C9D760068434B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B125584F1D2C9D760068434B /* Assets.xcassets */; };
 		B12558531D2C9D760068434B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B12558511D2C9D760068434B /* LaunchScreen.storyboard */; };
@@ -39,6 +40,7 @@
 		5CA0C93E0B6DCDB014D3DFAF /* Pods-GroupListFire.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GroupListFire.release.xcconfig"; path = "Pods/Target Support Files/Pods-GroupListFire/Pods-GroupListFire.release.xcconfig"; sourceTree = "<group>"; };
 		B1092EA71D3F174100D1D598 /* UserSearchTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSearchTableViewController.swift; sourceTree = "<group>"; };
 		B1092EA91D3F18B200D1D598 /* UserSearchTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSearchTableViewCell.swift; sourceTree = "<group>"; };
+		B12408611D45820500260708 /* MyCompletedListTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyCompletedListTableViewController.swift; sourceTree = "<group>"; };
 		B12558451D2C9D760068434B /* GroupListFire.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GroupListFire.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B12558481D2C9D760068434B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B125584F1D2C9D760068434B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -167,6 +169,7 @@
 				B13C67B31D40502F00B7D365 /* MyPersonalListTableViewController.swift */,
 				B13C67B51D40578100B7D365 /* SlideMenuTableViewController.swift */,
 				B1560EDF1D4254F90093B167 /* InformationViewController.swift */,
+				B12408611D45820500260708 /* MyCompletedListTableViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -319,6 +322,7 @@
 				B17EA23A1D3DB9EC004BD637 /* User.swift in Sources */,
 				B1CEDD5D1D2EC16D00A84E43 /* ListTableViewController.swift in Sources */,
 				B188F6AE1D2EBC760030BDD3 /* List.swift in Sources */,
+				B12408621D45820500260708 /* MyCompletedListTableViewController.swift in Sources */,
 				B188F6AC1D2EA8B80030BDD3 /* Group.swift in Sources */,
 				B1B13E1A1D42E0330014083A /* PersonalItemTableViewCell.swift in Sources */,
 				B13C67B21D403F3F00B7D365 /* SWRevealViewController.m in Sources */,

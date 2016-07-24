@@ -125,7 +125,7 @@ class GroupTableViewController: UITableViewController, FirebaseDelegation {
             let group = userGroups[indexPath.row]
             self.userGroups.removeAtIndex(indexPath.row)
             group.updateRefsForDeletion(self.user!)
-            tableView.reloadData()
+            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
         } else if editingStyle == .Insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }

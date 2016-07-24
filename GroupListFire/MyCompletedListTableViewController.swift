@@ -1,23 +1,23 @@
 //
-//  MyPersonalListTableViewController.swift
+//  MyCompletedListTableViewController.swift
 //  GroupListFire
 //
-//  Created by Teddy Marchildon on 7/20/16.
+//  Created by Teddy Marchildon on 7/24/16.
 //  Copyright © 2016 Teddy Marchildon. All rights reserved.
 //
 
 import UIKit
 import Firebase
 
-class MyPersonalListTableViewController: UITableViewController, FirebaseDelegation {
+class MyCompletedListTableViewController: UITableViewController {
+
+    @IBOutlet weak var menuButton: UIBarButtonItem!
     
     var myRef: FIRDatabaseReference? = nil
     let user = FIRAuth.auth()?.currentUser
     var items: [ListItem] = []
     var lastClick: NSTimeInterval?
     var lastIndexPath: NSIndexPath?
-    
-    @IBOutlet weak var menuButton: UIBarButtonItem!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,8 +29,8 @@ class MyPersonalListTableViewController: UITableViewController, FirebaseDelegati
             menuButton.action = #selector(SWRevealViewController.revealToggle)
             self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
         }
-
-        myRef?.child("users").child("\(user!.displayName!)-\(user!.uid)").child("assignedTo").queryOrderedByChild("completed").queryEqualToValue(false).observeEventType(.Value, withBlock: { snapshot in
+        
+        myRef?.child("users").child("\(user!.displayName!)-\(user!.uid)").child("assignedTo").queryOrderedByChild("completed").queryEqualToValue(true).observeEventType(.Value, withBlock: { snapshot in
             if let postDict = snapshot.value as? [String: AnyObject] {
                 self.items = []
                 for item in postDict.keys {
@@ -84,13 +84,11 @@ class MyPersonalListTableViewController: UITableViewController, FirebaseDelegati
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     // MARK: - Table view data source
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
     
@@ -134,6 +132,8 @@ class MyPersonalListTableViewController: UITableViewController, FirebaseDelegati
     func toggleCellCheckbox(cell: PersonalItemTableViewCell, isCompleted: Bool, index: NSIndexPath) {
         cell.accessoryType = UITableViewCellAccessoryType.None
         if !isCompleted {
+            self.items.removeAtIndex(index.row)
+            self.tableView.deleteRowsAtIndexPaths([index], withRowAnimation: .Fade)
             cell.checkMarkImage.hidden = true
             cell.titleLabel.textColor = UIColor.blackColor()
             cell.quantityLabel.textColor = UIColor.blackColor()
@@ -142,8 +142,6 @@ class MyPersonalListTableViewController: UITableViewController, FirebaseDelegati
             cell.timeFrameLabel.textColor = UIColor.blackColor()
             cell.groupLabel.textColor = UIColor.blackColor()
         } else {
-            self.items.removeAtIndex(index.row)
-            self.tableView.deleteRowsAtIndexPaths([index], withRowAnimation: .Fade)
             cell.checkMarkImage.hidden = false
             cell.titleLabel.textColor = UIColor.grayColor()
             cell.quantityLabel.textColor = UIColor.grayColor()
@@ -165,13 +163,13 @@ class MyPersonalListTableViewController: UITableViewController, FirebaseDelegati
     // Override to support editing the table view.
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
-            // Delete the row from the data source
+            let item = self.items[indexPath.row]
+            item.updateRefsForDeletion()
+            self.items.removeAtIndex(indexPath.row)
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
         } else if editingStyle == .Insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }
     }
-    
-    
-    
 }
+
