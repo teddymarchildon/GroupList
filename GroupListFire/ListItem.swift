@@ -111,8 +111,7 @@ class ListItem {
         }
         if !timeFrame.isEmpty {
             self.timeFrame = timeFrame
-        } else { self.timeFrame = nil }
-        
+        }
         self.updateRefsOfItem()
     }
     
