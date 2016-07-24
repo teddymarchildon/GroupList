@@ -116,8 +116,6 @@ class GroupTableViewController: UITableViewController, FirebaseDelegation {
         return cell
     }
     
-    
-    
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         return true
     }
@@ -126,19 +124,7 @@ class GroupTableViewController: UITableViewController, FirebaseDelegation {
         if editingStyle == .Delete {
             let group = userGroups[indexPath.row]
             self.userGroups.removeAtIndex(indexPath.row)
-            var i = 0
-            for user in group.groupUsers {
-                if user == "\(self.user!.displayName!)-\(self.user!.uid)" {
-                    group.groupUsers.removeAtIndex(i)
-                }
-                i += 1
-            }
-            myUserRef?.child("userGroups").child("\(group.createdBy)-\(group.name)-\(group.topic)").removeValue()
-            if group.groupUsers.isEmpty {
-                myGroupRef?.child("\(group.createdBy)-\(group.name)-\(group.topic)").removeValue()
-            } else {
-                myGroupRef?.child("\(group.createdBy)-\(group.name)-\(group.topic)").child("users").setValue(group.groupUsers)
-            }
+            group.updateRefsForDeletion(self.user!)
             tableView.reloadData()
         } else if editingStyle == .Insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view

@@ -69,4 +69,43 @@ class Group {
                 "users": groupUsers,
                 "createdByUser": createdBy]
     }
+    
+    func addItem(name: String, detail: String, timeFrame: String, byUser: String) {
+        let ref = FIRDatabase.database().referenceFromURL("https://grouplistfire-39d22.firebaseio.com/")
+        var newItem: ListItem
+        if !name.isEmpty {
+            if timeFrame.isEmpty {
+                newItem = ListItem(withName: name, andQuantity: detail, createdBy: byUser, timeFrame: nil, group: self)
+            } else {
+                newItem = ListItem(withName: name, andQuantity: detail, createdBy: byUser, timeFrame: timeFrame, group: self)
+            }
+            self.list.items.append(newItem)
+            ref.child("groups").child("\(self.createdBy)-\(self.name)-\(self.topic)").child("items").child(newItem.name).setValue(newItem.toAnyObject())
+        }
+    }
+    
+    func updateRefsForDeletion(fromUser: FIRUser) {
+        let ref = FIRDatabase.database().referenceFromURL("https://grouplistfire-39d22.firebaseio.com/")
+        var i = 0
+        for user in self.groupUsers {
+            if user == "\(fromUser.displayName!)-\(fromUser.uid)" {
+                self.groupUsers.removeAtIndex(i)
+            }
+            i += 1
+        }
+        ref.child("users").child("\(fromUser.displayName!)-\(fromUser.uid)").child("userGroups").child("\(self.createdBy)-\(self.name)-\(self.topic)").removeValue()
+        if self.groupUsers.isEmpty {
+            ref.child("groups").child("\(self.createdBy)-\(self.name)-\(self.topic)").removeValue()
+        } else {
+            ref.child("groups").child("\(self.createdBy)-\(self.name)-\(self.topic)").child("users").setValue(self.groupUsers)
+        }
+
+    }
+    
+    
+    
+    
+    
+    
+    
 }

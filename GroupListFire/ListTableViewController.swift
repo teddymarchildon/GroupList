@@ -83,6 +83,12 @@ class ListTableViewController: UITableViewController, ChangeFromCellDelegate, Fi
         let cell = tableView.dequeueReusableCellWithIdentifier("ItemTableViewCell", forIndexPath: indexPath) as! ItemTableViewCell
         cell.selectionStyle = .None
         let item = currGroup!.list.items[indexPath.row]
+        if let assignedTo = item.assignedTo {
+            if !currGroup!.groupUsers.contains(assignedTo) {
+                item.assignedTo = nil
+                item.groupRef?.child("assignedTo").removeValue()
+            }
+        }
         cell.item = item
         cell.currGroup = currGroup
         cell.delegate = self
@@ -105,14 +111,7 @@ class ListTableViewController: UITableViewController, ChangeFromCellDelegate, Fi
                 let item = currGroup!.list.items[indexPath.row]
                 let toggledCompletion = !item.completed
                 toggleCellCheckbox(cell, isCompleted: toggledCompletion)
-                item.groupRef?.updateChildValues([
-                    "completed": toggledCompletion
-                    ])
-                if let assignedTo = item.assignedTo {
-                    self.myRef?.child("users").child(assignedTo).child("assignedTo").child("\(item.name)-\(item.quantity)").updateChildValues([
-                            "completed": toggledCompletion
-                        ])
-                }
+                item.updateCompletedRef(toggledCompletion)
                 return
             }
         }
@@ -157,10 +156,7 @@ class ListTableViewController: UITableViewController, ChangeFromCellDelegate, Fi
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
             let item = currGroup!.list.items[indexPath.row]
-            item.groupRef!.removeValue()
-            if let assignedTo = item.assignedTo {
-                self.myRef?.child("users").child(assignedTo).child("assignedTo").child("\(item.name)-\(item.quantity)").removeValue()
-            }
+            item.updateRefsForDeletion()
             tableView.reloadData()
         } else if editingStyle == .Insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
@@ -173,20 +169,8 @@ class ListTableViewController: UITableViewController, ChangeFromCellDelegate, Fi
             let nameField = alert.textFields![0].text!
             let detailField = alert.textFields![1].text!
             let timeFrame = alert.textFields![2].text!
-            var newItem: ListItem
-            if !nameField.isEmpty {
-                if timeFrame == "" {
-                    newItem = ListItem(withName: nameField, andQuantity: detailField, createdBy: self.user!.displayName!, timeFrame: nil, group: self.currGroup!)
-                } else {
-                    newItem = ListItem(withName: nameField, andQuantity: detailField, createdBy: self.user!.displayName!, timeFrame: timeFrame, group: self.currGroup!)
-                }
-                self.currGroup!.list.items.append(newItem)
-                for item in self.currGroup!.list.items {
-                    self.myRef?.child("groups").child("\(self.currGroup!.createdBy)-\(self.currGroup!.name)-\(self.currGroup!.topic)").child("items").child(nameField).setValue(item.toAnyObject())
-                }
-            }
+            self.currGroup?.addItem(nameField, detail: detailField, timeFrame: timeFrame, byUser: self.user!.displayName!)
         }
-        
         let cancelAction = UIAlertAction(title: "Cancel", style: .Default) { (action: UIAlertAction!) -> Void in
             self.view.endEditing(true)
         }

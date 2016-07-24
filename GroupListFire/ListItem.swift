@@ -33,7 +33,7 @@ class ListItem {
         self.timeFrame = timeFrame
         self.group = group
     }
-
+    
     init(withName name: String, andQuantity quantity: String, completed: Bool, groupRef: FIRDatabaseReference?, createdBy: String, assignedTo: String?, timeFrame: String?, group: Group) {
         self.name = name
         self.quantity = quantity
@@ -76,4 +76,61 @@ class ListItem {
         }
         return retDict
     }
+    
+    func updateCompletedRef(isCompleted: Bool) {
+        let ref = FIRDatabase.database().referenceFromURL("https://grouplistfire-39d22.firebaseio.com/")
+        if let assignedTo = self.assignedTo {
+            ref.child("users").child(assignedTo).child("assignedTo").child("\(self.name)-\(self.quantity)").updateChildValues([
+                    "completed": isCompleted
+                ])
+        }
+        self.groupRef?.updateChildValues([
+                "completed": isCompleted
+            ])
+    }
+    
+    func updateRefsForDeletion() {
+        let ref = FIRDatabase.database().referenceFromURL("https://grouplistfire-39d22.firebaseio.com/")
+        self.groupRef?.removeValue()
+        if let assignedTo = self.assignedTo {
+            ref.child("users").child(assignedTo).child("assignedTo").child("\(self.name)-\(self.quantity)").removeValue()
+        }
+    }
+    
+    func setNewProperties(newName name: String, newQuantity quantity: String, newTimeFrame timeFrame: String) {
+        let ref = FIRDatabase.database().referenceFromURL("https://grouplistfire-39d22.firebaseio.com/")
+        self.groupRef?.removeValue()
+        if let assignedTo = self.assignedTo {
+            ref.child("users").child(assignedTo).child("assignedTo").child("\(self.name)-\(self.quantity)").removeValue()
+        }
+        if !name.isEmpty {
+            self.name = name
+        }
+        if !quantity.isEmpty {
+            self.quantity = quantity
+        }
+        if !timeFrame.isEmpty {
+            self.timeFrame = timeFrame
+        } else { self.timeFrame = nil }
+        
+        self.updateRefsOfItem()
+    }
+    
+    func updateRefsOfItem() {
+        let ref = FIRDatabase.database().referenceFromURL("https://grouplistfire-39d22.firebaseio.com/")
+        ref.child("groups").child(group).child("items").child(self.name).setValue(self.toAnyObject())
+        if let assignedTo = self.assignedTo {
+            ref.child("users").child(assignedTo).child("assignedTo").child("\(self.name)-\(self.quantity)").setValue(self.toAnyObject())
+        }
+    }
+    
+    func assignToUser(user: String) {
+        let ref = FIRDatabase.database().referenceFromURL("https://grouplistfire-39d22.firebaseio.com/")
+        if let assignedTo = self.assignedTo {
+            ref.child("users").child(assignedTo).child("assignedTo").child("\(self.name)-\(self.quantity)").removeValue()
+        }
+        self.assignedTo = user
+        self.updateRefsOfItem()
+    }
+
 }

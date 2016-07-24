@@ -124,12 +124,7 @@ class MyPersonalListTableViewController: UITableViewController, FirebaseDelegati
                 let item = self.items[indexPath.row]
                 let toggledCompletion = !item.completed
                 toggleCellCheckbox(cell, isCompleted: toggledCompletion)
-                item.groupRef!.updateChildValues([
-                    "completed": toggledCompletion
-                    ])
-                self.myRef?.child("users").child("\(user!.displayName!)-\(user!.uid)").child("assignedTo").child("\(item.name)-\(item.quantity)").updateChildValues([
-                    "completed": toggledCompletion
-                    ])
+                item.updateCompletedRef(toggledCompletion)
                 return
             }
         }
