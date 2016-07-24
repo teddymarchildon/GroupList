@@ -99,13 +99,5 @@ class Group {
         } else {
             ref.child("groups").child("\(self.createdBy)-\(self.name)-\(self.topic)").child("users").setValue(self.groupUsers)
         }
-
     }
-    
-    
-    
-    
-    
-    
-    
 }
