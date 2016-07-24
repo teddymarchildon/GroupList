@@ -72,7 +72,6 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate, GIDSignIn
                 if error == nil {
                     if let user = user, displayName = user.displayName {
                         let newUser = User(withDisplayName: displayName, andID: user.uid, andPhotoURL: user.photoURL!)
-//                        self.myRef?.child("users").child("\(displayName)-\(user.uid)").child("info").setValue(newUser.toAnyObject())
                         self.myRef?.child("users").child("\(displayName)-\(user.uid)").child("username").setValue(displayName)
                         self.myRef?.child("users").child("\(displayName)-\(user.uid)").child("id").setValue(newUser.ID)
                         self.myRef?.child("users").child("\(displayName)-\(user.uid)").child("photoURL").setValue(String(newUser.photoURL))
@@ -100,12 +99,5 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate, GIDSignIn
         alert.addAction(action)
         presentViewController(alert, animated: true, completion: nil)
     }
-    
-    //    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-    //        if segue.identifier == "loginSegue" {
-    //            let listController = segue.destinationViewController as! GroupTableViewController
-    //            listController.userInstance = newUser
-    //        }
-    //    }
 }
 
