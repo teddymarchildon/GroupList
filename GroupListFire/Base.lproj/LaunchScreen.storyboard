@@ -16,17 +16,18 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="G" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4yr-wC-gKZ">
-                                <rect key="frame" x="267.5" y="245.5" width="65" height="109"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="91"/>
-                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="GroupListTextIconWhiteText" translatesAutoresizingMaskIntoConstraints="NO" id="gHh-39-mDc">
+                                <rect key="frame" x="180" y="231" width="240" height="138"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="240" id="MPE-Vi-MHL"/>
+                                    <constraint firstAttribute="height" constant="138" id="ZZc-84-5SY"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="4yr-wC-gKZ" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="4os-Uv-7JL"/>
-                            <constraint firstItem="4yr-wC-gKZ" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="smM-lw-HJi"/>
+                            <constraint firstItem="gHh-39-mDc" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="hJM-O3-l2l"/>
+                            <constraint firstItem="gHh-39-mDc" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="vaC-ic-dra"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -35,4 +36,7 @@
             <point key="canvasLocation" x="53" y="375"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="GroupListTextIconWhiteText" width="1920" height="1080"/>
+    </resources>
 </document>

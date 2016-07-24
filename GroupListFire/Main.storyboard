@@ -916,7 +916,7 @@
         <image name="SarahClock" width="1890" height="1890"/>
         <image name="SarahInverseArrow" width="1890" height="1890"/>
         <image name="SarahStar" width="1890" height="1890"/>
-        <image name="TopOfSlider" width="236" height="115"/>
+        <image name="TopOfSlider" width="1920" height="1080"/>
         <image name="UpdatedArrow" width="110" height="107"/>
         <image name="UpdatedClock" width="107" height="107"/>
         <image name="UpdatedCreatedBy" width="107" height="107"/>
