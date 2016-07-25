@@ -82,12 +82,6 @@ class ListTableViewController: UITableViewController, ChangeFromCellDelegate {
         let cell = tableView.dequeueReusableCellWithIdentifier("ItemTableViewCell", forIndexPath: indexPath) as! ItemTableViewCell
         cell.selectionStyle = .None
         let item = currGroup!.list.items[indexPath.row]
-        if let assignedTo = item.assignedTo {
-            if !currGroup!.groupUsers.contains(assignedTo) {
-                item.assignedTo = nil
-                item.groupRef?.child("assignedTo").removeValue()
-            }
-        }
         cell.item = item
         cell.currGroup = currGroup
         cell.delegate = self

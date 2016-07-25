@@ -93,6 +93,15 @@ class Group {
             }
             i += 1
         }
+        for item in self.list.items {
+            if let assignedTo = item.assignedTo {
+                if assignedTo == "\(fromUser.displayName!)-\(fromUser.uid)" {
+                    ref.child("users").child("\(fromUser.displayName!)-\(fromUser.uid)").child("assignedTo").child("\(item.group)-\(item.name)-\(item.quantity)").removeValue()
+                    item.assignedTo = nil
+                    item.updateRefsOfItem()
+                }
+            }
+        }
         ref.child("users").child("\(fromUser.displayName!)-\(fromUser.uid)").child("userGroups").child("\(self.createdBy)-\(self.name)-\(self.topic)").removeValue()
         if self.groupUsers.isEmpty {
             ref.child("groups").child("\(self.createdBy)-\(self.name)-\(self.topic)").removeValue()
