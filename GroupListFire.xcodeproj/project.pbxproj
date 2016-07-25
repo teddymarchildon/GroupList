@@ -147,9 +147,9 @@
 		B1B252B31D3871A700A0B46F /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				B188F6AB1D2EA8B80030BDD3 /* Group.swift */,
-				B188F6AD1D2EBC760030BDD3 /* List.swift */,
 				B1D49FBF1D31C30100DF8D8D /* ListItem.swift */,
+				B188F6AD1D2EBC760030BDD3 /* List.swift */,
+				B188F6AB1D2EA8B80030BDD3 /* Group.swift */,
 				B17EEE941D3BE03800AF529C /* ItemTableViewCell.swift */,
 				B1B13E191D42E0330014083A /* PersonalItemTableViewCell.swift */,
 				B1092EA91D3F18B200D1D598 /* UserSearchTableViewCell.swift */,
@@ -166,10 +166,10 @@
 				B188F6A91D2EA54F0030BDD3 /* GroupTableViewController.swift */,
 				B1CEDD5C1D2EC16D00A84E43 /* ListTableViewController.swift */,
 				B1092EA71D3F174100D1D598 /* UserSearchTableViewController.swift */,
-				B13C67B31D40502F00B7D365 /* MyPersonalListTableViewController.swift */,
 				B13C67B51D40578100B7D365 /* SlideMenuTableViewController.swift */,
-				B1560EDF1D4254F90093B167 /* InformationViewController.swift */,
+				B13C67B31D40502F00B7D365 /* MyPersonalListTableViewController.swift */,
 				B12408611D45820500260708 /* MyCompletedListTableViewController.swift */,
+				B1560EDF1D4254F90093B167 /* InformationViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";

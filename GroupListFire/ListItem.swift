@@ -78,23 +78,30 @@ class ListItem {
     }
     
     func updateCompletedRef(isCompleted: Bool) {
+        self.completed = isCompleted
         let ref = FIRDatabase.database().referenceFromURL("https://grouplistfire-39d22.firebaseio.com/")
-        if let assignedTo = self.assignedTo {
-            ref.child("users").child(assignedTo).child("assignedTo").child("\(self.group)-\(self.name)-\(self.quantity)").updateChildValues([
-                    "completed": isCompleted
-                ])
+            if let assignedTo = self.assignedTo {
+                ref.child("users").child(assignedTo).child("assignedTo").child("\(self.group)-\(self.name)-\(self.quantity)").setValue(self.toAnyObject())
         }
         self.groupRef?.updateChildValues([
                 "completed": isCompleted
             ])
     }
     
-    func updateRefsForDeletion() {
+    func updateAssignedUserRefForDeletion() {
         let ref = FIRDatabase.database().referenceFromURL("https://grouplistfire-39d22.firebaseio.com/")
-        self.groupRef?.removeValue()
         if let assignedTo = self.assignedTo {
             ref.child("users").child(assignedTo).child("assignedTo").child("\(self.group)-\(self.name)-\(self.quantity)").removeValue()
         }
+    }
+    
+    func updateGroupRefForDeletion() {
+        self.groupRef?.removeValue()
+    }
+    
+    func updateRefsForDeletion() {
+        updateAssignedUserRefForDeletion()
+        updateGroupRefForDeletion()
     }
     
     func setNewProperties(newName name: String, newQuantity quantity: String, newTimeFrame timeFrame: String) {
