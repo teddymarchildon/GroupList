@@ -109,4 +109,10 @@ class Group {
             ref.child("groups").child("\(self.createdBy)-\(self.name)-\(self.topic)").child("users").setValue(self.groupUsers)
         }
     }
+    
+    func addToRefs(user: FIRUser) {
+        let ref = FIRDatabase.database().referenceFromURL("https://grouplistfire-39d22.firebaseio.com/")
+        ref.child("groups").child("\(user.displayName!)-\(self.name)-\(self.topic)").setValue(self.toAnyObject())
+        ref.child("\(user.displayName!)-\(user.uid)").child("userGroups").child("\(self.createdBy)-\(self.name)-\(self.topic)").setValue(["name": "\(user.displayName!)-\(self.name)-\(self.topic)"])
+    }
 }

@@ -49,7 +49,7 @@ class GroupTableViewController: UITableViewController, FirebaseDelegation {
             self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
         }
     }
-
+    
     func didFetchData<T: SequenceType>(data: T, toMatch: String?) {
         if let data = data as? [String] {
             self.userGroups = []
@@ -69,24 +69,18 @@ class GroupTableViewController: UITableViewController, FirebaseDelegation {
             let nameField = alert.textFields![0]
             let topicField = alert.textFields![1]
             let group = Group(withName: nameField.text!, andTopic: topicField.text!, andList: List(), createdBy: self.user!.displayName!, andUser: self.user!)
-            self.myGroupRef!.child("\(self.user!.displayName!)-\(nameField.text!)-\(topicField.text!)").setValue(group.toAnyObject())
-            var nameArray: [String] = []
-            for group in self.userGroups {
-                nameArray.append(group.name)
-            }
-            self.myUserRef?.child("userGroups").child("\(group.createdBy)-\(nameField.text!)-\(topicField.text!)").setValue(["name": "\(self.user!.displayName!)-\(nameField.text!)-\(topicField.text!)"])
+            group.addToRefs(self.user!)
         }
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .Default, handler: nil)
-        
         alert.addTextFieldWithConfigurationHandler { (textGroup) -> Void in
             textGroup.placeholder = "Group Name"
+            textGroup.clearButtonMode = UITextFieldViewMode.WhileEditing
         }
-        
         alert.addTextFieldWithConfigurationHandler { (textTopic) -> Void in
             textTopic.placeholder = "Group Topic"
+            textTopic.clearButtonMode = UITextFieldViewMode.WhileEditing
         }
-        
         alert.addAction(saveAction)
         alert.addAction(cancelAction)
         
@@ -116,7 +110,8 @@ class GroupTableViewController: UITableViewController, FirebaseDelegation {
         return cell
     }
     
-    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool
+    {
         return true
     }
     

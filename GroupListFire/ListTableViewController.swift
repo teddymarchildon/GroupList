@@ -171,12 +171,15 @@ class ListTableViewController: UITableViewController, ChangeFromCellDelegate {
         
         alert.addTextFieldWithConfigurationHandler { (textGroup) -> Void in
             textGroup.placeholder = "Item Name"
+            textGroup.clearButtonMode = UITextFieldViewMode.WhileEditing
         }
         alert.addTextFieldWithConfigurationHandler { (quantity) -> Void in
             quantity.placeholder = "How much?"
+            quantity.clearButtonMode = UITextFieldViewMode.WhileEditing
         }
         alert.addTextFieldWithConfigurationHandler { (timeFrame) -> Void in
             timeFrame.placeholder = "When does it need to get done?"
+            timeFrame.clearButtonMode = UITextFieldViewMode.WhileEditing
         }
         
         alert.addAction(saveAction)

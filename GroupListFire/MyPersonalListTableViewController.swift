@@ -133,7 +133,6 @@ class MyPersonalListTableViewController: UITableViewController, FirebaseDelegati
     func toggleCellCheckbox(cell: PersonalItemTableViewCell, isCompleted: Bool, index: NSIndexPath) {
         cell.accessoryType = UITableViewCellAccessoryType.None
         if !isCompleted {
-            cell.checkMarkImage.hidden = true
             cell.titleLabel.textColor = UIColor.blackColor()
             cell.quantityLabel.textColor = UIColor.blackColor()
             cell.createdByLabel.textColor = UIColor.blackColor()
@@ -143,7 +142,6 @@ class MyPersonalListTableViewController: UITableViewController, FirebaseDelegati
         } else {
             self.items.removeAtIndex(index.row)
             self.tableView.deleteRowsAtIndexPaths([index], withRowAnimation: .Fade)
-            cell.checkMarkImage.hidden = false
             cell.titleLabel.textColor = UIColor.grayColor()
             cell.quantityLabel.textColor = UIColor.grayColor()
             cell.groupLabel.textColor = UIColor.grayColor()
