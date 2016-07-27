@@ -94,15 +94,14 @@ class UserSearchTableViewController: UITableViewController, UISearchResultsUpdat
         if !self.currGroup!.groupUsers.contains("\(userName)-\(userID!)") {
             self.currGroup!.groupUsers.append("\(userName)-\(userID!)")
         }
-        self.myRef?.child("users").child("\(userName)-\(userID!)").child("userGroups").child("\(self.currGroup!.createdBy)-\(self.currGroup!.name)-\(self.currGroup!.topic)").setValue(["name": "\(self.currGroup!.createdBy)-\(self.currGroup!.name)-\(self.currGroup!.topic)"])
-        self.myRef?.child("groups").child("\(self.currGroup!.createdBy)-\(self.currGroup!.name)-\(self.currGroup!.topic)").child("users").setValue(self.currGroup!.groupUsers)
+        self.currGroup?.addUser(userName, userID: userID!)
         navigationController?.popViewControllerAnimated(true)
     }
     
     // Override to support conditional editing of the table view.
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         // Return false if you do not want the specified item to be editable.
-        return true
+        return false
     }
     
     func filterContentForSearchText(searchText: String, scope: String = "All") {
