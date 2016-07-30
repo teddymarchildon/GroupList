@@ -193,6 +193,10 @@ class ListTableViewController: UITableViewController, ChangeFromCellDelegate {
             let listController = segue.destinationViewController as! UserSearchTableViewController
             listController.title = "Add User to \(currGroup!.name) group"
             listController.currGroup = self.currGroup
+        } else if segue.identifier == "toMessagingSegue" {
+            let listController = segue.destinationViewController as! MessagingParentViewController
+            listController.title = currGroup!.name
+            listController.group = self.currGroup
         }
     }
 }

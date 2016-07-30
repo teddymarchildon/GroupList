@@ -37,7 +37,7 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate, GIDSignIn
         GIDSignIn.sharedInstance().uiDelegate = self
         self.facebookLoginButton.delegate = self
         self.facebookLoginButton.center = CGPoint(x: self.view.center.x, y: self.view.center.y + 80)
-        self.facebookLoginButton.readPermissions = ["public_profile", "email", "user_friends"]
+        self.facebookLoginButton.readPermissions = ["public_profile", "email"]
         self.view.addSubview(facebookLoginButton)
         myRef = FIRDatabase.database().referenceFromURL("https://grouplistfire-39d22.firebaseio.com/")
         FIRAuth.auth()?.addAuthStateDidChangeListener { auth, user in

@@ -19,6 +19,7 @@
 		B13C67B61D40578100B7D365 /* SlideMenuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13C67B51D40578100B7D365 /* SlideMenuTableViewController.swift */; };
 		B1560EE01D4254F90093B167 /* InformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1560EDF1D4254F90093B167 /* InformationViewController.swift */; };
 		B1560EE21D4259200093B167 /* GroupTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1560EE11D4259200093B167 /* GroupTableViewCell.swift */; };
+		B15676211D4B93CE00E27176 /* MessagingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15676201D4B93CE00E27176 /* MessagingTableViewController.swift */; };
 		B17EA23A1D3DB9EC004BD637 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = B17EA2391D3DB9EC004BD637 /* User.swift */; };
 		B17EEE951D3BE03800AF529C /* ItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B17EEE941D3BE03800AF529C /* ItemTableViewCell.swift */; };
 		B188F6AA1D2EA54F0030BDD3 /* GroupTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B188F6A91D2EA54F0030BDD3 /* GroupTableViewController.swift */; };
@@ -32,6 +33,9 @@
 		B1C1D5AE1D2D3D5500B30635 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C1D5AD1D2D3D5500B30635 /* LoginViewController.swift */; };
 		B1CEDD5D1D2EC16D00A84E43 /* ListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1CEDD5C1D2EC16D00A84E43 /* ListTableViewController.swift */; };
 		B1D49FC01D31C30100DF8D8D /* ListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D49FBF1D31C30100DF8D8D /* ListItem.swift */; };
+		B1F152AD1D4C683700455831 /* MessagingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1F152AC1D4C683700455831 /* MessagingTableViewCell.swift */; };
+		B1F152AF1D4C691F00455831 /* MessagingParentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1F152AE1D4C691F00455831 /* MessagingParentViewController.swift */; };
+		B1F152B11D4C696500455831 /* MessagingTextFieldViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1F152B01D4C696500455831 /* MessagingTextFieldViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,6 +56,7 @@
 		B13C67B51D40578100B7D365 /* SlideMenuTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlideMenuTableViewController.swift; sourceTree = "<group>"; };
 		B1560EDF1D4254F90093B167 /* InformationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InformationViewController.swift; sourceTree = "<group>"; };
 		B1560EE11D4259200093B167 /* GroupTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupTableViewCell.swift; sourceTree = "<group>"; };
+		B15676201D4B93CE00E27176 /* MessagingTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagingTableViewController.swift; sourceTree = "<group>"; };
 		B17EA2391D3DB9EC004BD637 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		B17EEE941D3BE03800AF529C /* ItemTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemTableViewCell.swift; sourceTree = "<group>"; };
 		B188F6A91D2EA54F0030BDD3 /* GroupTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupTableViewController.swift; sourceTree = "<group>"; };
@@ -67,6 +72,9 @@
 		B1C1D5AD1D2D3D5500B30635 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		B1CEDD5C1D2EC16D00A84E43 /* ListTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListTableViewController.swift; sourceTree = "<group>"; };
 		B1D49FBF1D31C30100DF8D8D /* ListItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListItem.swift; sourceTree = "<group>"; };
+		B1F152AC1D4C683700455831 /* MessagingTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagingTableViewCell.swift; sourceTree = "<group>"; };
+		B1F152AE1D4C691F00455831 /* MessagingParentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagingParentViewController.swift; sourceTree = "<group>"; };
+		B1F152B01D4C696500455831 /* MessagingTextFieldViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagingTextFieldViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -153,6 +161,7 @@
 				B17EEE941D3BE03800AF529C /* ItemTableViewCell.swift */,
 				B1B13E191D42E0330014083A /* PersonalItemTableViewCell.swift */,
 				B1092EA91D3F18B200D1D598 /* UserSearchTableViewCell.swift */,
+				B1F152AC1D4C683700455831 /* MessagingTableViewCell.swift */,
 				B17EA2391D3DB9EC004BD637 /* User.swift */,
 				B1560EE11D4259200093B167 /* GroupTableViewCell.swift */,
 			);
@@ -170,6 +179,9 @@
 				B13C67B31D40502F00B7D365 /* MyPersonalListTableViewController.swift */,
 				B12408611D45820500260708 /* MyCompletedListTableViewController.swift */,
 				B1560EDF1D4254F90093B167 /* InformationViewController.swift */,
+				B1F152AE1D4C691F00455831 /* MessagingParentViewController.swift */,
+				B15676201D4B93CE00E27176 /* MessagingTableViewController.swift */,
+				B1F152B01D4C696500455831 /* MessagingTextFieldViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -312,15 +324,19 @@
 				B13C67B61D40578100B7D365 /* SlideMenuTableViewController.swift in Sources */,
 				B1092EA81D3F174100D1D598 /* UserSearchTableViewController.swift in Sources */,
 				B1C1D5AE1D2D3D5500B30635 /* LoginViewController.swift in Sources */,
+				B15676211D4B93CE00E27176 /* MessagingTableViewController.swift in Sources */,
 				B1560EE21D4259200093B167 /* GroupTableViewCell.swift in Sources */,
 				B1D49FC01D31C30100DF8D8D /* ListItem.swift in Sources */,
+				B1F152AF1D4C691F00455831 /* MessagingParentViewController.swift in Sources */,
 				B1092EAA1D3F18B200D1D598 /* UserSearchTableViewCell.swift in Sources */,
 				B13C67B41D40502F00B7D365 /* MyPersonalListTableViewController.swift in Sources */,
 				B12558491D2C9D760068434B /* AppDelegate.swift in Sources */,
 				B188F6AA1D2EA54F0030BDD3 /* GroupTableViewController.swift in Sources */,
 				B17EEE951D3BE03800AF529C /* ItemTableViewCell.swift in Sources */,
 				B17EA23A1D3DB9EC004BD637 /* User.swift in Sources */,
+				B1F152AD1D4C683700455831 /* MessagingTableViewCell.swift in Sources */,
 				B1CEDD5D1D2EC16D00A84E43 /* ListTableViewController.swift in Sources */,
+				B1F152B11D4C696500455831 /* MessagingTextFieldViewController.swift in Sources */,
 				B188F6AE1D2EBC760030BDD3 /* List.swift in Sources */,
 				B12408621D45820500260708 /* MyCompletedListTableViewController.swift in Sources */,
 				B188F6AC1D2EA8B80030BDD3 /* Group.swift in Sources */,
@@ -435,7 +451,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -446,6 +462,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = tedmarchildon.GroupListFire;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "df0d7a9c-2482-43dc-8352-c6910d1dc04b";
 				SWIFT_OBJC_BRIDGING_HEADER = "GroupListFire/GroupListFire-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -457,7 +474,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -468,6 +485,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = tedmarchildon.GroupListFire;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "df0d7a9c-2482-43dc-8352-c6910d1dc04b";
 				SWIFT_OBJC_BRIDGING_HEADER = "GroupListFire/GroupListFire-Bridging-Header.h";
 			};
 			name = Release;
