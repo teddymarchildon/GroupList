@@ -8,17 +8,13 @@
 
 import UIKit
 import Firebase
-import Photos
 
 class MessagingTableViewController: UITableViewController {
     
     var group: Group!
     var messages: [FIRDataSnapshot]! = []
     let ref = FIRDatabase.database().referenceFromURL("https://grouplistfire-39d22.firebaseio.com/")
-    var keyboardHeight: CGFloat = 0.0
-    var storageRef: FIRStorageReference!
     var currentUser = FIRAuth.auth()?.currentUser!
-    @IBOutlet weak var messageTextFieldBottomConstraint: NSLayoutConstraint!
     
     override func viewDidLoad() {
         super.viewDidLoad()
