@@ -411,13 +411,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BEk-y9-Sow">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="568"/>
+                                <rect key="frame" x="-4" y="0.0" width="383" height="568"/>
                                 <connections>
                                     <segue destination="jDe-uW-MMW" kind="embed" id="7YR-6f-itW"/>
                                 </connections>
                             </containerView>
                             <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NZn-I7-1KP">
-                                <rect key="frame" x="0.0" y="568" width="375" height="99"/>
+                                <rect key="frame" x="-4" y="568" width="383" height="99"/>
                                 <connections>
                                     <segue destination="N2h-DC-Aeg" kind="embed" id="pPd-xe-9g7"/>
                                 </connections>
@@ -1133,13 +1133,13 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="8" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nYw-hd-gG6">
-                                <rect key="frame" x="50" y="299" width="274.5" height="161.5"/>
+                                <rect key="frame" x="47.5" y="299" width="280" height="179.5"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="101" id="0Er-LE-ji7"/>
                                     <constraint firstAttribute="height" constant="110" id="3DV-PQ-aDy"/>
                                     <constraint firstAttribute="width" relation="lessThanOrEqual" constant="280" id="9af-CS-KVu"/>
                                 </constraints>
-                                <string key="text">Your to-do list only consists of uncompleted items. As soon as you complete it, it goes to your completed list. You may not delete items from your to-do list, but you may re-assign them within the group or mark them completed. You may delete the completed items from your completed list.</string>
+                                <string key="text">Double tap an item to mark it completed/uncompleted. Your to-do list only consists of uncompleted items. As soon as you complete it, it goes to your completed list. You may not delete items from your to-do list, but you may re-assign them within the group or mark them completed. You may delete the completed items from your completed list.</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -1274,15 +1274,15 @@
             <objects>
                 <tableViewController id="jDe-uW-MMW" customClass="MessagingTableViewController" customModule="GroupListFire" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="63" sectionHeaderHeight="28" sectionFooterHeight="28" id="Mda-SW-2hG">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="383" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="messagingCell" rowHeight="63" id="bpr-na-QtV" customClass="MessagingTableViewCell" customModule="GroupListFire" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="375" height="63"/>
+                                <rect key="frame" x="0.0" y="28" width="383" height="63"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="bpr-na-QtV" id="6fg-9Q-P6a">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="62.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="383" height="62.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="8" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yWB-pw-B3k">
@@ -1292,7 +1292,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ewU-UC-0FY">
-                                            <rect key="frame" x="318" y="-4" width="49" height="70.5"/>
+                                            <rect key="frame" x="326" y="-4" width="49" height="70.5"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="49" id="jnq-6M-oZq"/>
                                                 <constraint firstAttribute="height" constant="70.5" id="qoF-eO-0yG"/>
@@ -1340,26 +1340,36 @@
             <objects>
                 <viewController id="N2h-DC-Aeg" customClass="MessagingTextFieldViewController" customModule="GroupListFire" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="U56-9h-Th5">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="99"/>
+                        <rect key="frame" x="0.0" y="0.0" width="383" height="99"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="message" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="BXU-Om-NHC">
-                                <rect key="frame" x="59" y="35" width="256" height="30"/>
+                                <rect key="frame" x="91" y="35" width="200" height="30"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="256" id="Dt4-qG-HEh"/>
+                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="275" id="UZw-g1-299"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="200" id="ngE-YF-yL7"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" returnKeyType="send"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DwZ-tR-NT9">
-                                <rect key="frame" x="328" y="35" width="36" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DwZ-tR-NT9">
+                                <rect key="frame" x="331" y="35" width="36" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="94s-K8-bTi"/>
+                                    <constraint firstAttribute="width" constant="36" id="PwC-sP-eAJ"/>
+                                </constraints>
                                 <state key="normal" title="Send"/>
                                 <connections>
                                     <action selector="didPressSendButton:" destination="N2h-DC-Aeg" eventType="touchUpInside" id="Qd2-J9-oo2"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9h1-XT-P1d">
-                                <rect key="frame" x="12" y="37" width="25" height="24"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9h1-XT-P1d">
+                                <rect key="frame" x="16" y="37" width="25" height="24"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="9h1-XT-P1d" secondAttribute="height" multiplier="25:24" id="2Z5-5Z-OCj"/>
+                                    <constraint firstAttribute="height" relation="lessThanOrEqual" constant="24" id="7we-Hn-cpv"/>
+                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="25" id="muv-PH-cLy"/>
+                                </constraints>
                                 <state key="normal" title="Button" image="ic_add_a_photo"/>
                                 <connections>
                                     <action selector="didPressAddPhotoButton:" destination="N2h-DC-Aeg" eventType="touchUpInside" id="ieK-DB-BuW"/>
@@ -1368,19 +1378,32 @@
                         </subviews>
                         <color key="backgroundColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
+                            <constraint firstItem="BXU-Om-NHC" firstAttribute="centerX" secondItem="U56-9h-Th5" secondAttribute="centerX" id="0yI-57-lmI"/>
+                            <constraint firstItem="BXU-Om-NHC" firstAttribute="centerY" secondItem="U56-9h-Th5" secondAttribute="centerY" id="2F3-iA-ylb"/>
+                            <constraint firstItem="9h1-XT-P1d" firstAttribute="leading" secondItem="U56-9h-Th5" secondAttribute="leadingMargin" constant="-8" id="9cl-f7-08h"/>
+                            <constraint firstItem="DwZ-tR-NT9" firstAttribute="centerY" secondItem="U56-9h-Th5" secondAttribute="centerY" id="DeO-um-xM5"/>
+                            <constraint firstItem="BXU-Om-NHC" firstAttribute="centerY" secondItem="U56-9h-Th5" secondAttribute="centerY" priority="250" id="N1v-qq-51X"/>
+                            <constraint firstAttribute="bottomMargin" secondItem="BXU-Om-NHC" secondAttribute="bottom" constant="34" id="VOW-Ud-Psn"/>
                             <constraint firstAttribute="bottomMargin" secondItem="BXU-Om-NHC" secondAttribute="bottom" constant="34" id="caL-kp-M4t"/>
+                            <constraint firstAttribute="bottomMargin" secondItem="BXU-Om-NHC" secondAttribute="bottom" constant="34" id="fL1-Up-cxh"/>
                             <constraint firstItem="BXU-Om-NHC" firstAttribute="centerY" secondItem="U56-9h-Th5" secondAttribute="centerY" id="job-Kw-bFe"/>
-                            <constraint firstItem="BXU-Om-NHC" firstAttribute="centerX" secondItem="U56-9h-Th5" secondAttribute="centerX" id="xUt-qf-jvS"/>
+                            <constraint firstItem="9h1-XT-P1d" firstAttribute="leading" secondItem="U56-9h-Th5" secondAttribute="leadingMargin" id="myg-sE-nGJ"/>
+                            <constraint firstItem="9h1-XT-P1d" firstAttribute="centerY" secondItem="U56-9h-Th5" secondAttribute="centerY" id="oFK-tH-eAu"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="DwZ-tR-NT9" secondAttribute="trailing" id="xqD-bK-qZo"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
+                                <exclude reference="9cl-f7-08h"/>
+                                <exclude reference="2F3-iA-ylb"/>
+                                <exclude reference="caL-kp-M4t"/>
+                                <exclude reference="fL1-Up-cxh"/>
                                 <exclude reference="job-Kw-bFe"/>
                             </mask>
                         </variation>
                     </view>
                     <connections>
                         <outlet property="messageTextField" destination="BXU-Om-NHC" id="hFJ-xU-yaf"/>
-                        <outlet property="messageTextFieldBottonConstraint" destination="caL-kp-M4t" id="B4H-ue-vYh"/>
+                        <outlet property="messageTextFieldBottomConstraint" destination="VOW-Ud-Psn" id="lB8-a1-5Hd"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="71h-3d-SQr" userLabel="First Responder" sceneMemberID="firstResponder"/>

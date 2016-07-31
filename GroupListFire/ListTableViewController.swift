@@ -148,7 +148,7 @@ class ListTableViewController: UITableViewController, ChangeFromCellDelegate {
         if editingStyle == .Delete {
             let item = currGroup!.list.items[indexPath.row]
             item.updateRefsForDeletion()
-            currGroup?.list.items.removeAtIndex(indexPath.row)
+            currGroup!.list.items.removeAtIndex(indexPath.row)
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
         } else if editingStyle == .Insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
@@ -163,10 +163,7 @@ class ListTableViewController: UITableViewController, ChangeFromCellDelegate {
             let timeFrame = alert.textFields![2].text!
             self.currGroup?.addItem(nameField, detail: detailField, timeFrame: timeFrame, byUser: self.user!.displayName!)
         }
-        let cancelAction = UIAlertAction(title: "Cancel", style: .Default) { (action: UIAlertAction!) -> Void in
-            self.view.endEditing(true)
-        }
-        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .Default, handler: nil)
         alert.addTextFieldWithConfigurationHandler { (textGroup) -> Void in
             textGroup.placeholder = "Item Name"
             textGroup.clearButtonMode = UITextFieldViewMode.WhileEditing
@@ -181,7 +178,6 @@ class ListTableViewController: UITableViewController, ChangeFromCellDelegate {
         }
         alert.addAction(saveAction)
         alert.addAction(cancelAction)
-        
         presentViewController(alert, animated: true, completion: nil)
     }
     

@@ -39,7 +39,7 @@ class ItemTableViewCell: UITableViewCell {
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
         alert.addAction(cancelAction)
-        if (delegate?.respondsToSelector(Selector("loadNewScreen"))) != nil {
+        if (delegate?.respondsToSelector(#selector(ListTableViewController.loadNewScreen))) != nil {
             delegate?.loadNewScreen(alert)
         }
     }
@@ -52,9 +52,7 @@ class ItemTableViewCell: UITableViewCell {
             let timeFrame = alert.textFields![2].text!
             self.item!.setNewProperties(newName: nameField, newQuantity: detailField, newTimeFrame: timeFrame)
         }
-        
         let cancelAction = UIAlertAction(title: "Cancel", style: .Default, handler: nil)
-        
         alert.addTextFieldWithConfigurationHandler { (textGroup) -> Void in
             textGroup.placeholder = "New Name"
         }
@@ -64,15 +62,12 @@ class ItemTableViewCell: UITableViewCell {
         alert.addTextFieldWithConfigurationHandler { (timeFrame) -> Void in
             timeFrame.placeholder = "When does it need to get done?"
         }
-        
         alert.addAction(saveAction)
         alert.addAction(cancelAction)
-        
-        if (delegate?.respondsToSelector(Selector("loadNewScreen"))) != nil {
+        if (delegate?.respondsToSelector(#selector(ListTableViewController.loadNewScreen))) != nil {
             delegate?.loadNewScreen(alert)
         }
     }
-    
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -81,7 +76,5 @@ class ItemTableViewCell: UITableViewCell {
     
     override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        
-        // Configure the view for the selected state
     }
 }

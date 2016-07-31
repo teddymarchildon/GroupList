@@ -35,7 +35,6 @@
 		B1F152AD1D4C683700455831 /* MessagingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1F152AC1D4C683700455831 /* MessagingTableViewCell.swift */; };
 		B1F152AF1D4C691F00455831 /* MessagingParentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1F152AE1D4C691F00455831 /* MessagingParentViewController.swift */; };
 		B1F152B11D4C696500455831 /* MessagingTextFieldViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1F152B01D4C696500455831 /* MessagingTextFieldViewController.swift */; };
-		B1F152B31D4D962E00455831 /* FirebaseUserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1F152B21D4D962E00455831 /* FirebaseUserData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -74,7 +73,6 @@
 		B1F152AC1D4C683700455831 /* MessagingTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagingTableViewCell.swift; sourceTree = "<group>"; };
 		B1F152AE1D4C691F00455831 /* MessagingParentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagingParentViewController.swift; sourceTree = "<group>"; };
 		B1F152B01D4C696500455831 /* MessagingTextFieldViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagingTextFieldViewController.swift; sourceTree = "<group>"; };
-		B1F152B21D4D962E00455831 /* FirebaseUserData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseUserData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -156,7 +154,6 @@
 			isa = PBXGroup;
 			children = (
 				B1D49FBF1D31C30100DF8D8D /* ListItem.swift */,
-				B1F152B21D4D962E00455831 /* FirebaseUserData.swift */,
 				B188F6AD1D2EBC760030BDD3 /* List.swift */,
 				B188F6AB1D2EA8B80030BDD3 /* Group.swift */,
 				B17EEE941D3BE03800AF529C /* ItemTableViewCell.swift */,
@@ -334,7 +331,6 @@
 				B188F6AA1D2EA54F0030BDD3 /* GroupTableViewController.swift in Sources */,
 				B17EEE951D3BE03800AF529C /* ItemTableViewCell.swift in Sources */,
 				B1F152AD1D4C683700455831 /* MessagingTableViewCell.swift in Sources */,
-				B1F152B31D4D962E00455831 /* FirebaseUserData.swift in Sources */,
 				B1CEDD5D1D2EC16D00A84E43 /* ListTableViewController.swift in Sources */,
 				B1F152B11D4C696500455831 /* MessagingTextFieldViewController.swift in Sources */,
 				B188F6AE1D2EBC760030BDD3 /* List.swift in Sources */,

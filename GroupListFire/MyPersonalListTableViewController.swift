@@ -29,27 +29,13 @@ class MyPersonalListTableViewController: UITableViewController, FirebaseDelegati
             menuButton.action = #selector(SWRevealViewController.revealToggle)
             self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
         }
-
+        
         myRef?.child("users").child("\(user!.displayName!)-\(user!.uid)").child("assignedTo").queryOrderedByChild("completed").queryEqualToValue(false).observeEventType(.Value, withBlock: { snapshot in
-            if let postDict = snapshot.value as? [String: AnyObject] {
-                self.items = []
-                for item in postDict.keys {
-                    let infoDict = postDict[item] as! [String: AnyObject]
-                    let name = infoDict["name"] as! String
-                    let quantity = infoDict["quantity"] as! String
-                    let createdBy = infoDict["createdBy"] as! String
-                    let completed = infoDict["completed"] as! Bool
-                    let group = infoDict["group"] as! String
-                    let timeFrame: String?
-                    let assignedTo: String?
-                    if let timeframe = infoDict["timeFrame"] {
-                        timeFrame = (timeframe as! String)
-                    } else { timeFrame = nil }
-                    if let assignedto = infoDict["assignedTo"] {
-                        assignedTo = (assignedto as! String)
-                    } else { assignedTo = nil }
-                    let groupRef = self.myRef?.child("groups").child(group).child("items").child(name)
-                    let newItem = ListItem(withName: name, andQuantity: quantity, completed: completed, groupRef: groupRef, createdBy: createdBy, assignedTo: assignedTo, timeFrame: timeFrame, group: group)
+            for item in snapshot.children {
+                if let item = item as? FIRDataSnapshot {
+                    let newItem = ListItem(snapshot: item)
+                    let groupRef = self.myRef?.child("groups").child(newItem.group).child("items").child(newItem.name)
+                    newItem.groupRef = groupRef
                     self.items.append(newItem)
                 }
             }
@@ -84,7 +70,6 @@ class MyPersonalListTableViewController: UITableViewController, FirebaseDelegati
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     // MARK: - Table view data source
@@ -151,9 +136,7 @@ class MyPersonalListTableViewController: UITableViewController, FirebaseDelegati
             
         }
     }
-    // Override to support conditional editing of the table view.
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
         return false
     }
 }

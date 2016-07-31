@@ -13,8 +13,8 @@ import Photos
 class MessagingTextFieldViewController: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     @IBOutlet weak var messageTextField: UITextField!
-    @IBOutlet weak var messageTextFieldBottonConstraint: NSLayoutConstraint!
-    
+ 
+    @IBOutlet weak var messageTextFieldBottomConstraint: NSLayoutConstraint!
     var keyboardHeight: CGFloat = 0.0
     let ref = FIRDatabase.database().referenceFromURL("https://grouplistfire-39d22.firebaseio.com/")
     var storageRef: FIRStorageReference!
@@ -105,7 +105,7 @@ class MessagingTextFieldViewController: UIViewController, UITextFieldDelegate, U
             let keyboardFrame = keyboardFrameValue.CGRectValue()
             UIView.animateWithDuration(1.0){
                 self.keyboardHeight = keyboardFrame.size.height
-                self.messageTextFieldBottonConstraint.constant += self.keyboardHeight + 20
+                self.messageTextFieldBottomConstraint.constant += self.keyboardHeight + 20
                 self.view.layoutIfNeeded()
             }
         }
@@ -113,7 +113,7 @@ class MessagingTextFieldViewController: UIViewController, UITextFieldDelegate, U
     
     func keyboardWillHide(notification: NSNotification) {
         UIView.animateWithDuration(1.0) {
-            self.messageTextFieldBottonConstraint.constant -= self.keyboardHeight + 20
+            self.messageTextFieldBottomConstraint.constant -= self.keyboardHeight + 20
             self.view.layoutIfNeeded()
         }
     }

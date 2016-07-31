@@ -1,3 +1,4 @@
+
 //
 //  AppDelegate.swift
 //  GroupListFire
@@ -61,7 +62,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
                         let alert = UIAlertController(title: "SignUp Error", message: "You need a display name to use this app", preferredStyle: .Alert)
                         let action = UIAlertAction(title: "Ok", style: .Default, handler: nil)
                         alert.addAction(action)
-                        if (self.delegate?.respondsToSelector(Selector("loadNewScreen"))) != nil {
+                        if (self.delegate?.respondsToSelector(#selector(LoginViewController.loadNewScreen))) != nil {
                             self.delegate?.loadNewScreen(alert)
                         }
                     }

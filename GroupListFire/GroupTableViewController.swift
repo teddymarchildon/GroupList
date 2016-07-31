@@ -73,7 +73,6 @@ class GroupTableViewController: UITableViewController, FirebaseDelegation {
             let group = Group(withName: nameField.text!, andTopic: topicField.text!, andList: List(), createdBy: self.user!.displayName!, andUser: self.user!)
             group.addToRefs(self.user!)
         }
-        
         let cancelAction = UIAlertAction(title: "Cancel", style: .Default, handler: nil)
         alert.addTextFieldWithConfigurationHandler { (textGroup) -> Void in
             textGroup.placeholder = "Group Name"
@@ -85,7 +84,6 @@ class GroupTableViewController: UITableViewController, FirebaseDelegation {
         }
         alert.addAction(saveAction)
         alert.addAction(cancelAction)
-        
         presentViewController(alert, animated: true, completion: nil)
     }
     
