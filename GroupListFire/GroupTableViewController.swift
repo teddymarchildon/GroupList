@@ -25,10 +25,17 @@ class GroupTableViewController: UITableViewController, FirebaseDelegation {
     var displayName: String {
         return (user?.displayName!)!
     }
+    var names: [String] = []
+    
     @IBOutlet weak var menuButton: UIBarButtonItem!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        if self.revealViewController() != nil {
+            menuButton.target = self.revealViewController()
+            menuButton.action = #selector(SWRevealViewController.revealToggle)
+            self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
+        }
         self.clearsSelectionOnViewWillAppear = true
         myUserRef = FIRDatabase.database().referenceFromURL("https://grouplistfire-39d22.firebaseio.com/").child("users").child("\(user!.displayName!)-\(user!.uid)")
         myGroupRef = FIRDatabase.database().referenceFromURL("https://grouplistfire-39d22.firebaseio.com/").child("groups")
@@ -43,11 +50,6 @@ class GroupTableViewController: UITableViewController, FirebaseDelegation {
             }
             self.didFetchData(newNames, toMatch: nil)
         })
-        if self.revealViewController() != nil {
-            menuButton.target = self.revealViewController()
-            menuButton.action = #selector(SWRevealViewController.revealToggle)
-            self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
-        }
     }
     
     func didFetchData<T: SequenceType>(data: T, toMatch: String?) {
@@ -57,7 +59,7 @@ class GroupTableViewController: UITableViewController, FirebaseDelegation {
                 self.myGroupRef?.child(item).observeSingleEventOfType(.Value, withBlock: { snapshot in
                     let newGroup = Group(snapshot: snapshot)
                     self.userGroups.append(newGroup)
-                    self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: self.userGroups.count-1, inSection: 0)], withRowAnimation: .Automatic)
+                    self.tableView.reloadData()
                 })
             }
         }

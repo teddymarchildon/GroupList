@@ -22,11 +22,9 @@ class ListTableViewController: UITableViewController, ChangeFromCellDelegate {
         super.viewDidLoad()
         let button: UIButton = UIButton()
         button.setImage(UIImage(named: "Add User Male-100"), forState: UIControlState.Normal)
-        button.tintColor = .whiteColor()
         button.addTarget(self, action: #selector(self.addUserButtonPressed), forControlEvents: UIControlEvents.TouchUpInside)
         button.frame = CGRectMake(0, 0, 32, 32)
         let barButton = UIBarButtonItem(customView: button)
-        barButton.tintColor = .whiteColor()
         self.navigationItem.rightBarButtonItems![1] = barButton
         self.currGroup!.groupUsers = []
         tableView.delegate = self
