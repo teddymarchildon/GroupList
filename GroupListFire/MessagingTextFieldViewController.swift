@@ -13,7 +13,6 @@ import Photos
 class MessagingTextFieldViewController: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     @IBOutlet weak var messageTextField: UITextField!
-    
     @IBOutlet weak var messageTextFieldBottonConstraint: NSLayoutConstraint!
     
     var keyboardHeight: CGFloat = 0.0
@@ -21,18 +20,24 @@ class MessagingTextFieldViewController: UIViewController, UITextFieldDelegate, U
     var storageRef: FIRStorageReference!
     var group: Group!
     var currentUser = FIRAuth.auth()?.currentUser!
+    var parentController: MessagingParentViewController!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        messageTextField.delegate = self
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
+        view.addGestureRecognizer(tap)
         storageRef = FIRStorage.storage().referenceForURL("gs://grouplistfire-39d22.appspot.com")
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(self.keyboardWillShow(_ :)), name: UIKeyboardWillShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(self.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
-        // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    }
+    
+    func dismissKeyboard() {
+        parentController.view.endEditing(true)
     }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
@@ -43,6 +48,7 @@ class MessagingTextFieldViewController: UIViewController, UITextFieldDelegate, U
             data["user"] = name
             data["text"] = text
             sendMessage(data)
+            textField.text = ""
             textField.resignFirstResponder()
         }
         return true
@@ -51,7 +57,6 @@ class MessagingTextFieldViewController: UIViewController, UITextFieldDelegate, U
     func sendMessage(data: [String: String]) {
         self.ref.child("groups").child("\(group.createdBy)-\(group.name)-\(group.topic)").child("messages").childByAutoId().setValue(data)
     }
-
     
     @IBAction func didPressSendButton(sender: AnyObject) {
         self.textFieldShouldReturn(self.messageTextField)
@@ -91,12 +96,16 @@ class MessagingTextFieldViewController: UIViewController, UITextFieldDelegate, U
         }
     }
     
+    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
+        picker.dismissViewControllerAnimated(true, completion:nil)
+    }
+    
     func keyboardWillShow(notification: NSNotification) {
         if let userInfoDict = notification.userInfo, keyboardFrameValue = userInfoDict[UIKeyboardFrameEndUserInfoKey] as? NSValue{
             let keyboardFrame = keyboardFrameValue.CGRectValue()
             UIView.animateWithDuration(1.0){
                 self.keyboardHeight = keyboardFrame.size.height
-                self.messageTextFieldBottonConstraint.constant = self.keyboardHeight + 20
+                self.messageTextFieldBottonConstraint.constant += self.keyboardHeight + 20
                 self.view.layoutIfNeeded()
             }
         }
@@ -104,19 +113,8 @@ class MessagingTextFieldViewController: UIViewController, UITextFieldDelegate, U
     
     func keyboardWillHide(notification: NSNotification) {
         UIView.animateWithDuration(1.0) {
-            self.messageTextField.text = ""
-            self.messageTextFieldBottonConstraint.constant -= self.keyboardHeight
+            self.messageTextFieldBottonConstraint.constant -= self.keyboardHeight + 20
             self.view.layoutIfNeeded()
         }
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

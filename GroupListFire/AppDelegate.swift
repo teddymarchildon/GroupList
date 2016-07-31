@@ -16,8 +16,9 @@ import GoogleSignIn
 class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
     
     var window: UIWindow?
-    var myRef: FIRDatabaseReference?
+    var myRef: FIRDatabaseReference!
     var googleSignin: Bool = true
+    weak var delegate: ChangeFromCellDelegate?
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         FIRApp.configure()
@@ -53,11 +54,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
             if let error = error {
                 print(error.localizedDescription)
             } else {
-                if let displayName = user!.displayName {
-                    let newUser = User(withDisplayName: displayName, andID: user!.uid, andPhotoURL: user!.photoURL!)
-                    self.myRef?.child("users").child("\(displayName)-\(user!.uid)").child("username").setValue(displayName)
-                    self.myRef?.child("users").child("\(displayName)-\(user!.uid)").child("id").setValue(newUser.ID)
-                    self.myRef?.child("users").child("\(displayName)-\(user!.uid)").child("photoURL").setValue(String(newUser.photoURL))
+                if let user = user {
+                    if let displayName = user.displayName {
+                        self.myRef?.child("users").child("\(user.displayName!)-\(user.uid)").child("username").setValue(displayName)
+                    } else {
+                        let alert = UIAlertController(title: "SignUp Error", message: "You need a display name to use this app", preferredStyle: .Alert)
+                        let action = UIAlertAction(title: "Ok", style: .Default, handler: nil)
+                        alert.addAction(action)
+                        if (self.delegate?.respondsToSelector(Selector("loadNewScreen"))) != nil {
+                            self.delegate?.loadNewScreen(alert)
+                        }
+                    }
+                    self.myRef?.child("users").child("\(user.displayName!)-\(user.uid)").child("id").setValue(user.uid)
+                    if let photoUrl = user.photoURL {
+                        self.myRef?.child("users").child("\(user.displayName!)-\(user.uid)").child("photoURL").setValue(String(photoUrl))
+                    }
                 }
             }
         }

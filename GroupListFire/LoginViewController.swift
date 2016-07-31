@@ -12,7 +12,7 @@ import FBSDKCoreKit
 import FBSDKLoginKit
 import GoogleSignIn
 
-class LoginViewController: UIViewController, FBSDKLoginButtonDelegate, GIDSignInUIDelegate {
+class LoginViewController: UIViewController, FBSDKLoginButtonDelegate, GIDSignInUIDelegate, ChangeFromCellDelegate {
     
     @IBOutlet weak var infoLabel: UILabel!
     @IBOutlet weak var welcomeLabel: UILabel!
@@ -20,7 +20,6 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate, GIDSignIn
     @IBOutlet weak var googleSignInButton: GIDSignInButton!
     var myRef: FIRDatabaseReference? = nil
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-    var newUser: User?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,6 +50,10 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate, GIDSignIn
         self.facebookLoginButton.hidden = false
     }
     
+    func loadNewScreen(controller: UIViewController) {
+        self.signupErrorAlert("Sign Up Error", message: "You need a display name to use this app")
+    }
+    
     func loginButton(loginButton: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!) {
         self.activityIndicator.startAnimating()
         self.facebookLoginButton.hidden = true
@@ -70,11 +73,16 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate, GIDSignIn
             let credential = FIRFacebookAuthProvider.credentialWithAccessToken(FBSDKAccessToken.currentAccessToken().tokenString)
             FIRAuth.auth()?.signInWithCredential(credential) { (user, error) in
                 if error == nil {
-                    if let user = user, displayName = user.displayName {
-                        let newUser = User(withDisplayName: displayName, andID: user.uid, andPhotoURL: user.photoURL!)
-                        self.myRef?.child("users").child("\(displayName)-\(user.uid)").child("username").setValue(displayName)
-                        self.myRef?.child("users").child("\(displayName)-\(user.uid)").child("id").setValue(newUser.ID)
-                        self.myRef?.child("users").child("\(displayName)-\(user.uid)").child("photoURL").setValue(String(newUser.photoURL))
+                    if let user = user {
+                        if let displayName = user.displayName {
+                            self.myRef?.child("users").child("\(user.displayName!)-\(user.uid)").child("username").setValue(displayName)
+                        } else {
+                            self .signupErrorAlert("Error!", message: "You need a display name to use this app")
+                        }
+                        self.myRef?.child("users").child("\(user.displayName!)-\(user.uid)").child("id").setValue(user.uid)
+                        if let photoUrl = user.photoURL {
+                            self.myRef?.child("users").child("\(user.displayName!)-\(user.uid)").child("photoURL").setValue(String(photoUrl))
+                        }
                     }
                 } else {
                     print(error?.localizedDescription)

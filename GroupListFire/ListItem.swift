@@ -138,5 +138,4 @@ class ListItem {
         self.assignedTo = user
         self.updateRefsOfItem()
     }
-
 }

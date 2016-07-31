@@ -12,7 +12,7 @@ import Firebase
 class UserSearchTableViewController: UITableViewController, UISearchResultsUpdating {
     
     var registeredUsers: [String] = []
-    var userToImage: [String: NSData] = [:]
+    var userToImage: [String: NSData?] = [:]
     var userToID: [String: String] = [:]
     var myRef: FIRDatabaseReference? = nil
     var currGroup: Group?
@@ -29,25 +29,29 @@ class UserSearchTableViewController: UITableViewController, UISearchResultsUpdat
         myRef = FIRDatabase.database().referenceFromURL("https://grouplistfire-39d22.firebaseio.com/")
         self.myRef?.child("users").observeSingleEventOfType(.Value, withBlock: { snapshot in
             self.registeredUsers = []
-            var userID: [String: String] = [:]
-            var userPhoto: [String: NSData] = [:]
+            var usernameToId: [String: String] = [:]
+            var usernameToPhoto: [String: NSData?] = [:]
             for item in snapshot.children {
                 if let item = item as? FIRDataSnapshot {
-                    let key = item.key.componentsSeparatedByString("-")
-                    self.registeredUsers.append(key[0])
-                    userID[key[0]] = key[1]
+                    let name = item.key.componentsSeparatedByString("-")[0]
+                    let id = item.key.componentsSeparatedByString("-")[1]
                     if let postDict = item.value as? [String: AnyObject] {
-                        let photoURL = NSURL(string: postDict["photoURL"] as! String)
-                        let data = NSData(contentsOfURL: photoURL!)
-                        userPhoto[key[0]] = data
+                        self.registeredUsers.append(name)
+                        usernameToId[name] = id
+                        if let photoUrl = postDict["photoURL"] as? String {
+                            let photoURL = NSURL(string: photoUrl)
+                            let data = NSData(contentsOfURL: photoURL!)
+                            usernameToPhoto[name] = data
+                        } else {
+                            usernameToPhoto[name] = nil
+                        }
                     }
                 }
             }
-            self.userToID = userID
-            self.userToImage = userPhoto
+            self.userToID = usernameToId
+            self.userToImage = usernameToPhoto
             self.tableView.reloadData()
         })
-        
     }
     
     override func didReceiveMemoryWarning() {
@@ -79,7 +83,11 @@ class UserSearchTableViewController: UITableViewController, UISearchResultsUpdat
         }
         cell.userName.text = user
         let image = self.userToImage[user]
-        cell.userImage.image = UIImage(data: image!)
+        if let image = image {
+            cell.userImage.image = UIImage(data: image!)
+        } else {
+            cell.userImage.image = nil
+        }
         return cell
     }
     
@@ -94,7 +102,7 @@ class UserSearchTableViewController: UITableViewController, UISearchResultsUpdat
         if !self.currGroup!.groupUsers.contains("\(userName)-\(userID!)") {
             self.currGroup!.groupUsers.append("\(userName)-\(userID!)")
         }
-        self.currGroup?.addUser(userName, userID: userID!)
+        self.currGroup!.addUser(userName, userID: userID!)
         navigationController?.popViewControllerAnimated(true)
     }
     

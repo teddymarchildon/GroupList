@@ -15,6 +15,7 @@ class MessagingTableViewController: UITableViewController {
     var messages: [FIRDataSnapshot]! = []
     let ref = FIRDatabase.database().referenceFromURL("https://grouplistfire-39d22.firebaseio.com/")
     var currentUser = FIRAuth.auth()?.currentUser!
+    var parentController: MessagingParentViewController!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,7 +28,7 @@ class MessagingTableViewController: UITableViewController {
     }
     
     func dismissKeyboard() {
-        self.view.endEditing(true)
+        parentController.view.endEditing(true)
     }
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {

@@ -10,7 +10,7 @@ import UIKit
 import Firebase
 
 protocol ChangeFromCellDelegate: NSObjectProtocol {
-    func loadNewScreen(controller: UIViewController, item: ListItem)
+    func loadNewScreen(controller: UIViewController)
 }
 
 class ItemTableViewCell: UITableViewCell {
@@ -30,9 +30,9 @@ class ItemTableViewCell: UITableViewCell {
     
     @IBAction func assignItemToUser(sender: AnyObject) {
         let alert = UIAlertController(title: "Assign To", message: nil, preferredStyle: .ActionSheet)
-        for user in currGroup!.groupUsers {
-            let username = user.componentsSeparatedByString("-")[0]
-            let userAction = UIAlertAction(title: username, style: .Default) { (action: UIAlertAction!) -> Void in
+        for user in self.currGroup!.groupUsers {
+            let name = user.componentsSeparatedByString("-")[0]
+            let userAction = UIAlertAction(title: name, style: .Default) { (action: UIAlertAction!) -> Void in
                 self.item!.assignToUser(user)
             }
             alert.addAction(userAction)
@@ -40,7 +40,7 @@ class ItemTableViewCell: UITableViewCell {
         let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
         alert.addAction(cancelAction)
         if (delegate?.respondsToSelector(Selector("loadNewScreen"))) != nil {
-            delegate?.loadNewScreen(alert, item: self.item!)
+            delegate?.loadNewScreen(alert)
         }
     }
     
@@ -69,7 +69,7 @@ class ItemTableViewCell: UITableViewCell {
         alert.addAction(cancelAction)
         
         if (delegate?.respondsToSelector(Selector("loadNewScreen"))) != nil {
-            delegate?.loadNewScreen(alert, item: self.item!)
+            delegate?.loadNewScreen(alert)
         }
     }
     

@@ -112,7 +112,7 @@ class ListTableViewController: UITableViewController, ChangeFromCellDelegate {
         lastIndexPath = indexPath
     }
     
-    func loadNewScreen(controller: UIViewController, item: ListItem) {
+    func loadNewScreen(controller: UIViewController) {
         self.presentViewController(controller, animated: true, completion: nil)
         self.tableView.reloadData()
     }
@@ -181,7 +181,6 @@ class ListTableViewController: UITableViewController, ChangeFromCellDelegate {
             timeFrame.placeholder = "When does it need to get done?"
             timeFrame.clearButtonMode = UITextFieldViewMode.WhileEditing
         }
-        
         alert.addAction(saveAction)
         alert.addAction(cancelAction)
         

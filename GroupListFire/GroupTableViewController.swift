@@ -57,7 +57,7 @@ class GroupTableViewController: UITableViewController, FirebaseDelegation {
                 self.myGroupRef?.child(item).observeSingleEventOfType(.Value, withBlock: { snapshot in
                     let newGroup = Group(snapshot: snapshot)
                     self.userGroups.append(newGroup)
-                    self.tableView.reloadData()
+                    self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: self.userGroups.count-1, inSection: 0)], withRowAnimation: .Automatic)
                 })
             }
         }
