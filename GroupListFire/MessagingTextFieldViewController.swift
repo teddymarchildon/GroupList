@@ -105,6 +105,7 @@ class MessagingTextFieldViewController: UIViewController, UITextFieldDelegate, U
             let keyboardFrame = keyboardFrameValue.CGRectValue()
             UIView.animateWithDuration(1.0){
                 self.keyboardHeight = keyboardFrame.size.height
+                self.messageTextField.backgroundColor = UIColor(red: 204/255.0, green: 204/255.0, blue: 204/255.0, alpha: 1.0)
                 self.messageTextFieldBottomConstraint.constant += self.keyboardHeight + 20
                 self.view.layoutIfNeeded()
             }
@@ -113,6 +114,7 @@ class MessagingTextFieldViewController: UIViewController, UITextFieldDelegate, U
     
     func keyboardWillHide(notification: NSNotification) {
         UIView.animateWithDuration(1.0) {
+            self.messageTextField.backgroundColor = .whiteColor()
             self.messageTextFieldBottomConstraint.constant -= self.keyboardHeight + 20
             self.view.layoutIfNeeded()
         }
