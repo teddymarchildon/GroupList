@@ -50,7 +50,15 @@ class ItemTableViewCell: UITableViewCell {
             let nameField = alert.textFields![0].text!
             let detailField = alert.textFields![1].text!
             let timeFrame = alert.textFields![2].text!
-            self.item!.setNewProperties(newName: nameField, newQuantity: detailField, newTimeFrame: timeFrame)
+            if ErrorAlerts.containsInvalidCharacters(nameField) {
+                let malTextAlert = ErrorAlerts.invalidTextEntered("Name may not contain the following characters: $ # / [ ] .")
+                if (self.delegate?.respondsToSelector(#selector(ListTableViewController.loadNewScreen))) != nil {
+                    self.delegate?.loadNewScreen(malTextAlert)
+                }
+                return
+            } else {
+                self.item!.setNewProperties(newName: nameField, newQuantity: detailField, newTimeFrame: timeFrame)
+            }
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .Default, handler: nil)
         alert.addTextFieldWithConfigurationHandler { (textGroup) -> Void in

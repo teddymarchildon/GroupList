@@ -159,7 +159,13 @@ class ListTableViewController: UITableViewController, ChangeFromCellDelegate {
             let nameField = alert.textFields![0].text!
             let detailField = alert.textFields![1].text!
             let timeFrame = alert.textFields![2].text!
-            self.currGroup?.addItem(nameField, detail: detailField, timeFrame: timeFrame, byUser: self.user!.displayName!)
+            if ErrorAlerts.containsInvalidCharacters(nameField) {
+                let malTextAlert = ErrorAlerts.invalidTextEntered("Name may not contain the following characters: $ # / [ ] .")
+                self.presentViewController(malTextAlert, animated: true, completion: nil)
+                return
+            } else {
+                self.currGroup?.addItem(nameField, detail: detailField, timeFrame: timeFrame, byUser: self.user!.displayName!)
+            }
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .Default, handler: nil)
         alert.addTextFieldWithConfigurationHandler { (textGroup) -> Void in

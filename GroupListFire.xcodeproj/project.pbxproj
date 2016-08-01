@@ -30,6 +30,7 @@
 		B1B13E1A1D42E0330014083A /* PersonalItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1B13E191D42E0330014083A /* PersonalItemTableViewCell.swift */; };
 		B1C1D5AC1D2D3D2A00B30635 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B1C1D5AB1D2D3D2A00B30635 /* Main.storyboard */; };
 		B1C1D5AE1D2D3D5500B30635 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C1D5AD1D2D3D5500B30635 /* LoginViewController.swift */; };
+		B1C397A01D4FF410002361D7 /* ErrorAlerts.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C3979F1D4FF410002361D7 /* ErrorAlerts.swift */; };
 		B1CEDD5D1D2EC16D00A84E43 /* ListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1CEDD5C1D2EC16D00A84E43 /* ListTableViewController.swift */; };
 		B1D49FC01D31C30100DF8D8D /* ListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D49FBF1D31C30100DF8D8D /* ListItem.swift */; };
 		B1F152AD1D4C683700455831 /* MessagingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1F152AC1D4C683700455831 /* MessagingTableViewCell.swift */; };
@@ -68,6 +69,7 @@
 		B1B13E191D42E0330014083A /* PersonalItemTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonalItemTableViewCell.swift; sourceTree = "<group>"; };
 		B1C1D5AB1D2D3D2A00B30635 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		B1C1D5AD1D2D3D5500B30635 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		B1C3979F1D4FF410002361D7 /* ErrorAlerts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorAlerts.swift; sourceTree = "<group>"; };
 		B1CEDD5C1D2EC16D00A84E43 /* ListTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListTableViewController.swift; sourceTree = "<group>"; };
 		B1D49FBF1D31C30100DF8D8D /* ListItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListItem.swift; sourceTree = "<group>"; };
 		B1F152AC1D4C683700455831 /* MessagingTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagingTableViewCell.swift; sourceTree = "<group>"; };
@@ -154,6 +156,7 @@
 			isa = PBXGroup;
 			children = (
 				B1D49FBF1D31C30100DF8D8D /* ListItem.swift */,
+				B1C3979F1D4FF410002361D7 /* ErrorAlerts.swift */,
 				B188F6AD1D2EBC760030BDD3 /* List.swift */,
 				B188F6AB1D2EA8B80030BDD3 /* Group.swift */,
 				B17EEE941D3BE03800AF529C /* ItemTableViewCell.swift */,
@@ -319,6 +322,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B13C67B61D40578100B7D365 /* SlideMenuTableViewController.swift in Sources */,
+				B1C397A01D4FF410002361D7 /* ErrorAlerts.swift in Sources */,
 				B1092EA81D3F174100D1D598 /* UserSearchTableViewController.swift in Sources */,
 				B1C1D5AE1D2D3D5500B30635 /* LoginViewController.swift in Sources */,
 				B15676211D4B93CE00E27176 /* MessagingTableViewController.swift in Sources */,

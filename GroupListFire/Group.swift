@@ -95,7 +95,7 @@ class Group {
         }
         for item in self.list.items {
             if let assignedTo = item.assignedTo where assignedTo == "\(fromUser.displayName!)-\(fromUser.uid)" {
-                    ref.child("users").child("\(fromUser.displayName!)-\(fromUser.uid)").child("assignedTo").child("\(item.group)-\(item.name)-\(item.quantity)").removeValue()
+                    ref.child("users").child("\(fromUser.displayName!)-\(fromUser.uid)").child("assignedTo").child("\(item.group)-\(item.name)").removeValue()
                     item.assignedTo = nil
                     item.updateRefsOfItem()
             }

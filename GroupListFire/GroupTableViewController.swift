@@ -70,8 +70,14 @@ class GroupTableViewController: UITableViewController, FirebaseDelegation {
         let saveAction = UIAlertAction(title: "Save", style: .Default) { (action: UIAlertAction!) -> Void in
             let nameField = alert.textFields![0]
             let topicField = alert.textFields![1]
-            let group = Group(withName: nameField.text!, andTopic: topicField.text!, andList: List(), createdBy: self.user!.displayName!, andUser: self.user!)
-            group.addToRefs(self.user!)
+            if ErrorAlerts.containsInvalidCharacters(nameField.text!) || ErrorAlerts.containsInvalidCharacters(topicField.text!) {
+                let malTextAlert = ErrorAlerts.invalidTextEntered("Name and Topic may not contain the following characters: $ # / [ ] .")
+                self.presentViewController(malTextAlert, animated: true, completion: nil)
+                return
+            } else {
+                let group = Group(withName: nameField.text!, andTopic: topicField.text!, andList: List(), createdBy: self.user!.displayName!, andUser: self.user!)
+                group.addToRefs(self.user!)
+            }
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .Default, handler: nil)
         alert.addTextFieldWithConfigurationHandler { (textGroup) -> Void in
