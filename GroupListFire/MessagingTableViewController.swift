@@ -19,6 +19,8 @@ class MessagingTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 75
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
         view.addGestureRecognizer(tap)
         ref.child("groups").child("\(group.createdBy)-\(group.name)-\(group.topic)").child("messages").observeEventType(.ChildAdded, withBlock: { snapshot in
