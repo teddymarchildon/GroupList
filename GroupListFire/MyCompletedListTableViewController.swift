@@ -109,7 +109,6 @@ class MyCompletedListTableViewController: UITableViewController {
             cell.createdByLabel.textColor = UIColor.grayColor()
             cell.assignedToLabel.textColor = UIColor.grayColor()
             cell.timeFrameLabel.textColor = UIColor.grayColor()
-            
         }
     }
     
