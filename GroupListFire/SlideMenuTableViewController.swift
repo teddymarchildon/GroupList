@@ -19,9 +19,6 @@ class SlideMenuTableViewController: UITableViewController {
         super.didReceiveMemoryWarning()
     }
 
-    // MARK: - Table view data source
-
-
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if indexPath.row == 4 {
             try! FIRAuth.auth()!.signOut()

@@ -82,7 +82,6 @@ class MyPersonalListTableViewController: UITableViewController, FirebaseDelegati
         return self.items.count
     }
     
-    
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("PersonalItemTableViewCell", forIndexPath: indexPath) as! PersonalItemTableViewCell
         let item = self.items[indexPath.row]
@@ -95,7 +94,6 @@ class MyPersonalListTableViewController: UITableViewController, FirebaseDelegati
         toggleCellCheckbox(cell, isCompleted: item.completed, index: indexPath)
         return cell
     }
-    
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let now: NSTimeInterval = NSDate().timeIntervalSince1970

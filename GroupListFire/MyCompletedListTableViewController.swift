@@ -66,7 +66,6 @@ class MyCompletedListTableViewController: UITableViewController {
             }
             self.didFetchData(newNames, toMatch: nil)
         })
-        
     }
     
     func didFetchData<T : SequenceType>(data: T, toMatch: String?) {
@@ -95,7 +94,6 @@ class MyCompletedListTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.items.count
     }
-    
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("PersonalItemTableViewCell", forIndexPath: indexPath) as! PersonalItemTableViewCell
@@ -152,9 +150,11 @@ class MyCompletedListTableViewController: UITableViewController {
             
         }
     }
+    
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         return true
     }
+    
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
             let item = self.items[indexPath.row]

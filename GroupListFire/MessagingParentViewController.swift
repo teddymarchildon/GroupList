@@ -32,9 +32,7 @@ class MessagingParentViewController: UIViewController {
         super.viewDidLoad()
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
         view.addGestureRecognizer(tap)
-        // Do any additional setup after loading the view.
     }
-    
     
     func dismissKeyboard() {
         buttonPanelViewController.view.endEditing(true)
@@ -42,7 +40,6 @@ class MessagingParentViewController: UIViewController {
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
 }
