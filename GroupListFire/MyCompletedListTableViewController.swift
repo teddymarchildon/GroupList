@@ -29,7 +29,6 @@ class MyCompletedListTableViewController: UITableViewController {
             menuButton.action = #selector(SWRevealViewController.revealToggle)
             self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
         }
-        
         myRef?.child("users").child("\(user!.displayName!)-\(user!.uid)").child("assignedTo").queryOrderedByChild("completed").queryEqualToValue(true).observeEventType(.Value, withBlock: { snapshot in
             for item in snapshot.children {
                 if let item = item as? FIRDataSnapshot {
