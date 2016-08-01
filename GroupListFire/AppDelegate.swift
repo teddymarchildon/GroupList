@@ -57,7 +57,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
             } else {
                 if let user = user {
                     if let displayName = user.displayName {
-                        self.myRef?.child("users").child("\(user.displayName!)-\(user.uid)").child("username").setValue(displayName)
+                        self.myRef?.child("users").child("\(displayName)-\(user.uid)").child("username").setValue(displayName)
+                        self.myRef?.child("users").child("\(displayName)-\(user.uid)").child("id").setValue(user.uid)
                     } else {
                         let alert = UIAlertController(title: "SignUp Error", message: "You need a display name to use this app", preferredStyle: .Alert)
                         let action = UIAlertAction(title: "Ok", style: .Default, handler: nil)
@@ -66,7 +67,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
                             self.delegate?.loadNewScreen(alert)
                         }
                     }
-                    self.myRef?.child("users").child("\(user.displayName!)-\(user.uid)").child("id").setValue(user.uid)
                     if let photoUrl = user.photoURL {
                         self.myRef?.child("users").child("\(user.displayName!)-\(user.uid)").child("photoURL").setValue(String(photoUrl))
                     }
