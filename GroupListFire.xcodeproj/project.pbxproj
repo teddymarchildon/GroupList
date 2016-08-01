@@ -155,8 +155,8 @@
 		B1B252B31D3871A700A0B46F /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				B1D49FBF1D31C30100DF8D8D /* ListItem.swift */,
 				B1C3979F1D4FF410002361D7 /* ErrorAlerts.swift */,
+				B1D49FBF1D31C30100DF8D8D /* ListItem.swift */,
 				B188F6AD1D2EBC760030BDD3 /* List.swift */,
 				B188F6AB1D2EA8B80030BDD3 /* Group.swift */,
 				B17EEE941D3BE03800AF529C /* ItemTableViewCell.swift */,
