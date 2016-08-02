@@ -1193,13 +1193,13 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="8" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nYw-hd-gG6">
-                                <rect key="frame" x="47.5" y="299" width="280" height="179.5"/>
+                                <rect key="frame" x="47.5" y="299" width="280" height="215"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="101" id="0Er-LE-ji7"/>
                                     <constraint firstAttribute="height" constant="110" id="3DV-PQ-aDy"/>
                                     <constraint firstAttribute="width" relation="lessThanOrEqual" constant="280" id="9af-CS-KVu"/>
                                 </constraints>
-                                <string key="text">Double tap an item to mark it completed/uncompleted. Your to-do list only consists of uncompleted items. As soon as you complete it, it goes to your completed list. You may not delete items from your to-do list, but you may re-assign them within the group or mark them completed. You may delete the completed items from your completed list.</string>
+                                <string key="text">Double tap an item to mark it completed/uncompleted. Your to-do list only consists of uncompleted items. As soon as you complete it, it goes to your completed list. You may not delete items from your to-do list, but you may re-assign them within the group or mark them completed. You may delete the completed items from your completed list. The database updates in real time so there is no need to refresh. Thanks to Canyon Dell'Omo for the logo!</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -1351,6 +1351,20 @@
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ewU-UC-0FY">
+                                            <rect key="frame" x="331" y="0.0" width="36" height="63"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="49" id="jnq-6M-oZq"/>
+                                                <constraint firstAttribute="height" constant="70.5" id="qoF-eO-0yG"/>
+                                                <constraint firstAttribute="width" constant="36" id="swZ-e9-qpr"/>
+                                            </constraints>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="jnq-6M-oZq"/>
+                                                    <exclude reference="qoF-eO-0yG"/>
+                                                </mask>
+                                            </variation>
+                                        </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="  " textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="6" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="F2q-Oa-Nhx">
                                             <rect key="frame" x="8" y="21" width="308.5" height="21"/>
                                             <constraints>
@@ -1360,26 +1374,14 @@
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ewU-UC-0FY">
-                                            <rect key="frame" x="318" y="0.0" width="49" height="55"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="49" id="jnq-6M-oZq"/>
-                                                <constraint firstAttribute="height" constant="70.5" id="qoF-eO-0yG"/>
-                                                <constraint firstAttribute="width" constant="49" id="swZ-e9-qpr"/>
-                                            </constraints>
-                                            <variation key="default">
-                                                <mask key="constraints">
-                                                    <exclude reference="jnq-6M-oZq"/>
-                                                    <exclude reference="qoF-eO-0yG"/>
-                                                </mask>
-                                            </variation>
-                                        </imageView>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="ewU-UC-0FY" firstAttribute="trailing" secondItem="6fg-9Q-P6a" secondAttribute="trailingMargin" id="05A-Ae-eki"/>
+                                        <constraint firstItem="ewU-UC-0FY" firstAttribute="top" secondItem="6fg-9Q-P6a" secondAttribute="topMargin" constant="-8" id="3me-Hd-YdA"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="ewU-UC-0FY" secondAttribute="bottom" constant="-8" id="KdE-nU-u9k"/>
                                         <constraint firstItem="yWB-pw-B3k" firstAttribute="leading" secondItem="6fg-9Q-P6a" secondAttribute="leadingMargin" id="Ory-eh-97o"/>
-                                        <constraint firstItem="ewU-UC-0FY" firstAttribute="centerY" secondItem="6fg-9Q-P6a" secondAttribute="centerY" constant="-4" id="T3S-g8-q8Z"/>
-                                        <constraint firstAttribute="bottomMargin" secondItem="ewU-UC-0FY" secondAttribute="bottom" id="TVi-cF-09c"/>
+                                        <constraint firstItem="ewU-UC-0FY" firstAttribute="centerY" secondItem="6fg-9Q-P6a" secondAttribute="centerY" priority="750" id="T3S-g8-q8Z"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="ewU-UC-0FY" secondAttribute="bottom" constant="-8" id="TVi-cF-09c"/>
                                         <constraint firstItem="F2q-Oa-Nhx" firstAttribute="leading" secondItem="6fg-9Q-P6a" secondAttribute="leadingMargin" id="WNU-ib-GCI"/>
                                         <constraint firstItem="yWB-pw-B3k" firstAttribute="top" secondItem="6fg-9Q-P6a" secondAttribute="topMargin" id="abm-bn-yH0"/>
                                         <constraint firstItem="F2q-Oa-Nhx" firstAttribute="top" secondItem="yWB-pw-B3k" secondAttribute="bottom" constant="-1" id="g1d-wA-g48"/>
@@ -1388,6 +1390,7 @@
                                     </constraints>
                                     <variation key="default">
                                         <mask key="constraints">
+                                            <exclude reference="KdE-nU-u9k"/>
                                             <exclude reference="whp-lD-XEs"/>
                                         </mask>
                                     </variation>
