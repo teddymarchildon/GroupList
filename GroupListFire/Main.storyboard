@@ -1351,13 +1351,6 @@
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ewU-UC-0FY">
-                                            <rect key="frame" x="318" y="-4" width="49" height="70.5"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="49" id="jnq-6M-oZq"/>
-                                                <constraint firstAttribute="height" constant="70.5" id="qoF-eO-0yG"/>
-                                            </constraints>
-                                        </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="  " textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="6" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="F2q-Oa-Nhx">
                                             <rect key="frame" x="8" y="21" width="308.5" height="21"/>
                                             <constraints>
@@ -1367,16 +1360,37 @@
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ewU-UC-0FY">
+                                            <rect key="frame" x="318" y="0.0" width="49" height="55"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="49" id="jnq-6M-oZq"/>
+                                                <constraint firstAttribute="height" constant="70.5" id="qoF-eO-0yG"/>
+                                                <constraint firstAttribute="width" constant="49" id="swZ-e9-qpr"/>
+                                            </constraints>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="jnq-6M-oZq"/>
+                                                    <exclude reference="qoF-eO-0yG"/>
+                                                </mask>
+                                            </variation>
+                                        </imageView>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="ewU-UC-0FY" firstAttribute="trailing" secondItem="6fg-9Q-P6a" secondAttribute="trailingMargin" id="05A-Ae-eki"/>
                                         <constraint firstItem="yWB-pw-B3k" firstAttribute="leading" secondItem="6fg-9Q-P6a" secondAttribute="leadingMargin" id="Ory-eh-97o"/>
-                                        <constraint firstItem="ewU-UC-0FY" firstAttribute="centerY" secondItem="6fg-9Q-P6a" secondAttribute="centerY" id="T3S-g8-q8Z"/>
+                                        <constraint firstItem="ewU-UC-0FY" firstAttribute="centerY" secondItem="6fg-9Q-P6a" secondAttribute="centerY" constant="-4" id="T3S-g8-q8Z"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="ewU-UC-0FY" secondAttribute="bottom" id="TVi-cF-09c"/>
                                         <constraint firstItem="F2q-Oa-Nhx" firstAttribute="leading" secondItem="6fg-9Q-P6a" secondAttribute="leadingMargin" id="WNU-ib-GCI"/>
                                         <constraint firstItem="yWB-pw-B3k" firstAttribute="top" secondItem="6fg-9Q-P6a" secondAttribute="topMargin" id="abm-bn-yH0"/>
                                         <constraint firstItem="F2q-Oa-Nhx" firstAttribute="top" secondItem="yWB-pw-B3k" secondAttribute="bottom" constant="-1" id="g1d-wA-g48"/>
                                         <constraint firstItem="F2q-Oa-Nhx" firstAttribute="centerY" secondItem="6fg-9Q-P6a" secondAttribute="centerY" priority="750" id="rSa-kT-HUz"/>
+                                        <constraint firstItem="ewU-UC-0FY" firstAttribute="top" secondItem="6fg-9Q-P6a" secondAttribute="topMargin" id="whp-lD-XEs"/>
                                     </constraints>
+                                    <variation key="default">
+                                        <mask key="constraints">
+                                            <exclude reference="whp-lD-XEs"/>
+                                        </mask>
+                                    </variation>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="messageImage" destination="ewU-UC-0FY" id="ktb-2R-Bob"/>
@@ -1501,7 +1515,7 @@
         <image name="UpdatedClock" width="107" height="107"/>
         <image name="UpdatedCreatedBy" width="107" height="107"/>
         <image name="checkMark" width="110" height="110"/>
-        <image name="glExpanded" width="2259" height="1052"/>
+        <image name="glExpanded" width="2131" height="1040"/>
         <image name="ic_add_a_photo" width="24" height="24"/>
         <image name="menu-icon" width="33" height="30"/>
         <image name="messageIcon" width="33" height="33"/>
