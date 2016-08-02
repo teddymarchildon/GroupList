@@ -565,7 +565,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <imageView key="tableHeaderView" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="TopOfSlider" id="R38-2q-b5J">
+                        <imageView key="tableHeaderView" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="glExpanded" id="R38-2q-b5J">
                             <rect key="frame" x="0.0" y="0.0" width="375" height="154"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         </imageView>
@@ -1450,7 +1450,7 @@
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="200" id="ngE-YF-yL7"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" returnKeyType="send"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="send"/>
                             </textField>
                         </subviews>
                         <color key="backgroundColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
@@ -1497,11 +1497,11 @@
         <image name="SarahClock" width="1890" height="1890"/>
         <image name="SarahInverseArrow" width="1890" height="1890"/>
         <image name="SarahStar" width="1890" height="1890"/>
-        <image name="TopOfSlider" width="1920" height="1080"/>
         <image name="UpdatedArrow" width="110" height="107"/>
         <image name="UpdatedClock" width="107" height="107"/>
         <image name="UpdatedCreatedBy" width="107" height="107"/>
         <image name="checkMark" width="110" height="110"/>
+        <image name="glExpanded" width="2259" height="1052"/>
         <image name="ic_add_a_photo" width="24" height="24"/>
         <image name="menu-icon" width="33" height="30"/>
         <image name="messageIcon" width="33" height="33"/>

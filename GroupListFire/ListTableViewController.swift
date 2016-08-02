@@ -157,8 +157,8 @@ class ListTableViewController: UITableViewController, ChangeFromCellDelegate {
         let alert = UIAlertController(title: "New Item", message: nil, preferredStyle: .Alert)
         let saveAction = UIAlertAction(title: "Save", style: .Default) { (action: UIAlertAction!) -> Void in
             let nameField = alert.textFields![0].text!
-            let detailField = alert.textFields![1].text!
-            let timeFrame = alert.textFields![2].text!
+            let detailField = alert.textFields![2].text!
+            let timeFrame = alert.textFields![1].text!
             if ErrorAlerts.containsInvalidCharacters(nameField) {
                 let malTextAlert = ErrorAlerts.invalidTextEntered("Name may not contain the following characters: $ # / [ ] .")
                 self.presentViewController(malTextAlert, animated: true, completion: nil)
@@ -170,14 +170,20 @@ class ListTableViewController: UITableViewController, ChangeFromCellDelegate {
         let cancelAction = UIAlertAction(title: "Cancel", style: .Default, handler: nil)
         alert.addTextFieldWithConfigurationHandler { (textGroup) -> Void in
             textGroup.placeholder = "Item Name"
+            textGroup.autocorrectionType = UITextAutocorrectionType.Default
+            textGroup.autocapitalizationType = UITextAutocapitalizationType.Sentences
             textGroup.clearButtonMode = UITextFieldViewMode.WhileEditing
         }
         alert.addTextFieldWithConfigurationHandler { (quantity) -> Void in
-            quantity.placeholder = "How much?"
+            quantity.placeholder = "When does it need to get done?"
+            quantity.autocorrectionType = UITextAutocorrectionType.Default
+            quantity.autocapitalizationType = UITextAutocapitalizationType.Sentences
             quantity.clearButtonMode = UITextFieldViewMode.WhileEditing
         }
         alert.addTextFieldWithConfigurationHandler { (timeFrame) -> Void in
-            timeFrame.placeholder = "When does it need to get done?"
+            timeFrame.placeholder = "Additional notes"
+            timeFrame.autocorrectionType = UITextAutocorrectionType.Default
+            timeFrame.autocapitalizationType = UITextAutocapitalizationType.Sentences
             timeFrame.clearButtonMode = UITextFieldViewMode.WhileEditing
         }
         alert.addAction(saveAction)

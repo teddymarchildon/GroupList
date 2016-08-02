@@ -11,27 +11,31 @@ import Firebase
 import Photos
 
 class MessagingTextFieldViewController: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-
+    
     @IBOutlet weak var messageTextField: UITextField!
- 
+    
     @IBOutlet weak var messageTextFieldBottomConstraint: NSLayoutConstraint!
+    var originalBottomConstraint: CGFloat? = nil
     var keyboardHeight: CGFloat = 0.0
     let ref = FIRDatabase.database().referenceFromURL("https://grouplistfire-39d22.firebaseio.com/")
     var storageRef: FIRStorageReference!
     var group: Group!
     var currentUser = FIRAuth.auth()?.currentUser!
     var parentController: MessagingParentViewController!
+    var keyboardIsUp: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.originalBottomConstraint = self.messageTextFieldBottomConstraint.constant
         messageTextField.delegate = self
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
         view.addGestureRecognizer(tap)
         storageRef = FIRStorage.storage().referenceForURL("gs://grouplistfire-39d22.appspot.com")
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(self.keyboardWillShow(_ :)), name: UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(self.keyboardWillChangeFrame(_ :)), name: UIKeyboardWillShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(self.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(self.keyboardWillChangeFrame), name: UIKeyboardWillChangeFrameNotification, object: nil)
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
@@ -61,7 +65,7 @@ class MessagingTextFieldViewController: UIViewController, UITextFieldDelegate, U
     @IBAction func didPressSendButton(sender: AnyObject) {
         self.textFieldShouldReturn(self.messageTextField)
     }
-
+    
     @IBAction func didPressAddPhotoButton(sender: AnyObject) {
         let picker = UIImagePickerController()
         picker.delegate = self
@@ -100,22 +104,34 @@ class MessagingTextFieldViewController: UIViewController, UITextFieldDelegate, U
         picker.dismissViewControllerAnimated(true, completion:nil)
     }
     
-    func keyboardWillShow(notification: NSNotification) {
+    //    func keyboardWillShow(notification: NSNotification) {
+    //        if let userInfoDict = notification.userInfo, keyboardFrameValue = userInfoDict[UIKeyboardFrameEndUserInfoKey] as? NSValue{
+    //            let keyboardFrame = keyboardFrameValue.CGRectValue()
+    //            UIView.animateWithDuration(1.0){
+    //                self.keyboardHeight = keyboardFrame.size.height
+    //                print(self.keyboardHeight)
+    //                self.messageTextField.backgroundColor = UIColor(red: 204/255.0, green: 204/255.0, blue: 204/255.0, alpha: 1.0)
+    //                self.messageTextFieldBottomConstraint.constant += self.keyboardHeight
+    //                self.view.layoutIfNeeded()
+    //            }
+    //        }
+    //    }
+    
+    func keyboardWillChangeFrame(notification: NSNotification) {
         if let userInfoDict = notification.userInfo, keyboardFrameValue = userInfoDict[UIKeyboardFrameEndUserInfoKey] as? NSValue{
             let keyboardFrame = keyboardFrameValue.CGRectValue()
-            UIView.animateWithDuration(1.0){
-                self.keyboardHeight = keyboardFrame.size.height
-                self.messageTextField.backgroundColor = UIColor(red: 204/255.0, green: 204/255.0, blue: 204/255.0, alpha: 1.0)
-                self.messageTextFieldBottomConstraint.constant += self.keyboardHeight + 20
-                self.view.layoutIfNeeded()
-            }
+            self.keyboardHeight = keyboardFrame.size.height
+            self.messageTextField.backgroundColor = UIColor(red: 204/255.0, green: 204/255.0, blue: 204/255.0, alpha: 1.0)
+            self.messageTextFieldBottomConstraint.constant = self.originalBottomConstraint! + self.keyboardHeight
+            self.view.layoutIfNeeded()
         }
     }
     
     func keyboardWillHide(notification: NSNotification) {
         UIView.animateWithDuration(1.0) {
+            self.keyboardIsUp = false
             self.messageTextField.backgroundColor = .whiteColor()
-            self.messageTextFieldBottomConstraint.constant -= self.keyboardHeight + 20
+            self.messageTextFieldBottomConstraint.constant = self.originalBottomConstraint!
             self.view.layoutIfNeeded()
         }
     }
