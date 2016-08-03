@@ -13,7 +13,6 @@ import Photos
 class MessagingTextFieldViewController: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     @IBOutlet weak var messageTextField: UITextField!
-    
     @IBOutlet weak var messageTextFieldBottomConstraint: NSLayoutConstraint!
     var originalBottomConstraint: CGFloat? = nil
     var keyboardHeight: CGFloat = 0.0
@@ -96,26 +95,17 @@ class MessagingTextFieldViewController: UIViewController, UITextFieldDelegate, U
             }
             self.sendMessage(["imageUrl":
                 self.storageRef.child((metadata?.path)!).description,
-                "user": self.currentUser!.displayName!])
+                "user": self.currentUser!.displayName!,
+                "text": self.messageTextField.text!]
+            )
         }
+        self.messageTextField.text! = ""
+        self.messageTextField.resignFirstResponder()
     }
     
     func imagePickerControllerDidCancel(picker: UIImagePickerController) {
         picker.dismissViewControllerAnimated(true, completion:nil)
     }
-    
-    //    func keyboardWillShow(notification: NSNotification) {
-    //        if let userInfoDict = notification.userInfo, keyboardFrameValue = userInfoDict[UIKeyboardFrameEndUserInfoKey] as? NSValue{
-    //            let keyboardFrame = keyboardFrameValue.CGRectValue()
-    //            UIView.animateWithDuration(1.0){
-    //                self.keyboardHeight = keyboardFrame.size.height
-    //                print(self.keyboardHeight)
-    //                self.messageTextField.backgroundColor = UIColor(red: 204/255.0, green: 204/255.0, blue: 204/255.0, alpha: 1.0)
-    //                self.messageTextFieldBottomConstraint.constant += self.keyboardHeight
-    //                self.view.layoutIfNeeded()
-    //            }
-    //        }
-    //    }
     
     func keyboardWillChangeFrame(notification: NSNotification) {
         if let userInfoDict = notification.userInfo, keyboardFrameValue = userInfoDict[UIKeyboardFrameEndUserInfoKey] as? NSValue{

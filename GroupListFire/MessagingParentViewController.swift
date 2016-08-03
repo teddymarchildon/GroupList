@@ -9,7 +9,7 @@
 import UIKit
 
 class MessagingParentViewController: UIViewController {
-
+    
     var buttonPanelViewController: MessagingTextFieldViewController!
     var tableViewController: MessagingTableViewController!
     var group: Group!
@@ -37,7 +37,7 @@ class MessagingParentViewController: UIViewController {
     func dismissKeyboard() {
         buttonPanelViewController.view.endEditing(true)
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }

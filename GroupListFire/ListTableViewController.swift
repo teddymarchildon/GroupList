@@ -86,6 +86,7 @@ class ListTableViewController: UITableViewController, ChangeFromCellDelegate {
         cell.titleLabel.text = item.name
         cell.quantityLabel.text = item.quantity
         cell.createdByLabel.text = item.createdBy
+        cell.quantityLabel.adjustsFontSizeToFitWidth = true
         cell.assignedToLabel.text = item.assignedTo?.componentsSeparatedByString("-")[0]
         cell.timeFrameLabel.text = item.timeFrame
         cell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator

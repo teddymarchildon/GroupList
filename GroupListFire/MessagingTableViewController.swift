@@ -26,6 +26,9 @@ class MessagingTableViewController: UITableViewController {
         ref.child("groups").child("\(group.createdBy)-\(group.name)-\(group.topic)").child("messages").observeEventType(.ChildAdded, withBlock: { snapshot in
             self.messages.append(snapshot)
             self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: self.messages.count-1, inSection: 0)], withRowAnimation: .Automatic)
+            if self.messages.count > 0 {
+                self.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: self.messages.count - 1, inSection: 0), atScrollPosition: .Bottom, animated: true)
+            }
         })
     }
     
