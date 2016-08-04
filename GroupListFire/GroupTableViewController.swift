@@ -71,7 +71,7 @@ class GroupTableViewController: UITableViewController, FirebaseDelegation {
             let nameField = alert.textFields![0]
             let topicField = alert.textFields![1]
             if ErrorAlerts.containsInvalidCharacters(nameField.text!) || ErrorAlerts.containsInvalidCharacters(topicField.text!) {
-                let malTextAlert = ErrorAlerts.invalidTextEntered("Name and Topic may not contain the following characters: $ # / [ ] .")
+                let malTextAlert = ErrorAlerts.invalidTextEntered("Name and Topic may not contain the following characters: $ # / [ ] . -")
                 self.presentViewController(malTextAlert, animated: true, completion: nil)
                 return
             } else {
@@ -110,7 +110,9 @@ class GroupTableViewController: UITableViewController, FirebaseDelegation {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("groupCell", forIndexPath: indexPath) as! GroupTableViewCell
         cell.titleLabel.text = userGroups[indexPath.row].name
+        cell.titleLabel.adjustsFontSizeToFitWidth = true
         cell.topicLabel.text = userGroups[indexPath.row].topic
+        cell.topicLabel.adjustsFontSizeToFitWidth = true
         cell.usernameLabel.text = userGroups[indexPath.row].createdBy
         cell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
         return cell

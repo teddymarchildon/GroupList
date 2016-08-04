@@ -18,7 +18,7 @@ class ErrorAlerts {
     }
     
     static func containsInvalidCharacters(message: String) -> Bool {
-        if message.containsString("/") || message.containsString("$") || message.containsString("#") || message.containsString(".") || message.containsString("[") || message.containsString("]") {
+        if message.containsString("/") || message.containsString("$") || message.containsString("#") || message.containsString(".") || message.containsString("[") || message.containsString("]") || message.containsString("-"){
             return true
         } else {
             return false

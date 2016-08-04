@@ -161,7 +161,7 @@ class ListTableViewController: UITableViewController, ChangeFromCellDelegate {
             let detailField = alert.textFields![2].text!
             let timeFrame = alert.textFields![1].text!
             if ErrorAlerts.containsInvalidCharacters(nameField) {
-                let malTextAlert = ErrorAlerts.invalidTextEntered("Name may not contain the following characters: $ # / [ ] .")
+                let malTextAlert = ErrorAlerts.invalidTextEntered("Name may not contain the following characters: $ # / [ ] . -")
                 self.presentViewController(malTextAlert, animated: true, completion: nil)
                 return
             } else {
