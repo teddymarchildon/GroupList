@@ -24,4 +24,17 @@ class ErrorAlerts {
             return false
         }
     }
+    
+    static func notifyUserOfAction(message: String) -> UIAlertController {
+        let alert = UIAlertController(title: "Would you like to email the user you just added?", message: nil, preferredStyle: .Alert)
+        let yesAction = UIAlertAction(title: "Yes", style: .Default) { (action: UIAlertAction!) -> Void in
+            
+        }
+        let noAction = UIAlertAction(title: "No", style: .Default, handler: nil)
+        alert.addAction(noAction)
+        alert.addAction(yesAction)
+        return alert
+    }
+
 }
+

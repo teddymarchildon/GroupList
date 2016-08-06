@@ -67,6 +67,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
                             self.delegate?.loadNewScreen(alert)
                         }
                     }
+                    if let email = user.email {
+                        self.myRef?.child("users").child("\(user.displayName!)-\(user.uid)").child("email").setValue(email)
+                    }
                     if let photoUrl = user.photoURL {
                         self.myRef?.child("users").child("\(user.displayName!)-\(user.uid)").child("photoURL").setValue(String(photoUrl))
                     }

@@ -8,8 +8,9 @@
 
 import UIKit
 import Firebase
+import MessageUI
 
-class ListTableViewController: UITableViewController, ChangeFromCellDelegate {
+class ListTableViewController: UITableViewController, MFMailComposeViewControllerDelegate, ChangeFromCellDelegate {
     
     var myRef: FIRDatabaseReference? = nil
     let user = FIRAuth.auth()?.currentUser

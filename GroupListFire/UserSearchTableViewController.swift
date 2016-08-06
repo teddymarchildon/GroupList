@@ -8,8 +8,9 @@
 
 import UIKit
 import Firebase
+import MessageUI
 
-class UserSearchTableViewController: UITableViewController, UISearchResultsUpdating {
+class UserSearchTableViewController: UITableViewController, UISearchResultsUpdating, MFMailComposeViewControllerDelegate {
     
     var registeredUsers: [String] = []
     var userToImage: [String: NSData?] = [:]
@@ -102,7 +103,16 @@ class UserSearchTableViewController: UITableViewController, UISearchResultsUpdat
             self.currGroup!.groupUsers.append("\(userName)-\(userID!)")
         }
         self.currGroup!.addUser(userName, userID: userID!)
-        navigationController?.popViewControllerAnimated(true)
+        let notifyAlert = UIAlertController(title: "Would you like to email the user you just added?", message: nil, preferredStyle: .Alert)
+        let yesAction = UIAlertAction(title: "Yes", style: .Default) { (action: UIAlertAction!) -> Void in
+            self.configuredMailComposeViewController("\(userName)-\(userID!)")
+        }
+        let noAction = UIAlertAction(title: "No", style: .Default) { (action: UIAlertAction!) -> Void in
+            self.navigationController?.popViewControllerAnimated(true)
+        }
+        notifyAlert.addAction(noAction)
+        notifyAlert.addAction(yesAction)
+        self.presentViewController(notifyAlert, animated: true, completion: nil)
     }
     
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
@@ -118,5 +128,42 @@ class UserSearchTableViewController: UITableViewController, UISearchResultsUpdat
     
     func updateSearchResultsForSearchController(searchController: UISearchController) {
         filterContentForSearchText(searchController.searchBar.text!)
+    }
+    
+    func sendMail(mailComposeViewController: MFMailComposeViewController) {
+        if MFMailComposeViewController.canSendMail() {
+            self.presentViewController(mailComposeViewController, animated: true, completion: nil)
+        } else {
+            self.presentViewController(showSendMailErrorAlert("Your device could not send email at this time. Please try again later"), animated: true, completion: nil)
+        }
+    }
+    
+    func showSendMailErrorAlert(message: String) -> UIAlertController{
+        let alert = UIAlertController(title: "Could not send email", message: message, preferredStyle: .Alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .Cancel, handler: nil))
+        return alert
+    }
+    
+    func configuredMailComposeViewController(user: String) {
+        self.myRef!.child("users").child(user).observeSingleEventOfType(.Value, withBlock: {snapshot in
+            print(snapshot)
+            let mailComposerVC = MFMailComposeViewController()
+            if let postDict = snapshot.value as? [String: AnyObject] {
+                if let email = postDict["email"] as? String {
+                    mailComposerVC.mailComposeDelegate = self
+                    mailComposerVC.setToRecipients([email])
+                    mailComposerVC.setSubject("You've been added to a group in GrpLst")
+                    mailComposerVC.setMessageBody("You've been added to the \(self.currGroup!.name) from the group", isHTML: false)
+                    self.sendMail(mailComposerVC)
+                } else {
+                    self.presentViewController(self.showSendMailErrorAlert("That user does not have a registered email"), animated: true, completion: nil)
+                }
+            }
+        })
+    }
+    
+    func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
+        controller.dismissViewControllerAnimated(true, completion: nil)
+        self.navigationController?.popViewControllerAnimated(true)
     }
 }

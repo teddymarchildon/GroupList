@@ -8,12 +8,13 @@
 
 import UIKit
 import Firebase
+import MessageUI
 
 protocol ChangeFromCellDelegate: NSObjectProtocol {
     func loadNewScreen(controller: UIViewController)
 }
 
-class ItemTableViewCell: UITableViewCell {
+class ItemTableViewCell: UITableViewCell, MFMailComposeViewControllerDelegate {
     
     let myRef = FIRDatabase.database().referenceFromURL("https://grouplistfire-39d22.firebaseio.com/")
     
@@ -34,6 +35,16 @@ class ItemTableViewCell: UITableViewCell {
             let name = user.componentsSeparatedByString("-")[0]
             let userAction = UIAlertAction(title: name, style: .Default) { (action: UIAlertAction!) -> Void in
                 self.item!.assignToUser(user)
+                let notifyAlert = UIAlertController(title: "Would you like to email the user you just added?", message: nil, preferredStyle: .Alert)
+                let yesAction = UIAlertAction(title: "Yes", style: .Default) { (action: UIAlertAction!) -> Void in
+                    self.configuredMailComposeViewController(user)
+                }
+                let noAction = UIAlertAction(title: "No", style: .Default, handler: nil)
+                notifyAlert.addAction(noAction)
+                notifyAlert.addAction(yesAction)
+                if (self.delegate?.respondsToSelector(#selector(ListTableViewController.loadNewScreen))) != nil {
+                    self.delegate?.loadNewScreen(notifyAlert)
+                }
             }
             alert.addAction(userAction)
         }
@@ -42,6 +53,47 @@ class ItemTableViewCell: UITableViewCell {
         if (delegate?.respondsToSelector(#selector(ListTableViewController.loadNewScreen))) != nil {
             delegate?.loadNewScreen(alert)
         }
+    }
+    
+    func sendMail(mailComposeViewController: MFMailComposeViewController) {
+        if MFMailComposeViewController.canSendMail() {
+            if (delegate?.respondsToSelector(#selector(ListTableViewController.loadNewScreen))) != nil {
+                delegate?.loadNewScreen(mailComposeViewController)
+            }
+        } else {
+            if (delegate?.respondsToSelector(#selector(ListTableViewController.loadNewScreen))) != nil {
+                delegate?.loadNewScreen(showSendMailErrorAlert("Your device could not send email at this time. Please try again later"))
+            }
+        }
+    }
+    
+    func showSendMailErrorAlert(message: String) -> UIAlertController{
+        let alert = UIAlertController(title: "Could not send email", message: message, preferredStyle: .Alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .Cancel, handler: nil))
+        return alert
+    }
+    
+    func configuredMailComposeViewController(user: String) {
+        self.myRef.child("users").child(user).observeSingleEventOfType(.Value, withBlock: {snapshot in
+            let mailComposerVC = MFMailComposeViewController()
+            if let postDict = snapshot.value as? [String: AnyObject] {
+                if let email = postDict["email"] as? String {
+                    mailComposerVC.mailComposeDelegate = self
+                    mailComposerVC.setToRecipients([email])
+                    mailComposerVC.setSubject("You've been assigned an item in GrpLst")
+                    mailComposerVC.setMessageBody("You've been assigned \(self.item!.name) from the \(self.currGroup!.name) group", isHTML: false)
+                    self.sendMail(mailComposerVC)
+                } else {
+                    if (self.delegate?.respondsToSelector(#selector(ListTableViewController.loadNewScreen))) != nil {
+                        self.delegate?.loadNewScreen(self.showSendMailErrorAlert("That user does not have a registered email"))
+                    }
+                }
+            }
+        })
+    }
+    
+    func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
+        controller.dismissViewControllerAnimated(true, completion: nil)
     }
     
     @IBAction func setNewProperties(sender: AnyObject) {
@@ -72,7 +124,7 @@ class ItemTableViewCell: UITableViewCell {
             quantity.autocorrectionType = UITextAutocorrectionType.Default
             quantity.autocapitalizationType = UITextAutocapitalizationType.Sentences
             quantity.clearButtonMode = UITextFieldViewMode.WhileEditing
-
+            
         }
         alert.addTextFieldWithConfigurationHandler { (timeFrame) -> Void in
             timeFrame.placeholder = "Additional notes"

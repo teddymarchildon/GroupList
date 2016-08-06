@@ -79,6 +79,9 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate, GIDSignIn
                         } else {
                             self .signupErrorAlert("Error!", message: "You need a display name to use this app")
                         }
+                        if let email = user.email {
+                            self.myRef?.child("users").child("\(user.displayName!)-\(user.uid)").child("email").setValue(email)
+                        }
                         self.myRef?.child("users").child("\(user.displayName!)-\(user.uid)").child("id").setValue(user.uid)
                         if let photoUrl = user.photoURL {
                             self.myRef?.child("users").child("\(user.displayName!)-\(user.uid)").child("photoURL").setValue(String(photoUrl))
