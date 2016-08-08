@@ -45,8 +45,8 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate, GIDSignIn
         self.view.addSubview(signUpButton)
         self.view.addSubview(googleSignInButton)
         self.facebookLoginButton.delegate = self
-        self.facebookLoginButton.center = CGPoint(x: self.view.center.x, y: self.view.center.y + 180)
-        self.facebookLoginButton.readPermissions = ["public_profile", "email", "user_friends"]
+        self.facebookLoginButton.center = CGPoint(x: self.view.center.x, y: self.view.center.y + 150)
+        self.facebookLoginButton.readPermissions = ["public_profile", "email"]
         self.view.addSubview(facebookLoginButton)
         myRef = FIRDatabase.database().referenceFromURL("https://grouplistfire-39d22.firebaseio.com/")
         FIRAuth.auth()?.addAuthStateDidChangeListener { auth, user in
@@ -74,8 +74,7 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate, GIDSignIn
         self.googleSignInButton.hidden = true
         self.emailTextField.hidden = true
         self.passwordTextField.hidden = true
-        if let error = error {
-            print(error.localizedDescription)
+        if let _ = error {
             self.signupErrorAlert("Oops! Something went wrong", message: "Try Again")
             self.facebookLoginButton.hidden = false
             self.googleSignInButton.hidden = false
@@ -120,6 +119,11 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate, GIDSignIn
     }
     
     @IBAction func signInButtonPressed(sender: AnyObject) {
+        self.passwordTextField.hidden = true
+        self.emailTextField.hidden = true
+        self.facebookLoginButton.hidden = true
+        self.googleSignInButton.hidden = true
+        self.activityIndicator.startAnimating()
         let email = emailTextField.text!
         let password = passwordTextField.text!
         FIRAuth.auth()?.signInWithEmail(email, password: password) { (user, error) in
@@ -129,6 +133,11 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate, GIDSignIn
                 self.activityIndicator.startAnimating()
                 self.performSegueWithIdentifier("loginSegue", sender: nil)
             } else {
+                self.passwordTextField.hidden = false
+                self.emailTextField.hidden = false
+                self.facebookLoginButton.hidden = false
+                self.googleSignInButton.hidden = false
+                self.activityIndicator.stopAnimating()
                 self.signupErrorAlert("Oops! Something went wrong", message: "Please try again")
                 self.emailTextField.text = ""
                 self.passwordTextField.text = ""
