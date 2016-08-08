@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Firebase
 
 class ErrorAlerts {
     
@@ -34,6 +35,18 @@ class ErrorAlerts {
         alert.addAction(noAction)
         alert.addAction(yesAction)
         return alert
+    }
+    
+    static func getUserReferenceType(user: FIRUser) -> String {
+        var provider: String = ""
+        for profile in user.providerData {
+            provider = profile.providerID
+        }
+        if provider == "password" {
+            return user.email!.componentsSeparatedByString("@")[0]
+        } else {
+            return user.displayName!
+        }
     }
 
 }

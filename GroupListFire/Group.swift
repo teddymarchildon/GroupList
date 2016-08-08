@@ -24,7 +24,8 @@ class Group {
         self.list = list
         self.ref = nil
         self.createdBy = createdBy
-        self.groupUsers = ["\(user.displayName!)-\(user.uid)"]
+        let userReference = ErrorAlerts.getUserReferenceType(user)
+        self.groupUsers = ["\(userReference)-\(user.uid)"]
     }
     
     init(snapshot: FIRDataSnapshot) {
@@ -70,7 +71,7 @@ class Group {
                 "createdByUser": createdBy]
     }
     
-    func addItem(name: String, detail: String, timeFrame: String, byUser: String) {
+    func addItem(name: String, detail: String, timeFrame: String, byUser: FIRUser) {
         let ref = FIRDatabase.database().referenceFromURL("https://grouplistfire-39d22.firebaseio.com/")
         var newItem: ListItem
         if !name.isEmpty {
@@ -85,22 +86,23 @@ class Group {
     }
     
     func updateRefsForDeletion(fromUser: FIRUser) {
+        let userReference = ErrorAlerts.getUserReferenceType(fromUser)
         let ref = FIRDatabase.database().referenceFromURL("https://grouplistfire-39d22.firebaseio.com/")
         var i = 0
         for user in self.groupUsers {
-            if user == "\(fromUser.displayName!)-\(fromUser.uid)" {
+            if user == "\(userReference)-\(fromUser.uid)" {
                 self.groupUsers.removeAtIndex(i)
             }
             i += 1
         }
         for item in self.list.items {
-            if let assignedTo = item.assignedTo where assignedTo == "\(fromUser.displayName!)-\(fromUser.uid)" {
-                    ref.child("users").child("\(fromUser.displayName!)-\(fromUser.uid)").child("assignedTo").child("\(item.group)-\(item.name)").removeValue()
+            if let assignedTo = item.assignedTo where assignedTo == "\(userReference)-\(fromUser.uid)" {
+                    ref.child("users").child("\(userReference)-\(fromUser.uid)").child("assignedTo").child("\(item.group)-\(item.name)").removeValue()
                     item.assignedTo = nil
                     item.updateRefsOfItem()
             }
         }
-        ref.child("users").child("\(fromUser.displayName!)-\(fromUser.uid)").child("userGroups").child("\(self.createdBy)-\(self.name)-\(self.topic)").removeValue()
+        ref.child("users").child("\(userReference)-\(fromUser.uid)").child("userGroups").child("\(self.createdBy)-\(self.name)-\(self.topic)").removeValue()
         if self.groupUsers.isEmpty {
             ref.child("groups").child("\(self.createdBy)-\(self.name)-\(self.topic)").removeValue()
         } else {
@@ -109,9 +111,10 @@ class Group {
     }
     
     func addToRefs(user: FIRUser) {
+        let userReference = ErrorAlerts.getUserReferenceType(user)
         let ref = FIRDatabase.database().referenceFromURL("https://grouplistfire-39d22.firebaseio.com/")
-        ref.child("groups").child("\(user.displayName!)-\(self.name)-\(self.topic)").setValue(self.toAnyObject())
-        ref.child("users").child("\(user.displayName!)-\(user.uid)").child("userGroups").child("\(self.createdBy)-\(self.name)-\(self.topic)").setValue(["name": "\(user.displayName!)-\(self.name)-\(self.topic)"])
+        ref.child("groups").child("\(userReference)-\(self.name)-\(self.topic)").setValue(self.toAnyObject())
+        ref.child("users").child("\(userReference)-\(user.uid)").child("userGroups").child("\(self.createdBy)-\(self.name)-\(self.topic)").setValue(["name": "\(userReference)-\(self.name)-\(self.topic)"])
     }
     
     func addUser(username: String, userID: String) {

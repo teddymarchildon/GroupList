@@ -13,6 +13,7 @@ class MyPersonalListTableViewController: UITableViewController {
     
     var myRef: FIRDatabaseReference? = nil
     let user = FIRAuth.auth()?.currentUser
+    var userReference: String!
     var items: [ListItem] = []
     var lastClick: NSTimeInterval?
     var lastIndexPath: NSIndexPath?
@@ -21,6 +22,7 @@ class MyPersonalListTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.userReference = ErrorAlerts.getUserReferenceType(self.user!)
         self.clearsSelectionOnViewWillAppear = true
         tableView.rowHeight = CGFloat(75.0)
         myRef = FIRDatabase.database().referenceFromURL("https://grouplistfire-39d22.firebaseio.com/")
@@ -29,7 +31,7 @@ class MyPersonalListTableViewController: UITableViewController {
             menuButton.action = #selector(SWRevealViewController.revealToggle)
             self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
         }
-        myRef?.child("users").child("\(user!.displayName!)-\(user!.uid)").child("assignedTo").queryOrderedByChild("completed").queryEqualToValue(false).observeEventType(.Value, withBlock: { snapshot in
+        myRef?.child("users").child("\(userReference)-\(user!.uid)").child("assignedTo").queryOrderedByChild("completed").queryEqualToValue(false).observeEventType(.Value, withBlock: { snapshot in
             for item in snapshot.children {
                 if let item = item as? FIRDataSnapshot {
                     let newItem = ListItem(snapshot: item)

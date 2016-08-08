@@ -22,9 +22,7 @@ class GroupTableViewController: UITableViewController, FirebaseDelegation {
     var myGroupRef: FIRDatabaseReference? = nil
     var userGroups: [Group] = []
     let user = FIRAuth.auth()?.currentUser
-    var displayName: String {
-        return (user?.displayName!)!
-    }
+    var userReference: String!
     var names: [String] = []
     
     @IBOutlet weak var menuButton: UIBarButtonItem!
@@ -37,7 +35,8 @@ class GroupTableViewController: UITableViewController, FirebaseDelegation {
             self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
         }
         self.clearsSelectionOnViewWillAppear = true
-        myUserRef = FIRDatabase.database().referenceFromURL("https://grouplistfire-39d22.firebaseio.com/").child("users").child("\(user!.displayName!)-\(user!.uid)")
+        self.userReference = ErrorAlerts.getUserReferenceType(self.user!)
+        myUserRef = FIRDatabase.database().referenceFromURL("https://grouplistfire-39d22.firebaseio.com/").child("users").child("\(userReference)-\(user!.uid)")
         myGroupRef = FIRDatabase.database().referenceFromURL("https://grouplistfire-39d22.firebaseio.com/").child("groups")
         let ref = myUserRef?.child("userGroups")
         ref?.observeEventType(.Value, withBlock: { snapshot in
@@ -75,7 +74,7 @@ class GroupTableViewController: UITableViewController, FirebaseDelegation {
                 self.presentViewController(malTextAlert, animated: true, completion: nil)
                 return
             } else {
-                let group = Group(withName: nameField.text!, andTopic: topicField.text!, andList: List(), createdBy: self.user!.displayName!, andUser: self.user!)
+                let group = Group(withName: nameField.text!, andTopic: topicField.text!, andList: List(), createdBy: self.userReference, andUser: self.user!)
                 group.addToRefs(self.user!)
             }
         }

@@ -35,7 +35,7 @@ class ItemTableViewCell: UITableViewCell, MFMailComposeViewControllerDelegate {
             let name = user.componentsSeparatedByString("-")[0]
             let userAction = UIAlertAction(title: name, style: .Default) { (action: UIAlertAction!) -> Void in
                 self.item!.assignToUser(user)
-                let notifyAlert = UIAlertController(title: "Would you like to email the user you just added?", message: nil, preferredStyle: .Alert)
+                let notifyAlert = UIAlertController(title: "Would you like to email the user you just assigned the item to?", message: nil, preferredStyle: .Alert)
                 let yesAction = UIAlertAction(title: "Yes", style: .Default) { (action: UIAlertAction!) -> Void in
                     self.configuredMailComposeViewController(user)
                 }

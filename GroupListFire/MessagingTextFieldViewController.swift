@@ -46,7 +46,7 @@ class MessagingTextFieldViewController: UIViewController, UITextFieldDelegate, U
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         if !textField.text!.isEmpty {
             let text = textField.text! as String
-            let name = FIRAuth.auth()?.currentUser!.displayName!
+            let name = ErrorAlerts.getUserReferenceType(self.currentUser!)
             var data = [String: String]()
             data["user"] = name
             data["text"] = text
@@ -95,7 +95,7 @@ class MessagingTextFieldViewController: UIViewController, UITextFieldDelegate, U
             }
             self.sendMessage(["imageUrl":
                 self.storageRef.child((metadata?.path)!).description,
-                "user": self.currentUser!.displayName!,
+                "user": ErrorAlerts.getUserReferenceType(self.currentUser!),
                 "text": self.messageTextField.text!]
             )
         }

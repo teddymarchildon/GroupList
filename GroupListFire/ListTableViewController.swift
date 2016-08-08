@@ -14,6 +14,7 @@ class ListTableViewController: UITableViewController, MFMailComposeViewControlle
     
     var myRef: FIRDatabaseReference? = nil
     let user = FIRAuth.auth()?.currentUser
+    var userReference: String!
     var currGroup: Group?
     var currGroupObject: AnyObject?
     var lastClick: NSTimeInterval?
@@ -21,6 +22,7 @@ class ListTableViewController: UITableViewController, MFMailComposeViewControlle
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.userReference = ErrorAlerts.getUserReferenceType(user!)
         let button: UIButton = UIButton()
         button.setImage(UIImage(named: "Add User Male-100"), forState: UIControlState.Normal)
         button.addTarget(self, action: #selector(self.addUserButtonPressed), forControlEvents: UIControlEvents.TouchUpInside)
@@ -166,7 +168,7 @@ class ListTableViewController: UITableViewController, MFMailComposeViewControlle
                 self.presentViewController(malTextAlert, animated: true, completion: nil)
                 return
             } else {
-                self.currGroup?.addItem(nameField, detail: detailField, timeFrame: timeFrame, byUser: self.user!.displayName!)
+                self.currGroup?.addItem(nameField, detail: detailField, timeFrame: timeFrame, byUser: self.user!)
             }
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .Default, handler: nil)

@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import MessageUI
+import FBSDKCoreKit
 
 class UserSearchTableViewController: UITableViewController, UISearchResultsUpdating, MFMailComposeViewControllerDelegate {
     
@@ -19,14 +20,23 @@ class UserSearchTableViewController: UITableViewController, UISearchResultsUpdat
     var currGroup: Group?
     let searchController = UISearchController(searchResultsController: nil)
     var filteredUsers: [String] = []
-    
     override func viewDidLoad() {
+        super.viewDidLoad()
+        let request: FBSDKGraphRequest = FBSDKGraphRequest(graphPath: "me/friends", parameters: ["fields": "id, first_name, last_name, middle_name, name, email, picture"], HTTPMethod: "GET")
+        request.startWithCompletionHandler({(request: FBSDKGraphRequestConnection!, result: AnyObject!, error: NSError!) -> Void in
+            if error == nil {
+                if let data = result["data"] as? NSArray {
+                    print(data)
+                }
+            } else {
+                print(error.localizedDescription)
+            }
+        })
         self.tableView.rowHeight = 75.0
         searchController.searchResultsUpdater = self
         searchController.dimsBackgroundDuringPresentation = false
         definesPresentationContext = true
         tableView.tableHeaderView = searchController.searchBar
-        super.viewDidLoad()
         myRef = FIRDatabase.database().referenceFromURL("https://grouplistfire-39d22.firebaseio.com/")
         self.myRef?.child("users").observeSingleEventOfType(.Value, withBlock: { snapshot in
             self.registeredUsers = []
