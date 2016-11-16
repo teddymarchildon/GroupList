@@ -84,7 +84,7 @@ class UserSearchTableViewController: UITableViewController, UISearchResultsUpdat
         }
         cell.userName.text = user
         let image = self.userToImage[user]
-        if let image = image {
+        if let image = image where image != nil {
             cell.userImage.image = UIImage(data: image!)
         } else {
             cell.userImage.image = nil
